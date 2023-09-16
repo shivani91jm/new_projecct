@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "446884289007",
+    "project_id": "palranchoapp",
+    "storage_bucket": "palranchoapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446884289007:android:396630b11f55eb1daffe1a",
+        "android_client_info": {
+          "package_name": "com.techindia.palrancho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446884289007-r1b7de6bdmb0ld3556duqbbertq0aoqs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techindia.palrancho",
+            "certificate_hash": "165289861f102a132d9df0a6d052620e2869a1a3"
+          }
+        },
+        {
+          "client_id": "446884289007-i59g5h2qt3gb05hsh7pkt82qo3uql2k7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5_PAqVcSzjOMiaTxlU5I7gDoy1wLwAgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446884289007-i59g5h2qt3gb05hsh7pkt82qo3uql2k7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
