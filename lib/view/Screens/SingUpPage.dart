@@ -136,12 +136,19 @@ class _SingUpPageState extends State<SingUpPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            // CustomButton(
-                            //   onPressed: () {
-                            //     controller.singupandvalidate(_formKey);
-                            //   }, title: AppConstentData.SignUp,
-                            //   colors:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                            // ),
+                            Obx(() =>   CustomButton(
+                              onPressed: () async{
+                                if (_formKey.currentState!.validate()) {
+                                  var username=controller.usernameController.text;
+                                  var email=controller.emailController.text;
+                                  var password=controller.passwordController.text;
+                                  var mobile=controller.mobileController.text;
+                                  var add= controller.addressController.text;
+                                    controller.singUpApi(username,email,password,mobile,add);
+                                }
+                                }, title: controller.loading.value?"SignUp": AppConstentData.SignUp,
+                              colors:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: controller.loading.value,
+                            ),),
                             SizedBox(
                               height: 20,
                             ),

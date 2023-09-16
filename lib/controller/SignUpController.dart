@@ -61,16 +61,16 @@ class SignUpController extends GetxController{
     final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return emailRegex.hasMatch(email);
   }
-  void singUpApi() async{
+  void singUpApi(String name,String email,String password,String mobile,String address) async{
     loading.value=true;
     var urls=BaseUrlsClass.signUpUrls;
     print("url is location"+urls);
     var body=jsonEncode(<String, String>{
-      'username': usernameController.text,
-      'password': passwordController.text,
-      'email': emailController.text,
-      'mobile_number': mobileController.text,
-      'location': addressController.text,
+      'username': name,
+      'password': password,
+      'email': email,
+      'mobile_number':mobile,
+      'location': address,
       'latitude': latitude,
       'longitude': longitude
     });
@@ -103,11 +103,6 @@ class SignUpController extends GetxController{
       throw Exception('Failed to load album');
     }
   }
-  void singupandvalidate(GlobalKey<FormState> _formKey){
-    if (_formKey.currentState!.validate()) {
-      print("dhfjfjf");
-      singUpApi();
-    }
-  }
+
 
 }

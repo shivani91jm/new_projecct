@@ -90,155 +90,153 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 60,
                   ),
-                  Container(
-                    child: Form(
-                      key: formKey,
-                      child: Container(
-                        margin: EdgeInsets.all(20),
-                        child: Column(
-                          children: [
-                            TextInputFields(
-                              controller: controller.emailController,
-                              hintText: AppConstentData.Email,
-                              labelText:  AppConstentData.Email, isHint: false,
-                              nmber: TextInputType.emailAddress,
-                              validator: controller.validateEmail,
-                              bordercolors: AppColors.whiteColors, textcolors: AppColors.whiteColors,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextInputFields(
-                              controller: controller.passwordController,
-                              hintText: AppConstentData.Password,
-                              labelText:  AppConstentData.Password, isHint: true,
-                              nmber: TextInputType.visiblePassword,
-                              validator: controller.validatePassword,
-                              bordercolors: AppColors.whiteColors,
-                              textcolors: AppColors.whiteColors,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
+                  Form(
+                    key: formKey,
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          TextInputFields(
+                            controller: controller.emailController,
+                            hintText: AppConstentData.Email,
+                            labelText:  AppConstentData.Email, isHint: false,
+                            nmber: TextInputType.emailAddress,
+                            validator: controller.validateEmail,
+                            bordercolors: AppColors.whiteColors, textcolors: AppColors.whiteColors,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextInputFields(
+                            controller: controller.passwordController,
+                            hintText: AppConstentData.Password,
+                            labelText:  AppConstentData.Password, isHint: true,
+                            nmber: TextInputType.visiblePassword,
+                            validator: controller.validateEmail,
+                            bordercolors: AppColors.whiteColors,
+                            textcolors: AppColors.whiteColors,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Obx(() =>   CustomButton(
-                            onPressed: () {
-
+                            onPressed: () async{
                               if (formKey.currentState!.validate()) {
-                                controller.loginApi();
-                                // Navigator.pushNamed(context!,RouteNames.location_screen);
+
+
+
                               }
 
                             }, title: controller.loading.value?"Login": AppConstentData.Login,
                             colors:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: controller.loading.value,
                           ),),
-                            GestureDetector(
-                              onTap: (){
-                                Navigator.pushNamed(context, RouteNames.forgetpassword_screen);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(AppConstentData.forgetPassword,
-                                    style: TextStyle(
+                          GestureDetector(
+                            onTap: () async {
+                              Navigator.pushNamed(context, RouteNames.forgetpassword_screen);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(AppConstentData.forgetPassword,
+                                  style: TextStyle(
                                     color: AppColors.whiteColors,
 
                                   ),),
-                                ),
                               ),
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  decoration:  BoxDecoration(
-                                    color: AppColors.whiteColors,
-                                    borderRadius: BorderRadius.circular(25),
-                                    border: Border.all(
-                                      color: AppColors.whiteColors ,
-                                    ),
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      GoogleSinginClass.signup(context);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(1.0),
-                                      child: CircleAvatar(
-                                        child: Image.asset(
-                                            height: 20,
-                                            width: 20,
-                                            ImageUrls.google_url
-                                        ),
-                                      ),
-                                    ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration:  BoxDecoration(
+                                  color: AppColors.whiteColors,
+                                  borderRadius: BorderRadius.circular(25),
+                                  border: Border.all(
+                                    color: AppColors.whiteColors ,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Container(
-                                  decoration:  BoxDecoration(
-                                    color: AppColors.whiteColors,
-                                    borderRadius: BorderRadius.circular(25),
-                                    border: Border.all(
-                                      color: AppColors.whiteColors ,
-                                    ),
-                                  ),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    GoogleSinginClass.signup(context,controller);
+                                  },
                                   child: Padding(
                                     padding: const EdgeInsets.all(1.0),
                                     child: CircleAvatar(
                                       child: Image.asset(
                                           height: 20,
                                           width: 20,
-                                          ImageUrls.facebook_url
+                                          ImageUrls.google_url
                                       ),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            GestureDetector(
-                              onTap: () async{
-                                Navigator.pushNamed(context!,RouteNames.registration_screen);
-                              },
-                              child: Container(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding:  const EdgeInsets.fromLTRB(8,8.0,3.0,8.0),
-                                      child: Text(AppConstentData.noaccount,style: TextStyle(
-                                          color: AppColors.whiteColors,
-                                          fontFamily: "NotoSerif",
-                                          fontSize: AppSizeClass.maxSize16
-                                      ),),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Container(
+                                decoration:  BoxDecoration(
+                                  color: AppColors.whiteColors,
+                                  borderRadius: BorderRadius.circular(25),
+                                  border: Border.all(
+                                    color: AppColors.whiteColors ,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: CircleAvatar(
+                                    child: Image.asset(
+                                        height: 20,
+                                        width: 20,
+                                        ImageUrls.facebook_url
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(0,8.0,8.0,8.0),
-                                      child: Text(AppConstentData.SignUp,style: TextStyle(
-                                          color: AppColors.whiteColors,
-                                          fontFamily: "NotoSerif",
-                                          fontSize: AppSizeClass.maxSize16
-                                      ),),
-                                    )
-                                  ],
+                                  ),
                                 ),
                               ),
-                            )
-                          ],
-                        ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          GestureDetector(
+                            onTap: () async{
+                              Navigator.pushNamed(context!,RouteNames.registration_screen);
+                            },
+                            child: Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding:  const EdgeInsets.fromLTRB(8,8.0,3.0,8.0),
+                                    child: Text(AppConstentData.noaccount,style: TextStyle(
+                                        color: AppColors.whiteColors,
+                                        fontFamily: "NotoSerif",
+                                        fontSize: AppSizeClass.maxSize16
+                                    ),),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(0,8.0,8.0,8.0),
+                                    child: Text(AppConstentData.SignUp,style: TextStyle(
+                                        color: AppColors.whiteColors,
+                                        fontFamily: "NotoSerif",
+                                        fontSize: AppSizeClass.maxSize16
+                                    ),),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),

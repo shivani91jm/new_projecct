@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
+import 'package:new_projecct/controller/LoginController.dart';
 import 'package:new_projecct/view/Screens/DashBoardPage.dart';
 import 'package:new_projecct/view/Widgets/CustomDialogBox.dart';
 
 class GoogleSinginClass {
-
-  static Future<void> signup(BuildContext context) async {
+  static Future<void> signup(BuildContext context,LoginController controller) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
    // final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
@@ -24,14 +24,12 @@ class GoogleSinginClass {
       UserCredential result = await auth.signInWithCredential(authCredential);
       User? user = result.user;
       if (result != null) {
-        showDialog(context: context,
-            builder: (BuildContext context){
-              return  CustomDialogBox(title: AppConstentData.Login,
-                descriptions: AppConstentData.loginsucess,
-                img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
-                , cancelBtn: AppConstentData.cancel,);
-            }
-        );
+      var userEmail=  user!.email;
+      var userName=user.displayName;
+      controller.loginApi(userEmail!,userName!);
+
+
+
 
       }
 
