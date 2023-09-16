@@ -39,6 +39,7 @@ class AppConstentData
   static const String logout="Logout";
   static const String cancel="Cancel";
   static const String ok="OK";
+  static const String loginsucess="Login Successfully";
   static const String msg="Enter any Query !!...";
   static const String entermsg="Enter Message";
   static const String updateProfile="Update Profile";

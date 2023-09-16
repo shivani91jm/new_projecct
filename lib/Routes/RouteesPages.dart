@@ -13,13 +13,14 @@ import 'package:new_projecct/view/Screens/LoginPage.dart';
 import 'package:new_projecct/view/Screens/SelectLocationPage.dart';
 import 'package:new_projecct/view/Screens/ShopLocationPage.dart';
 import 'package:new_projecct/view/Screens/SingUpPage.dart';
+import 'package:new_projecct/view/Screens/SplashScreenPage.dart';
 import 'package:new_projecct/view/Screens/UserProfileDetailsPage.dart';
 import 'package:new_projecct/view/Screens/testclover.dart';
 class RoutePages {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteNames.splash_screen:
-    return MaterialPageRoute(builder: (_) => TextClover());
+    return MaterialPageRoute(builder: (_) => SplashScreen());
     case RouteNames.login_screen:
     return MaterialPageRoute(builder: (_) => LoginPage());
     case RouteNames.dashboard_screen:
@@ -52,11 +53,7 @@ class RoutePages {
     return MaterialPageRoute(builder: (_) => ForgetPassword());
     default:
     return MaterialPageRoute(builder: (context) {
-      return Scaffold(
-        body: Center(
-          child: Text("No Routes Declare"),
-        ),
-      );
+      return Scaffold(body: Center(child: Text("No Routes Declare"),),);
     });
     }
   }

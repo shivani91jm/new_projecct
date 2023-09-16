@@ -276,8 +276,7 @@ class _SingUpPageState extends State<SingUpPage> {
     });
   }
   Future<void> _getAddressFromLatLng(Position position) async {
-
-    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
+  await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
           controller.latitude=_currentPosition!.latitude.toString();
           controller.longitude=_currentPosition!.longitude.toString();

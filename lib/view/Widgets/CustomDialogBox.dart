@@ -3,14 +3,16 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
+import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
+import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 
 class CustomDialogBox extends StatefulWidget {
-  final String title, descriptions, text;
+  final String title, descriptions, okBtn,cancelBtn;
   final Image img;
-
-  const CustomDialogBox({Key? key, required this.title, required this.descriptions, required this.text, required this.img}) : super(key: key);
+  
+  const CustomDialogBox({Key? key, required this.title, required this.descriptions, required this.okBtn,required this.cancelBtn, required this.img}) : super(key: key);
 
   @override
   _CustomDialogBoxState createState() => _CustomDialogBoxState();
@@ -23,7 +25,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizeClass.padding),
       ),
-      elevation: 0,
+      elevation: 4,
       backgroundColor: Colors.transparent,
       child: contentBox(context),
     );
@@ -49,19 +51,52 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(widget.title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
-              SizedBox(height: 15,),
-              Text(widget.descriptions,style: TextStyle(fontSize: 14),textAlign: TextAlign.center,),
+              Text(widget.title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600,color: GradientHelper.getColorFromHex(AppColors.RED_COLOR)),),
+              SizedBox(height: 10,),
+              Text(widget.descriptions,style: TextStyle(fontSize: 16,color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR)),textAlign: TextAlign.center,),
               SizedBox(height: 22,),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.pushNamed(context!,RouteNames.location_screen);
-                    },
-                    child: Text(widget.text,style: TextStyle(fontSize: 18),)),
-              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0 // Background color
+                        ),
+                        onPressed: () async{
+                            Navigator.pushNamed(context!,RouteNames.location_screen);
+                          },
+                          child: Text(widget.okBtn,
+                            style: TextStyle(fontSize: 18,color: AppColors.green,
+                            fontWeight: FontWeight.bold)),
 
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0 // Background color
+                        ),
+                        onPressed: () async {
+                            Navigator.pop(context,"");
+                          },
+                          child: Text(widget.cancelBtn,style:
+                          TextStyle(fontSize: 18,
+                             fontWeight: FontWeight.bold,
+                              color:   GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR)),),
+
+
+
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

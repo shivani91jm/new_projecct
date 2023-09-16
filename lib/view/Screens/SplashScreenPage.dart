@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 3), ()=>Navigator.popAndPushNamed(context,RouteNames.login_screen));
+    Timer(Duration(seconds: 3), ()=>Navigator.pushReplacementNamed(context,RouteNames.location_screen));
   }
   @override
   Widget build(BuildContext context) {

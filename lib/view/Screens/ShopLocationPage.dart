@@ -22,23 +22,23 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-     // bottomNavigationBar: Padding(
-     //   padding: const EdgeInsets.fromLTRB(10,10,10,20),
-     //   child: Container(
-     //     height: 50,
-     //     child: CustomButton(onPressed: () async{
-     //       Navigator.pushNamed(context!,RouteNames.dashboard_screen);
-     //    // var   shopUrl=SessionClass.getShopUrl();
-     //       var shopConsumerKey=SessionClass.getShopConsumerKey();
-     //      var ShopConsumerScreate=SessionClass.getShopConsumerSecret();
-     //     SharedPreferences prefs = await SharedPreferences.getInstance();
-     //     var shopUrl=   prefs.getString('shopUrl');
-     //       print("shop url"+shopUrl.toString()+"shop consumer key"+shopConsumerKey.toString()+"shop consumer secrete"+ShopConsumerScreate.toString());
-     //       }, title: AppConstentData.continues,
-     //       colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-     //     ),
-     //   ),
-     // ),
+     bottomNavigationBar: Padding(
+       padding: const EdgeInsets.fromLTRB(10,10,10,20),
+       child: Container(
+         height: 50,
+         child: CustomButton(onPressed: () async{
+           Navigator.pushNamed(context!,RouteNames.login_screen);
+        // var   shopUrl=SessionClass.getShopUrl();
+           var shopConsumerKey=SessionClass.getShopConsumerKey();
+          var ShopConsumerScreate=SessionClass.getShopConsumerSecret();
+         SharedPreferences prefs = await SharedPreferences.getInstance();
+         var shopUrl=   prefs.getString('shopUrl');
+           print("shop url"+shopUrl.toString()+"shop consumer key"+shopConsumerKey.toString()+"shop consumer secrete"+ShopConsumerScreate.toString());
+           }, title: AppConstentData.continues,
+           colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: false,
+         ),
+       ),
+     ),
       body: Obx(() =>  controller.loading.value?
       const Center(child: CircularProgressIndicator(),)
           : homeLocationData()

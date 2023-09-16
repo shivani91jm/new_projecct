@@ -49,7 +49,6 @@ class ProductDetailsController extends GetxController{
     }
   }
   void RecentProduct() async{
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     shopUrl= prefs.getString('shopUrl')!;
     shopConsumerKey=prefs.getString("shop_consumer_key")!;
@@ -69,9 +68,6 @@ class ProductDetailsController extends GetxController{
           RecentProductsDetails productsDetails= RecentProductsDetails.fromJson(lists[i]);
           recentProduct.add(productsDetails);
         }
-
-
-
       print("data"+recentProduct!.length.toString());
     }
     else if (response.statusCode == 500) {

@@ -14,6 +14,6 @@ class AppSizeClass{
   static const double maxSize3=3.0;
   static const double maxSize5=5.0;
   static const double maxSize25=25.0;
-  static const double padding =20;
-  static const double avatarRadius =45;
+  static const double padding =10;
+  static const double avatarRadius =50;
 }

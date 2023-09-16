@@ -105,17 +105,22 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       height: 20,
                     ),
                     //---------------------product name------------------
-                    if(controller.model!.name!="" || controller.model!.name!="null")...
+                    if(controller.model!=null || controller.model!="null")...
                       {
-                         Text(""+controller.model!.name.toString(),
-                          style: TextStyle(
-                            color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                            fontFamily: "NotoSerif",
-                            fontSize: AppSizeClass.maxSize20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        if(controller.model!.name != "null" ||
+                            controller.model!.name != "null")...
+                        {
+                          Text("" + controller.model!.name.toString(),
+                            style: TextStyle(
+                              color: GradientHelper.getColorFromHex(
+                                  AppColors.RED_COLOR),
+                              fontFamily: "NotoSerif",
+                              fontSize: AppSizeClass.maxSize20,
+                              fontWeight: FontWeight.bold,
+                            ),
 
-                        ),
+                          ),
+                        },
                       },
                     //--------------------product description -----------------
                     Text(""+CommonUtilsClass.removeHtmlTags(controller.model!.description.toString()),
