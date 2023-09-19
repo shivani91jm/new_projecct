@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
+import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/controller/DeliveryLocationController.dart';
 import 'package:new_projecct/view/Widgets/SetDeliveryLocation.dart';
 class DeliveryLocationPage extends StatefulWidget {
@@ -49,7 +51,7 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text("Choose delivery location",style: TextStyle(
-              color: AppColors.blackColors,
+              color:AppColors.blackColors,
               fontSize: AppSizeClass.maxSize20,
               fontWeight: FontWeight.bold,
               fontFamily: "NotoSerif"
@@ -62,7 +64,7 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
           mapType: MapType.normal,
           onMapCreated: _onMapCreated,
           initialCameraPosition:  CameraPosition(
-            target: LatLng(_currentPosition!.latitude,_currentPosition!.longitude),
+            target: LatLng(26.299265689617403 ,-80.27699558507642),
             zoom: 16.0,
           ),
           myLocationEnabled: true,
@@ -72,7 +74,7 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
               markerId: MarkerId("currentLocation"),
               draggable: true,
               onDragEnd: (value) {},
-              position: LatLng(_currentPosition!.latitude,_currentPosition!.longitude),
+              position: LatLng(26.299265689617403 ,-80.27699558507642),
               icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
             ),
           ]),

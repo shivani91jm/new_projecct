@@ -54,14 +54,14 @@ class SetDeliveryLocation extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              // CustomButton(
-              //     onPressed: ()
-              //     {
-              //      _showBottomSheet(contexts!,controller);
-              //    },
-              //     title: AppConstentData.entercompleteadd,
-              //     colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR)
-              // )
+              CustomButton(
+                  onPressed: ()
+                  {
+                   _showBottomSheet(contexts!,controller);
+                 },
+                  title: AppConstentData.entercompleteadd,
+                  colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false,
+              )
             ],
           ),
         ),

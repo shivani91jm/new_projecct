@@ -15,7 +15,7 @@ import 'package:new_projecct/view/Screens/ShopLocationPage.dart';
 import 'package:new_projecct/view/Screens/SingUpPage.dart';
 import 'package:new_projecct/view/Screens/SplashScreenPage.dart';
 import 'package:new_projecct/view/Screens/UserProfileDetailsPage.dart';
-import 'package:new_projecct/view/Screens/testclover.dart';
+
 class RoutePages {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {

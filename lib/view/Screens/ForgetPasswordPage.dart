@@ -83,18 +83,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         SizedBox(
                           height: 40,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextInputFields(
-                            controller: controller.editingController,
-                            hintText: AppConstentData.Email,
-                            labelText:  AppConstentData.Email, isHint: false,
-                            nmber: TextInputType.emailAddress,
-                            validator: controller.validateEmail,
-                            bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                            textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: TextInputFields(
+                        //     controller: controller.editingController,
+                        //     hintText: AppConstentData.Email,
+                        //     labelText:  AppConstentData.Email, isHint: false,
+                        //     nmber: TextInputType.emailAddress,
+                        //     validator: controller.validateEmail,
+                        //     bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                        //     textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 20,
                         ),

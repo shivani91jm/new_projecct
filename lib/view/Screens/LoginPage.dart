@@ -4,6 +4,7 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
+import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/LoginController.dart';
@@ -30,7 +31,9 @@ class _LoginPageState extends State<LoginPage> {
         actions: [
           GestureDetector(
             onTap: () async{
-              Navigator.pushNamed(context!,RouteNames.dashboard_screen);
+
+              Navigator.pushReplacementNamed(context, RouteNames.dashboard_screen);
+              
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -101,8 +104,12 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: AppConstentData.Email,
                             labelText:  AppConstentData.Email, isHint: false,
                             nmber: TextInputType.emailAddress,
-                            validator: controller.validateEmail,
-                            bordercolors: AppColors.whiteColors, textcolors: AppColors.whiteColors,
+                            bordercolors: AppColors.whiteColors,
+                            textcolors: AppColors.whiteColors, validator: (value) {
+                              controller.validateEmail(value);
+                          },
+
+
                           ),
                           SizedBox(
                             height: 20,
@@ -112,24 +119,26 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: AppConstentData.Password,
                             labelText:  AppConstentData.Password, isHint: true,
                             nmber: TextInputType.visiblePassword,
-                            validator: controller.validateEmail,
                             bordercolors: AppColors.whiteColors,
-                            textcolors: AppColors.whiteColors,
+                            textcolors: AppColors.whiteColors, validator: (value ) {
+                            controller.validatePassword(value);
+                          },
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          Obx(() =>   CustomButton(
-                            onPressed: () async{
-                              if (formKey.currentState!.validate()) {
-
-
-
-                              }
+                         Obx(() =>  CustomButton(
+                           onPressed: () {
+                            if(formKey.currentState!.validate()){
+                              var email=controller.emailController.text;
+                              var password=controller.passwordController.text;
+                              controller.loginApi(email, password);
+                            }
 
                             }, title: controller.loading.value?"Login": AppConstentData.Login,
-                            colors:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: controller.loading.value,
-                          ),),
+                           colors:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                           isLoading: controller.loading.value,
+                         ),),
                           GestureDetector(
                             onTap: () async {
                               Navigator.pushNamed(context, RouteNames.forgetpassword_screen);
@@ -245,4 +254,16 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+
+   bool isValidEmail(String email) {
+     final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+     return email.isNotEmpty && email.contains('@');
+   }
+
+   // Function to validate password
+   bool isValidPassword(String password) {
+
+     return password.length >= 6;
+   }
 }

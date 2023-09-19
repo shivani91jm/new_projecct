@@ -40,7 +40,7 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
        ),
      ),
       body: Obx(() =>  controller.loading.value?
-      const Center(child: CircularProgressIndicator(),)
+       Center(child: CircularProgressIndicator(color:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),),)
           : homeLocationData()
       )
     );
@@ -83,18 +83,18 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
             decoration:  BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               border: Border.all(
-                color: GradientHelper.getColorFromHex(AppColors.Box_BORDER_COLOR) ,
+                color: GradientHelper.getColorFromHex(AppColors.RED_COLOR) ,
               ),
             ),
             child: Obx(() => RadioListTile(
-              activeColor: GradientHelper.getColorFromHex(AppColors.Box_BORDER_COLOR),
+              activeColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
               autofocus: true,
-              hoverColor: GradientHelper.getColorFromHex(AppColors.Box_BORDER_COLOR),
+              hoverColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
               title: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(controller.locationList[index].storeName.toString(),
                   style: TextStyle(
-                    color:  GradientHelper.getColorFromHex(AppColors.Box_BORDER_COLOR),
+                    color:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                     fontFamily: "NotoSerif",
                     fontWeight: FontWeight.bold,
                     fontSize: AppSizeClass.maxSize15,
@@ -122,7 +122,7 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
                 // SessionClass.addShopConsumerSecret(consumer_secrete);
                 // SessionClass.addShopName(shop_name);
                 },
-              contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 3.0),
+              contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
             ),),
           ),
         );

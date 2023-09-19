@@ -45,42 +45,38 @@ class _DashBoardPageState extends State<DashBoardPage> {
   RxInt _indexNumber=0.obs;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR),
-            borderRadius:BorderRadius.all(Radius.circular(40)),
+    return Scaffold(
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR),
+          borderRadius:BorderRadius.all(Radius.circular(40)),
 
-          ),
-          child: Obx(
-                  ()=> BottomNavigationBar(
-                    backgroundColor:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                    type: BottomNavigationBarType.fixed,
-                items: List.generate(4, (index) {
-                  var navBtnProperties=_bottomNavigationProperties[index];
-                  return BottomNavigationBarItem(
-                      icon: Icon(navBtnProperties['non_active_icon']),
-                      activeIcon: Icon(navBtnProperties['active_icon']),
-                      label: navBtnProperties["label"]
-                  );
-
-                } ),
-                currentIndex: _indexNumber.value,
-                onTap: (value){
-                  _indexNumber.value=value;
-                },
-                showSelectedLabels: true,
-                showUnselectedLabels: true,
-                selectedItemColor: AppColors.whiteColors,
-                unselectedItemColor: AppColors.whiteColors,
-                  )
-          ),
         ),
-        body: SafeArea(
-          child: Obx(() => _screen[_indexNumber.value]),
+        child: Obx(
+                ()=> BottomNavigationBar(
+                  backgroundColor:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                  type: BottomNavigationBarType.fixed,
+              items: List.generate(4, (index) {
+                var navBtnProperties=_bottomNavigationProperties[index];
+                return BottomNavigationBarItem(
+                    icon: Icon(navBtnProperties['non_active_icon']),
+                    activeIcon: Icon(navBtnProperties['active_icon']),
+                    label: navBtnProperties["label"]
+                );
+
+              } ),
+              currentIndex: _indexNumber.value,
+              onTap: (value){
+                _indexNumber.value=value;
+              },
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              selectedItemColor: AppColors.whiteColors,
+              unselectedItemColor: AppColors.whiteColors,
+                )
         ),
       ),
+      body: Obx(() => _screen[_indexNumber.value]),
     );
   }
 }

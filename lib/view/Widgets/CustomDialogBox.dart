@@ -67,9 +67,11 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                         style: ElevatedButton.styleFrom(
                             elevation: 0 // Background color
                         ),
-                        onPressed: () async{
-                            Navigator.pushNamed(context!,RouteNames.location_screen);
-                          },
+                        onPressed: () {
+                          Navigator.pop(context,"");
+                          Navigator.pushReplacementNamed(context, RouteNames.dashboard_screen);
+
+                         },
                           child: Text(widget.okBtn,
                             style: TextStyle(fontSize: 18,color: AppColors.green,
                             fontWeight: FontWeight.bold)),

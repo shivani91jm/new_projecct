@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:new_projecct/Routes/RouteesPages.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
+import 'package:new_projecct/Utils/AppColors.dart';
+import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -27,13 +29,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
   return ChangeNotifierProvider(create: (_)=> CartProvider(),
     child: Builder(builder: (BuildContext context){
+
          return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
         ),
         onGenerateRoute: RoutePages.generateRoute,
-        initialRoute: RouteNames.splash_screen,
+        initialRoute: RouteNames.dashboard_screen,
       );
     }),
   );

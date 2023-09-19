@@ -23,17 +23,25 @@ class LoginController extends GetxController {
     if (value!.isEmpty ) {
       return CommonUtilsClass.toastMessage("" + AppConstentData.enterEmail);
     }
-   else if (isValidEmail(value)) {
-      return 'Please enter a valid email address';
-    }
-  else  if (value.isEmpty) {
-      return CommonUtilsClass.toastMessage("" + AppConstentData.enterPassword);
-    }
+   // else if (isValidEmail(value)) {
+   //   return CommonUtilsClass.toastMessage("Please enter a valid email address");
+   //
+   //  }
+
   else{
       var email=emailController.text;
       var password=passwordController.text;
       loginApi(email,password);
     }
+
+    return null;
+  }
+  RxString? validatePassword(String? value) {
+    if (value!.isEmpty) {
+      return CommonUtilsClass.toastMessage("" + AppConstentData.enterPassword);
+    }
+
+
 
     return null;
   }
@@ -70,10 +78,16 @@ class LoginController extends GetxController {
         );
       }
     }
-    else if (response.statusCode == 500 || response.statusCode==403) {
+    else if (response.statusCode==403) {
       loading.value=false;
-      LoginModelClass data=  LoginModelClass.fromJson(jsonDecode(response.body));
+      var data=  jsonDecode(response.body);
       print(""+data.toString());
+      var msg=  CommonUtilsClass.removeHtmlTags(data['message']);
+      CommonUtilsClass.toastMessage(msg);
+    }
+    else if (response.statusCode == 500)
+    {
+      loading.value=false;
       CommonUtilsClass.toastMessage("Server side Error");
     }
     else {
@@ -91,14 +105,11 @@ class LoginController extends GetxController {
     // }
 
   //================== proper validate email -------------
-  bool isValidEmail(String email) {
-    // Regular expression pattern for a basic email validation
-    final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
-    return emailRegex.hasMatch(email);
-  }
-
-
-
+  // bool isValidEmail(String email) {
+  //   // Regular expression pattern for a basic email validation
+  //   final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+  //   return emailRegex.hasMatch(email);
+  // }
 
 
 

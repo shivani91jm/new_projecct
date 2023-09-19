@@ -8,8 +8,7 @@ class CustomButton extends StatelessWidget {
   Color? colors;
   String? title;
  final  bool isLoading;
-
-  CustomButton({Key?key,required this.onPressed,required this.title,required this.colors,required this.isLoading}) : super(key: key);
+ CustomButton({Key?key,required this.onPressed,required this.title,required this.colors,required this.isLoading}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(

@@ -49,6 +49,8 @@ dependencies:
   uuid: any
   device_preview: any
   webview_flutter: any
+  shimmer: any
+
 
 
 

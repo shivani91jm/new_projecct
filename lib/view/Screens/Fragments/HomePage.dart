@@ -7,10 +7,8 @@ import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
 import 'package:new_projecct/controller/HomeController.dart';
 import 'package:new_projecct/database/db_helper.dart';
-import 'package:new_projecct/model/CategoriesByIdModel/CategoriesModelByIdClass.dart';
-import 'package:new_projecct/model/ProductModel/ProductModelClass.dart';
-import 'package:new_projecct/view/Widgets/CustomButton.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
+import 'package:new_projecct/view/Widgets/ImageSliderItem.dart';
 import 'package:provider/provider.dart';
 import '../../../Utils/AppContstansData.dart';
 import 'package:badges/badges.dart' as badges;
@@ -23,13 +21,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   HomeController controller= Get.put(HomeController());
   DatabaseHelper? databaseHelper=DatabaseHelper();
-
-
- @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
   @override
   Widget build(BuildContext context) {
@@ -43,102 +38,120 @@ class _HomePageState extends State<HomePage> {
        controller.loadCatProductIDWise();
       },
       child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            GestureDetector(
-              onTap: (){
-                Navigator.pushNamed(context!,RouteNames.addtocart_screen);
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(4, 0, 30, 0),
-                child: badges.Badge(
-                  badgeAnimation: badges.BadgeAnimation.rotation(
-                    animationDuration: Duration(seconds: 1),
-                    colorChangeAnimationDuration: Duration(seconds: 1),
-                    loopAnimation: false,
-                    curve: Curves.fastOutSlowIn,
-                    colorChangeAnimationCurve: Curves.easeInCubic,
-                  ),
-                  badgeStyle: badges.BadgeStyle(
-                    shape: badges.BadgeShape.circle,
-                    badgeColor: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                  ),
-                  badgeContent: Consumer<CartProvider>(
-                    builder: (context,value,child){
-                      return Text(value.getCounter().toString(),style: TextStyle(
-                          color: AppColors.whiteColors
-                      ),);
-                    },
-                  ),
-                  child: Icon(Icons.shopping_cart_checkout,color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),
-                ),
-              ),
-            )
-          ],
+        // appBar: AppBar(
+        //   backgroundColor: ,
+        //   actions: [
+        //     GestureDetector(
+        //       onTap: (){
+        //         Navigator.pushNamed(context!,RouteNames.addtocart_screen);
+        //       },
+        //       child: Container(
+        //         margin: EdgeInsets.fromLTRB(4, 0, 30, 0),
+        //         child: badges.Badge(
+        //           badgeAnimation: badges.BadgeAnimation.rotation(
+        //             animationDuration: Duration(seconds: 1),
+        //             colorChangeAnimationDuration: Duration(seconds: 1),
+        //             loopAnimation: false,
+        //             curve: Curves.fastOutSlowIn,
+        //             colorChangeAnimationCurve: Curves.easeInCubic,
+        //           ),
+        //           badgeStyle: badges.BadgeStyle(
+        //             shape: badges.BadgeShape.circle,
+        //             badgeColor: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+        //           ),
+        //           badgeContent: Consumer<CartProvider>(
+        //             builder: (context,value,child){
+        //               return Text(value.getCounter().toString(),style: TextStyle(
+        //                   color: AppColors.whiteColors
+        //               ),);
+        //             },
+        //           ),
+        //           child: Icon(Icons.shopping_cart_checkout,color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),
+        //         ),
+        //       ),
+        //     )
+        //   ],
+        // ),
+        body: Obx(() => controller.isLoading.value?  Center(child: CircularProgressIndicator(
+          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
         ),
-        body: SingleChildScrollView(
-           child:
-          Obx(() => controller.isLoading.value? const Center(child: CircularProgressIndicator(),
-          ) :HomeData())
-        ))
+        ) : HomeData()))
 
       );
 
   }
   Widget HomeData(){
-   return Column(
-     crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        //----------------------create slider -----------------------
-        SliderWidiget(),
-        SizedBox(
-          height: 20,
-        ),
-        homeProduct(),
-        SizedBox(
-          height: 20,
-        ),
+   return SingleChildScrollView(
+     child: Column(
+       crossAxisAlignment: CrossAxisAlignment.start,
+       mainAxisAlignment: MainAxisAlignment.start,
+       children: [
+         //----------------------- custom app bar -------------------
 
-      ],
-    );
+         //----------------------create slider -----------------------
+         SliderWidiget(),
+         SizedBox(
+           height: 20,
+         ),
+         homeProduct(),
+         SizedBox(
+           height: 20,
+         ),
+
+       ],
+     ),
+   );
   }
   Widget SliderWidiget() {
-    return Container(
-      width:  double.infinity,
-      height: MediaQuery.of(context).size.height*0.3,
-      child:  Obx(() =>  CarouselSlider.builder(
-        options: CarouselOptions(
-          height: MediaQuery.of(context).size.height*0.3,
-          autoPlay: true,
+    // return Container(
+    //   width:  double.infinity,
+    //   height: MediaQuery.of(context).size.height*0.3,
+    //   child:  Obx(() =>  CarouselSlider.builder(
+    //     options: CarouselOptions(
+    //       height: MediaQuery.of(context).size.height*0.3,
+    //       autoPlay: true,
+    //     ),
+    //     itemCount: controller.sliderimageUrls.length,
+    //     itemBuilder: (context, itemIndex, realIndex)
+    //     {
+    //       return Padding(
+    //         padding: const EdgeInsets.all(8.0),
+    //         child: Card(
+    //           elevation: AppSizeClass.maxSize10,
+    //           clipBehavior: Clip.hardEdge,
+    //           shape: RoundedRectangleBorder(
+    //             borderRadius: BorderRadius.circular(10.0),
+    //           ),
+    //           child: Stack(
+    //             children:[
+    //
+    //               SizedBox(height: 20),
+    //               Container(
+    //                 width: MediaQuery.of(context).size.width,
+    //                 child: Image.network(controller.sliderimageUrls[itemIndex].toString(),
+    //                   width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+    //               )
+    //             ] ,
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   ),),
+    // );
+    return GetX<HomeController>(builder: (controller){
+     return Container(
+       height: MediaQuery.of(context).size.height *0.4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
         ),
-        itemCount: controller.sliderimageUrls.length,
-        itemBuilder: (context, itemIndex, realIndex)
-        {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: AppSizeClass.maxSize10,
-              clipBehavior: Clip.hardEdge,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Stack(
-                children:[
-
-                  SizedBox(height: 20),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.network(controller.sliderimageUrls[itemIndex].toString(),
-                      width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
-                  )
-                ] ,
-              ),
-            ),
-          );
-        },
-      ),),
-    );
+        child: PageView.builder(
+          itemCount: controller.sliderimageUrls.length,
+          itemBuilder: (context, index) {
+            return ImageSliderItem(imagePath: controller.sliderimageUrls[index]);
+          },
+        ),
+      );
+    });
  }
  Widget  homeProduct() {
    final cart =Provider.of<CartProvider>(context);
@@ -219,7 +232,6 @@ class _HomePageState extends State<HomePage> {
                                  ),
                                ),
                              ),
-
                            }
                            else...
                            {
