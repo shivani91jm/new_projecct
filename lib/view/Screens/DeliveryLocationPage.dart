@@ -62,6 +62,9 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
             child: SetDeliveryLocation(controller: controller, contexts: context, currentLocaion: controller.addressController.toString(),)),
         body: GoogleMap(
           mapType: MapType.normal,
+          mapToolbarEnabled: false,
+          zoomControlsEnabled: false,
+          myLocationButtonEnabled: false,
           onMapCreated: _onMapCreated,
           initialCameraPosition:  CameraPosition(
             target: LatLng(26.299265689617403 ,-80.27699558507642),
