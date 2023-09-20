@@ -131,10 +131,11 @@ class CompleteAddressPage extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  // CustomButton(onPressed: () async{
-                  //     controller.saveLocation();
-                  // }, title: AppConstentData.saveadd,
-                  //     colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR)),
+                  CustomButton(onPressed: () async{
+                      controller.saveLocation();
+                  },
+                    title: AppConstentData.saveadd,
+                      colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: false,),
                   // Add more list items here
                   SizedBox(
                     height: 20,

@@ -24,6 +24,7 @@ class AppConstentData
   static const String nointernet="Seems there's no internet connection ";
   static const String noconnection="try again";
   static const String entercompleteadd="Enter complete address";
+  static const String confirmLocation="Confirm location";
   static const String noaccount="Don't have an account?";
   static const String flathouseno="Flat/House no/ Floor/ Building *";
   static const String areasectorlocatity="Area/ Sector / Locality *";

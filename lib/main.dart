@@ -29,8 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
   return ChangeNotifierProvider(create: (_)=> CartProvider(),
     child: Builder(builder: (BuildContext context){
-
-         return GetMaterialApp(
+      return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,

@@ -5,7 +5,9 @@ import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/HomeAppBar.dart';
 class ImageSliderItem  extends StatelessWidget {
   final String imagePath;
-  ImageSliderItem({required this.imagePath});
+  final String address;
+  
+  ImageSliderItem({required this.imagePath,required this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class ImageSliderItem  extends StatelessWidget {
             child:   Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HomeAppBar(),
+                HomeAppBar(currentLocation: address,),
                 Container(
                   width: 280,
                   margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
@@ -43,18 +45,15 @@ class ImageSliderItem  extends StatelessWidget {
                   child: Padding(
                     padding:  EdgeInsets.fromLTRB(10.0,20,10,10.0),
                     child: Container(
-
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'WELCOME TO PAL RACHO',
+                          Text('WELCOME TO PAL RACHO',
                             style: TextStyle(fontSize: 20.0,
                                 color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                                 fontWeight: FontWeight.bold,
                                 fontFamily:'NotoSerif'
-
                             ),
                           ),
                           Text(
@@ -66,7 +65,6 @@ class ImageSliderItem  extends StatelessWidget {
 
                             ),
                           ),
-
                           Container(
                             margin: EdgeInsets.fromLTRB(0.0, 5.0, 0, 0),
                             decoration: BoxDecoration(

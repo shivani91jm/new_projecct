@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
+import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
 import 'package:new_projecct/controller/HomeController.dart';
@@ -10,9 +14,8 @@ import 'package:new_projecct/database/db_helper.dart';
 
 import 'package:new_projecct/view/Widgets/ImageSliderItem.dart';
 import 'package:provider/provider.dart';
-import '../../../Utils/AppContstansData.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:badges/badges.dart' as badges;
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
@@ -21,10 +24,49 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   HomeController controller= Get.put(HomeController());
   DatabaseHelper? databaseHelper=DatabaseHelper();
+  String?  getCurrentLocation;
   @override
   void initState() {
-    // TODO: implement initState
+    _gotoCurrentPostion();
     super.initState();
+  }
+  //--------------------current location -----------------------
+  Future _gotoCurrentPostion() async{
+    Position currentPostion=await _determainUserCurrentPostion();
+    _gotoSepPostion(LatLng(currentPostion.latitude, currentPostion.longitude));
+  }
+  Future _determainUserCurrentPostion() async{
+    LocationPermission locationPermission;
+    bool isLocationOn=await Geolocator.isLocationServiceEnabled();
+    if(!isLocationOn)
+    {
+      CommonUtilsClass.toastMessage("User don't enable location Permission");
+    }
+    locationPermission =await Geolocator.checkPermission();
+    if(locationPermission==LocationPermission.denied)
+    {
+      locationPermission=await Geolocator.requestPermission();
+      CommonUtilsClass.toastMessage("user denied location permission");
+    }
+    if(locationPermission==LocationPermission.deniedForever)
+    {
+      CommonUtilsClass.toastMessage("user denied  permission forever");
+    }
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+  }
+  Future _gotoSepPostion(LatLng postion) async{
+    await _getAddress(postion);
+  }
+  Future _getAddress(LatLng position) async{
+    final prefs = await SharedPreferences.getInstance();
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude,position.longitude);
+    Placemark place=placemarks[0];
+    String address = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode},${place.country}';
+    print("address"+address.toString());
+    setState(() {
+      prefs.setString("currentLocation", address);
+      getCurrentLocation= prefs.getString("currentLocation");
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -147,7 +189,7 @@ class _HomePageState extends State<HomePage> {
         child: PageView.builder(
           itemCount: controller.sliderimageUrls.length,
           itemBuilder: (context, index) {
-            return ImageSliderItem(imagePath: controller.sliderimageUrls[index]);
+            return ImageSliderItem(imagePath: controller.sliderimageUrls[index], address: getCurrentLocation.toString(),);
           },
         ),
       );

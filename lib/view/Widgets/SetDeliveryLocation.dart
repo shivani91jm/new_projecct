@@ -11,7 +11,8 @@ class SetDeliveryLocation extends StatelessWidget {
   DeliveryLocationController controller;
   BuildContext? contexts;
  final String currentLocaion;
- SetDeliveryLocation({Key? key, required this.controller,required this.contexts,required this.currentLocaion});
+ final String page_flag;
+ SetDeliveryLocation({Key? key, required this.controller,required this.contexts,required this.currentLocaion,required this.page_flag});
    @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,14 +55,32 @@ class SetDeliveryLocation extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              CustomButton(
-                  onPressed: ()
+              if(page_flag=="1")...
+                {
+                  CustomButton(
+                    onPressed: ()
+                    {
+                       Navigator.pop(context,"");
+                       controller.selectLocation(currentLocaion);
+                    },
+
+                    title: AppConstentData.confirmLocation,
+                    colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false,
+                  )
+                }
+                else...
                   {
-                      _showBottomSheet(contexts!,controller);
-                  },
-                  title: AppConstentData.entercompleteadd,
-                  colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false,
-              )
+                    CustomButton(
+                      onPressed: ()
+                      {
+                        _showBottomSheet(contexts!,controller);
+                      },
+
+                      title: AppConstentData.entercompleteadd,
+                      colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false,
+                    )
+                  }
+
             ],
           ),
         ),

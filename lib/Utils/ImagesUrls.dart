@@ -8,5 +8,6 @@ class ImageUrls
   static const String password_url = "assets/images/passwords.png";
   static const String unclok_url = "assets/images/unclock.png";
   static const String contact_url = "assets/images/contact_us.jpg";
+  static const String marker_url = "assets/images/locationpin.png";
 
 }

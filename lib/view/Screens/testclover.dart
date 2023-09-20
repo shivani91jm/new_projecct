@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:new_projecct/Utils/CommnUtils.dart';
+import 'package:new_projecct/controller/AllOrdersControllers.dart';
 import 'package:new_projecct/controller/CheckOutController.dart';
 class TextClover extends StatefulWidget {
   const TextClover({super.key});
@@ -12,7 +14,7 @@ class TextClover extends StatefulWidget {
 }
 
 class _TextCloverState extends State<TextClover> {
-  CheckOutController controller=Get.put(CheckOutController());
+  AllOrdersController controller=Get.put(AllOrdersController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +24,7 @@ class _TextCloverState extends State<TextClover> {
       // Call the function to make a payment
       makePayment();
     },
-    child: Text('Pay Now'),
+    child: Text(CommonUtilsClass.removeHtmlTags(controller.text)),
     ),)
     );
   }

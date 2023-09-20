@@ -4,7 +4,7 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
-import 'package:new_projecct/Utils/CommnUtils.dart';
+
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/LoginController.dart';
@@ -31,10 +31,8 @@ class _LoginPageState extends State<LoginPage> {
         actions: [
           GestureDetector(
             onTap: () async{
-
               Navigator.pushReplacementNamed(context, RouteNames.dashboard_screen);
-              
-            },
+              },
             child: Container(
               width: MediaQuery.of(context).size.width,
               decoration:  BoxDecoration(
@@ -107,10 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                             bordercolors: AppColors.whiteColors,
                             textcolors: AppColors.whiteColors, validator: (value) {
                               controller.validateEmail(value);
-                          },
-
-
-                          ),
+                          },),
                           SizedBox(
                             height: 20,
                           ),
@@ -216,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                           GestureDetector(
                             onTap: () async{
                               Navigator.pushNamed(context!,RouteNames.registration_screen);
-                            },
+                              },
                             child: Container(
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,

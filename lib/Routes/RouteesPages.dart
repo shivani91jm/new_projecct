@@ -16,11 +16,12 @@ import 'package:new_projecct/view/Screens/SingUpPage.dart';
 import 'package:new_projecct/view/Screens/SplashScreenPage.dart';
 import 'package:new_projecct/view/Screens/UserProfileDetailsPage.dart';
 
+import '../view/Screens/testclover.dart';
 class RoutePages {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteNames.splash_screen:
-    return MaterialPageRoute(builder: (_) => SplashScreen());
+    return MaterialPageRoute(builder: (_) => TextClover());
     case RouteNames.login_screen:
     return MaterialPageRoute(builder: (_) => LoginPage());
     case RouteNames.dashboard_screen:
@@ -34,15 +35,13 @@ class RoutePages {
     case RouteNames.addtocart_screen:
     return MaterialPageRoute(builder: (_) => AddToCartPage());
     case RouteNames.delivery_screen:
-    return MaterialPageRoute(builder: (_) => DeliveryLocationPage());
+    return MaterialPageRoute(builder: (_) => DeliveryLocationPage(data:settings.arguments as Map));
     case RouteNames.complete_address_screen:
     return MaterialPageRoute(builder: (_) => SelectLocationPage());
     case RouteNames.aboutus_screen:
     return MaterialPageRoute(builder: (_) => AboutUsPage());
     case RouteNames.contactus_screen:
     return MaterialPageRoute(builder: (_) => ConatctUsPage());
-    case RouteNames.allOrders_screen:
-    return MaterialPageRoute(builder: (_) => AllOrdersPage());
     case RouteNames.allOrders_screen:
     return MaterialPageRoute(builder: (_) => AllOrdersPage());
     case RouteNames.userProfile_screen:

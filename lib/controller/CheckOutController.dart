@@ -8,6 +8,7 @@ import 'package:new_projecct/model/ContactUs/ContactUsModel.dart';
 
 class CheckOutController extends GetxController {
   BuildContext? context=Get.context;
+  var text;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -30,8 +31,9 @@ class CheckOutController extends GetxController {
     var payment_method="basic";
     var payment_method_title="online payment";
     var set_paid="true";
-    var url= "https://websitedemoonline.com/iytastaging/create_order.php?first_name='$firstname'&last_name='$last_name'&address_1='$address_1'&address_2='$address_2'&city='$city'&state='$state'&postcode='$postcode'&country='$country'&email='$email'&phone='$phone'&product_id='$product_id'&quantity='$quantity'&payment_method='$payment_method'&payment_method_title='$payment_method_title'&set_paid='$set_paid";
-    print("url is location"+url);
+   // var url= "https://websitedemoonline.com/iytastaging/create_order.php?first_name='$firstname'&last_name='$last_name'&address_1='$address_1'&address_2='$address_2'&city='$city'&state='$state'&postcode='$postcode'&country='$country'&email='$email'&phone='$phone'&product_id='$product_id'&quantity='$quantity'&payment_method='$payment_method'&payment_method_title='$payment_method_title'&set_paid='$set_paid";
+
+    var url="https://palrancho.co/wp-json/wp/v2/pages/11159";
     final response = await http.get(Uri.parse(url), headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },);
@@ -42,6 +44,7 @@ class CheckOutController extends GetxController {
         {
             CommonUtilsClass.toastMessage(""+data.message.toString());
             Navigator.pushNamed(context!, RouteNames.dashboard_screen);
+
         }
       }
       else if(response.statusCode==500 || response.statusCode==403)

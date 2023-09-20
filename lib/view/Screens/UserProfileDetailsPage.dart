@@ -8,6 +8,7 @@ import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/UpdateUserProfileController.dart';
 import 'package:new_projecct/view/Widgets/CoustomAppBar.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
+import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
 class UserProfileDetails extends StatefulWidget {
   const UserProfileDetails({super.key});
   @override
@@ -85,28 +86,28 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                           height: 20,
                         ),
                         // //--------------------name controller --------------------
-                        // TextInputFields(
-                        //   controller: controller.nameController,
-                        //   hintText: AppConstentData.UserName,
-                        //   labelText:  AppConstentData.UserName, isHint: false,
-                        //   nmber: TextInputType.text,
-                        //   validator: controller.validatePassword,
-                        //   bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                        //   textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                        // ),
-                        // SizedBox(
-                        //   height: 20,
-                        // ),
-                        // //--------------email  controller ----------------
-                        // TextInputFields(
-                        //   controller: controller.emailController,
-                        //   hintText: AppConstentData.entermsg,
-                        //   labelText:  AppConstentData.entermsg, isHint: false,
-                        //   nmber: TextInputType.emailAddress,
-                        //   validator: controller.validatePassword,
-                        //   bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                        //   textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                        // ),
+                        TextInputFields(
+                          controller: controller.nameController,
+                          hintText: AppConstentData.UserName,
+                          labelText:  AppConstentData.UserName, isHint: false,
+                          nmber: TextInputType.text,
+                          validator: controller.validatePassword,
+                          bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                          textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        //--------------email  controller ----------------
+                        TextInputFields(
+                          controller: controller.emailController,
+                          hintText: AppConstentData.entermsg,
+                          labelText:  AppConstentData.entermsg, isHint: false,
+                          nmber: TextInputType.emailAddress,
+                          validator: controller.validatePassword,
+                          bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                          textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                        ),
                         SizedBox(
                           height: 30,
                         ),

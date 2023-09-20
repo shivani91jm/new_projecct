@@ -7,12 +7,11 @@ import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/ForgetPasswordController.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
-import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
+
 
 class ForgetPassword extends StatefulWidget {
    ForgetPassword({super.key});
-
-  @override
+   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
 }
 

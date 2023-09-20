@@ -10,6 +10,7 @@ import 'package:new_projecct/Utils/PlaceApiProvider.dart';
 import 'package:new_projecct/Utils/Suggestion.dart';
 import 'package:new_projecct/controller/DeliveryLocationController.dart';
 import 'package:new_projecct/view/Widgets/AddressSearch.dart';
+
 class SelectLocationPage extends StatefulWidget {
   const SelectLocationPage({super.key});
   @override
@@ -22,15 +23,12 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
   var latitude='';
   var longitude='';
   late  Future<List<Suggestion>> futureAlbum;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _handleLocationPermission(context);
     _getCurrentPosition();
-  //  futureAlbum = PlaceApiProvider.fetchSuggestions(controller.selectLocationController.text,"eng");
-
   }
   @override
   Widget build(BuildContext context) {
@@ -107,45 +105,51 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                         ),
                         GestureDetector(
                           onTap: () async{
-                            Navigator.popAndPushNamed(context,RouteNames.delivery_screen);
+                            Navigator.pushNamed(context,RouteNames.delivery_screen,arguments: {
+                              "page_flag":"1"
+                            });
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_searching,
-                                    size: AppSizeClass.maxSize25,
-                                    color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR) ,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Use current location",style: TextStyle(
-                                            color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                            fontSize: AppSizeClass.maxSize14,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "NotoSerif"
-                                        ),),
-                                        Text("Bara devi mandir",style: TextStyle(
-                                            color: GradientHelper.getColorFromHex(AppColors.Red_drak_COLOR),
-                                            fontSize: AppSizeClass.maxSize12,
-                                            fontWeight: FontWeight.w200,
-                                            fontFamily: "NotoSerif"
-                                        ),),
+                             Expanded(child:  Row(
+                               children: [
+                                 Icon(
+                                   Icons.location_searching,
+                                   size: AppSizeClass.maxSize25,
+                                   color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR) ,
+                                 ),
+                               Expanded(child:   Container(
+                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                 child: Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   mainAxisSize: MainAxisSize.min,
+                                   mainAxisAlignment: MainAxisAlignment.start,
+                                   children: [
+                                     Text("Use current location",style: TextStyle(
+                                         color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                         fontSize: AppSizeClass.maxSize14,
+                                         fontWeight: FontWeight.bold,
+                                         fontFamily: "NotoSerif"
+                                     ),),
+                                     Text(_currentAddress.toString(),style: TextStyle(
+                                         color: GradientHelper.getColorFromHex(AppColors.Red_drak_COLOR),
+                                         fontSize: AppSizeClass.maxSize12,
+                                         fontWeight: FontWeight.w200,
+                                         fontFamily: "NotoSerif"
+                                     ),),
 
-                                      ],
-                                    ),
-                                  )
+                                   ],
+                                 ),
+                               ))
 
-                                ],
-                              ),
+                               ],
+                             ),),
                               IconButton(
                                   onPressed: () async{
-
+                                    Navigator.pushNamed(context,RouteNames.delivery_screen,arguments: {
+                                      "page_flag":"1"
+                                    });
                                   },
                                   icon: Icon(Icons.arrow_forward_ios,
                                     size: AppSizeClass.maxSize20,
@@ -166,7 +170,10 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                         ),
                         GestureDetector(
                           onTap: () async{
-                            Navigator.popAndPushNamed(context,RouteNames.delivery_screen);
+                            Navigator.pushNamed(context,RouteNames.delivery_screen,arguments: {
+                              "page_flag":"2"
+                            });
+
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -258,8 +265,9 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
       Placemark place = placemarks[0];
       print("address"+place.toString());
       setState(() {
-        controller.addressController.value = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
-        print("address"+_currentAddress.toString());
+        _currentAddress= '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
+        controller.selectLocation(_currentAddress!);
+        controller.addressController.value=_currentAddress!;
       });
     }).catchError((e) {
       debugPrint(e);
