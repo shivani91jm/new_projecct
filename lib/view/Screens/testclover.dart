@@ -14,7 +14,7 @@ class TextClover extends StatefulWidget {
 }
 
 class _TextCloverState extends State<TextClover> {
-  AllOrdersController controller=Get.put(AllOrdersController());
+  CheckOutController controller=Get.put(CheckOutController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,7 @@ class _TextCloverState extends State<TextClover> {
       // Call the function to make a payment
       makePayment();
     },
-    child: Text(CommonUtilsClass.removeHtmlTags(controller.text)),
+    child: Text("hhgj"),
     ),)
     );
   }

@@ -15,4 +15,5 @@ class RouteNames {
   static const String userProfile_screen = 'userProfile_screen';
   static const String changepassword_screen = 'changepassword_screen';
   static const String forgetpassword_screen = 'forgetpassword_screen';
+  static const String checkout_screen = 'checkout_screen';
 }

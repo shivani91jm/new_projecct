@@ -3,6 +3,7 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/view/Screens/AboutUs.dart';
 import 'package:new_projecct/view/Screens/AllOrdersPage.dart';
 import 'package:new_projecct/view/Screens/ChangePasswordPage.dart';
+import 'package:new_projecct/view/Screens/CheckOutPage.dart';
 import 'package:new_projecct/view/Screens/ContactUsPage.dart';
 import 'package:new_projecct/view/Screens/DashBoardPage.dart';
 import 'package:new_projecct/view/Screens/DeliveryLocationPage.dart';
@@ -13,9 +14,7 @@ import 'package:new_projecct/view/Screens/LoginPage.dart';
 import 'package:new_projecct/view/Screens/SelectLocationPage.dart';
 import 'package:new_projecct/view/Screens/ShopLocationPage.dart';
 import 'package:new_projecct/view/Screens/SingUpPage.dart';
-import 'package:new_projecct/view/Screens/SplashScreenPage.dart';
 import 'package:new_projecct/view/Screens/UserProfileDetailsPage.dart';
-
 import '../view/Screens/testclover.dart';
 class RoutePages {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -50,6 +49,8 @@ class RoutePages {
     return MaterialPageRoute(builder: (_) => ChangePassword());
     case RouteNames.forgetpassword_screen:
     return MaterialPageRoute(builder: (_) => ForgetPassword());
+    case RouteNames.checkout_screen:
+    return MaterialPageRoute(builder: (_) => CheckOutPage(data:settings.arguments as Map));
     default:
     return MaterialPageRoute(builder: (context) {
       return Scaffold(body: Center(child: Text("No Routes Declare"),),);

@@ -107,8 +107,8 @@ class _HomePageState extends State<HomePage> {
              mainAxisAlignment: MainAxisAlignment.spaceBetween,
              mainAxisSize: MainAxisSize.max,
              children: [
-             HomeAppBar(currentLocation: getCurrentLocation.toString(),),
-              GestureDetector(
+               HomeAppBar(currentLocation: getCurrentLocation.toString(),),
+               GestureDetector(
                 onTap: (){
                   Navigator.pushNamed(context!,RouteNames.addtocart_screen);
                 },
@@ -145,8 +145,7 @@ class _HomePageState extends State<HomePage> {
           color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
         ),
         ) : HomeData()))
-
-      );
+   );
 
   }
   Widget HomeData(){
@@ -164,7 +163,6 @@ class _HomePageState extends State<HomePage> {
          SizedBox(
            height: 20,
          ),
-
        ],
      ),
    );
@@ -191,11 +189,12 @@ class _HomePageState extends State<HomePage> {
             dotColor:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
             indicatorBgPadding: 5.0,
             dotBgColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR).withOpacity(0.5),
-
           ),
           Center(
-            child:   Column(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
+
               children: [
                 Container(
                   width: 280,
@@ -205,7 +204,6 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white.withOpacity(0.6),
                   ),
-
                   child: Padding(
                     padding:  EdgeInsets.fromLTRB(10.0,20,10,10.0),
                     child: Container(
@@ -213,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('WELCOME TO PAL RACHO',
+                          Text('WELCOME TO PAL RANCHO',
                             style: TextStyle(fontSize: 20.0,
                                 color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                                 fontWeight: FontWeight.bold,
@@ -254,217 +252,226 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
         ],
       )
-
     );
   }
- Widget  homeProduct() {
+ Widget homeProduct() {
    final cart =Provider.of<CartProvider>(context);
-      return  ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: controller.futureCategoriews.length,
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child:Text(controller.futureCategoriews[index].name.toString(),
-                    style: TextStyle(
-                        fontSize: AppSizeClass.maxSize20,
-                        fontWeight: FontWeight.bold,
-                      fontFamily: "NotoSerif",
-                      color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+      return  Container(
+        margin: EdgeInsets.all(5),
+        padding: EdgeInsets.all(5),
+        child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemCount: controller.futureCategoriews.length,
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child:Center(
+                      child: Text(controller.futureCategoriews[index].name.toString(),
+                        style: TextStyle(
+                            fontSize: AppSizeClass.maxSize20,
+                            fontWeight: FontWeight.bold,
+                          fontFamily: "NotoSerif",
+                          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 320,
-                  child:  ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount:controller.futureCategoriews[index].products!.length,
-                      itemBuilder: (context,cat_in){
-                        var data=controller.futureCategoriews[index].products![cat_in];
-                        return  Container(
-                      height: MediaQuery.of(context).size.height*0.5,
-                       child: GestureDetector(
-                         onTap: () async{
-                           var id=data.id;
-                           var name=data.name.toString();
-                           var imgae="";
-                           if(data.image!=false)
-                           {
-                             imgae=data.image.toString();
-                           }
-                           else
-                           {
-                             imgae= "https://palrancho.co/wp-content/uploads/2014/08/32-1.jpg";
-                           }
-                           Navigator.pushNamed(context, RouteNames.productdetails_screen,arguments: {
-                             "product_id":id,
-                             "product_name":name,
-                             "product_image": imgae,
-                             "product_price": data.price.toString()
-                           });
-                         },
-                   child: Container(
-
-                     child: Card(
-                       elevation: AppSizeClass.maxSize10,
-                         clipBehavior: Clip.hardEdge,
-                       child: Column(
-                         children: [
-                           if(data.image!=false)...
-                           {
-                             Padding(
-                               padding: const EdgeInsets.fromLTRB(5.0,2.0,5.0,5.0),
-                               child: Card(
-                                 clipBehavior: Clip.hardEdge,
-                                 shape: RoundedRectangleBorder(
-                                   borderRadius: BorderRadius.circular(10.0),
-                                 ),
-                                 child: Container(
-                                   width: 180,
-                                   height: 180,
-                                   child: Image.network(data.image.toString(),fit: BoxFit.cover,),
-                                 ),
-                               ),
-                             ),
-                           }
-                           else...
-                           {
-                             Card(
-                               elevation: AppSizeClass.maxSize10,
-                               clipBehavior: Clip.hardEdge,
-                               shape: RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(15.0),
-                               ),
-                               child: Container(
-                                 width: 180,
-                                 height: 180,
-                                 child: Image.network("https://palrancho.co/wp-content/uploads/2014/08/32-1.jpg", fit: BoxFit.cover,),
-                               ),
-                             ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child:  ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount:controller.futureCategoriews[index].products!.length,
+                        itemBuilder: (context,cat_in){
+                          var data=controller.futureCategoriews[index].products![cat_in];
+                          return  Container(
+                        height: MediaQuery.of(context).size.height*0.5,
+                         child: GestureDetector(
+                           onTap: () async{
+                             var id=data.id;
+                             var name=data.name.toString();
+                             var imgae="";
+                             if(data.image!=false)
+                             {
+                               imgae=data.image.toString();
+                             }
+                             else
+                             {
+                               imgae= "https://palrancho.co/wp-content/uploads/2014/08/32-1.jpg";
+                             }
+                             Navigator.pushNamed(context, RouteNames.productdetails_screen,arguments: {
+                               "product_id":id,
+                               "product_name":name,
+                               "product_image": imgae,
+                               "product_price": data.price.toString()
+                             });
                            },
-                           SizedBox(
-                             height: 10,
-                           ),
-                           Expanded(
-                             child: Container(
-                                 width: 180,
-                                 child: Text(""+data.name.toString(),style: TextStyle(
-                                   color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                                   fontFamily: "NotoSerif",
-                                   fontSize: AppSizeClass.maxSize14,
-                                   fontWeight: FontWeight.bold,
-                                 ),)
-                             ),
-                           ),
+                     child: Container(
 
-                           Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                             children: [
-                               Align(
-                                 alignment: Alignment.topLeft,
-                                 child: Container(
-                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                     padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                     child: Text('' r"$"+data.price.toString(),style: TextStyle(
-                                       color:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR) ,
-                                       fontFamily: "NotoSerif",
-                                       fontSize: AppSizeClass.maxSize18,
-                                       fontWeight: FontWeight.bold,
-
-                                     ),)
-                                 ),
-                               ),
-                                 Align(
-                               alignment: Alignment.topRight,
-                               child:   Container(
-
-                                 margin: EdgeInsets.fromLTRB(50, 0, 0, 10),
-                                 child: Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: CircleAvatar(
-                                     backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                     child: IconButton(
-
-                                       onPressed: () async
-                                       {
-                                         var id=data.id.toString();
-                                         var name=data.name.toString();
-                                         var imgae="";
-                                         if(data.image!=false)
-                                         {
-                                           imgae= data.image.toString();
-                                         }
-                                         else
-                                         {
-                                           imgae= "https://palrancho.co/wp-content/uploads/2020/03/Papa-Cocida.png";
-                                         }
-                                         Navigator.pushNamed(context, RouteNames.productdetails_screen,arguments: {
-                                           "product_id":id,
-                                           "product_name":name,
-                                           "product_image": imgae,
-
-                                           //"product_price": controller.futureCategoriews[index].price.toString()
-                                         });
-                                         databaseHelper!.insert(
-                                             CartModelClass(
-                                                 id: index,
-                                                 productId: data.id.toString(),
-                                                 productName: data.name,
-                                                 productDetails: data.name,
-                                                 initilPrice: double.parse(data.price.toString()),
-                                                 productPrice: double.parse(data.price.toString()),
-                                                 quantity: ValueNotifier(1),
-                                                 image: imgae
-                                             )
-                                         ).then((value)  {
-                                           print("add product added");
-                                           cart.addTotalPrice(double.parse(data.price.toString()));
-                                           cart.addCounter();
-
-                                         }).onError((error, stackTrace) {
-                                           print("erorr"+error.toString());
-                                         });
-
-                                       },
-                                       icon: Icon(Icons.shopping_cart,color: AppColors.whiteColors,
-                                       ),
-
-                                     ),
+                       child: Card(
+                         elevation: AppSizeClass.maxSize10,
+                           clipBehavior: Clip.hardEdge,
+                         child: Column(
+                           children: [
+                             if(data.image!=false)...
+                             {
+                               Padding(
+                                 padding: const EdgeInsets.fromLTRB(5.0,2.0,5.0,5.0),
+                                 child: Card(
+                                   elevation: AppSizeClass.maxSize3,
+                                   clipBehavior: Clip.hardEdge,
+                                   shape: RoundedRectangleBorder(
+                                     borderRadius: BorderRadius.circular(15.0),
+                                   ),
+                                   child: Container(
+                                     width: 160,
+                                     height: 160,
+                                     child: Image.network(data.image.toString(),fit: BoxFit.cover,),
                                    ),
                                  ),
                                ),
+                             }
+                             else...
+                             {
+                               Card(
+                                 elevation: AppSizeClass.maxSize3,
+                                 clipBehavior: Clip.hardEdge,
+                                 shape: RoundedRectangleBorder(
+                                   borderRadius: BorderRadius.circular(15.0),
+                                 ),
+                                 child: Container(
+                                   width: 160,
+                                   height: 160,
+                                   child: Image.network("https://palrancho.co/wp-content/uploads/2014/08/32-1.jpg", fit: BoxFit.cover,),
+                                 ),
+                               ),
+                             },
+                             SizedBox(
+                               height: 10,
+                             ),
+                             Expanded(
+                               child: Container(
+                                   padding: const EdgeInsets.fromLTRB(5.0,2.0,5.0,5.0),
+                                   width: 170,
+                                   child: Text(""+data.name.toString(),style: TextStyle(
+                                     color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                                     fontFamily: "NotoSerif",
+                                     fontSize: AppSizeClass.maxSize14,
+                                     fontWeight: FontWeight.bold,
+                                   ),)
+                               ),
+                             ),
+
+                             Row(
+                               mainAxisAlignment: MainAxisAlignment.spaceAround,
+                               children: [
+                                 Align(
+                                   alignment: Alignment.topLeft,
+                                   child: Container(
+                                       margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                       padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
+                                       child: Text('' r"$"+data.price.toString(),style: TextStyle(
+                                         color:GradientHelper.getColorFromHex(AppColors.RED_COLOR) ,
+                                         fontFamily: "NotoSerif",
+                                         fontSize: AppSizeClass.maxSize18,
+                                         fontWeight: FontWeight.bold,
+
+                                       ),)
+                                   ),
+                                 ),
+                                   Align(
+                                 alignment: Alignment.topRight,
+                                 child:   Container(
+
+                                   margin: EdgeInsets.fromLTRB(50, 0, 10, 10),
+                                   child: Padding(
+                                     padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                     child: CircleAvatar(
+                                       backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                       child: IconButton(
+
+                                         onPressed: () async
+                                         {
+                                           var id=data.id.toString();
+                                           var name=data.name.toString();
+                                           var imgae="";
+                                           if(data.image!=false)
+                                           {
+                                             imgae= data.image.toString();
+                                           }
+                                           else
+                                           {
+                                             imgae= "https://palrancho.co/wp-content/uploads/2020/03/Papa-Cocida.png";
+                                           }
+                                           Navigator.pushNamed(context, RouteNames.productdetails_screen,arguments: {
+                                             "product_id":id,
+                                             "product_name":name,
+                                             "product_image": imgae,
+
+                                             //"product_price": controller.futureCategoriews[index].price.toString()
+                                           });
+                                           databaseHelper!.insert(
+                                               CartModelClass(
+                                                   id: index,
+                                                   productId: data.id.toString(),
+                                                   productName: data.name,
+                                                   productDetails: data.name,
+                                                   initilPrice: double.parse(data.price.toString()),
+                                                   productPrice: double.parse(data.price.toString()),
+                                                   quantity: ValueNotifier(1),
+                                                   image: imgae
+                                               )
+                                           ).then((value)  {
+                                             print("add product added");
+                                             cart.addTotalPrice(double.parse(data.price.toString()));
+                                             cart.addCounter();
+
+                                           }).onError((error, stackTrace) {
+                                             print("erorr"+error.toString());
+                                           });
+
+                                         },
+                                         icon: Icon(Icons.shopping_cart,color: AppColors.whiteColors,
+                                         ),
+
+                                       ),
+                                     ),
+                                   ),
+                                 ),
+                               )
+                               ],
                              )
-                             ],
-                           )
 
 
 
-                 ],
+                   ],
+                 ),
                ),
+                     ),
              ),
-                   ),
-           ),
-         );
+           );
 
-                      }),
-                )
-              ]
-          );
-        },
+                        }),
+                  )
+                ]
+            );
+          },
+        ),
       );
   }
 

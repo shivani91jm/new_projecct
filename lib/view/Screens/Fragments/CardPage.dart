@@ -15,6 +15,7 @@ import 'package:new_projecct/view/Widgets/CartProductTotalPrice.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
+
 class AddToCartPage extends StatefulWidget {
   const AddToCartPage({super.key});
   @override
@@ -32,9 +33,11 @@ class _AddToCartPageState extends State<AddToCartPage> {
     final cart = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
         actions: [
           Container(
-            margin: EdgeInsets.fromLTRB(4, 0, 30, 0),
+            margin: EdgeInsets.fromLTRB(4, 10, 30, 0),
             child: badges.Badge(
               badgeAnimation: badges.BadgeAnimation.rotation(
                 animationDuration: Duration(seconds: 1),
@@ -55,7 +58,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                 },
               ),
               child: Icon(Icons.shopping_cart_checkout,
-                color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),
+                color: AppColors.whiteColors,),
             ),
           )
         ],
@@ -80,12 +83,12 @@ class _AddToCartPageState extends State<AddToCartPage> {
                           title: AppConstentData.totalPrice,
                           value:   (val?.toStringAsFixed(2) ?? '0'));
                     }),
-                // Padding(
-                //   padding:  EdgeInsets.fromLTRB(10,0,10,0),
-                //   child: CustomButton(onPressed: (){
-                //   }, title: AppConstentData.continues,
-                //       colors:GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR)),
-                // ),
+                Padding(
+                  padding:  EdgeInsets.fromLTRB(10,0,10,0),
+                  child: CustomButton(onPressed: (){
+                  }, title: AppConstentData.continues,
+                      colors:GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR), isLoading: false,),
+                ),
               ],
             ),
           );
@@ -138,8 +141,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                   Container(
-
-                                        child: Text(""+provider.cart[index].productName.toString(),style: TextStyle(
+                                      child: Text(""+provider.cart[index].productName.toString(),style: TextStyle(
                                           color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                                           fontFamily: "NotoSerif",
                                           fontSize: AppSizeClass.maxSize18,
@@ -225,7 +227,6 @@ class _AddToCartPageState extends State<AddToCartPage> {
           ),
         ],
       ),
-
     );
   }
 

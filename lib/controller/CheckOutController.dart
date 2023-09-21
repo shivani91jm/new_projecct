@@ -33,10 +33,13 @@ class CheckOutController extends GetxController {
     var set_paid="true";
    // var url= "https://websitedemoonline.com/iytastaging/create_order.php?first_name='$firstname'&last_name='$last_name'&address_1='$address_1'&address_2='$address_2'&city='$city'&state='$state'&postcode='$postcode'&country='$country'&email='$email'&phone='$phone'&product_id='$product_id'&quantity='$quantity'&payment_method='$payment_method'&payment_method_title='$payment_method_title'&set_paid='$set_paid";
 
-    var url="https://palrancho.co/wp-json/wp/v2/pages/11159";
+    //var url="https://palrancho.co/wp-json/wp/v2/pages/11159";
+    var url="https://websitedemoonline.com/iytastaging/create_order.php?first_name=shi&last_name=demofds&address_1=testting%20demodff&city=knp&state=uttar&postcode=208019&country=in&email=shivani%40techindiasoftware.com&phone=9807000990&product_ids[]=2410&quantities[]=4&product_ids[]=496&quantities[]=3&payment_method=bacs&payment_method_title=&set_paid=true&user_id=1";
+    print("url"+url.toString());
     final response = await http.get(Uri.parse(url), headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },);
+      print("response"+response.body.toString());
       if (response.statusCode == 200)
       {
         ContactUsModel data =  ContactUsModel.fromJson(jsonDecode(response.body));
@@ -44,7 +47,6 @@ class CheckOutController extends GetxController {
         {
             CommonUtilsClass.toastMessage(""+data.message.toString());
             Navigator.pushNamed(context!, RouteNames.dashboard_screen);
-
         }
       }
       else if(response.statusCode==500 || response.statusCode==403)

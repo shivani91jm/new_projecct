@@ -32,8 +32,8 @@ class HomeAppBar extends StatelessWidget {
                      padding: const EdgeInsets.fromLTRB(8.0,5.0,0.0,0.0),
                      child: Text(currentLocation,style: TextStyle(
                          color:AppColors.whiteColors,
-                         fontWeight: FontWeight.w400,
-                         fontSize: AppSizeClass.maxSize17
+                         fontWeight: FontWeight.bold,
+                         fontSize: AppSizeClass.maxSize15
                      ),),
                    ),
                  )

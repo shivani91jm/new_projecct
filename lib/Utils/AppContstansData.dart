@@ -46,5 +46,4 @@ class AppConstentData
   static const String updateProfile="Update Profile";
   static const String forgetdetails="Enter the email address associated  with \n your account";
   static const String checkinernet="Please check your internet connection \n and try again ..";
-
 }
