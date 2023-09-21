@@ -35,7 +35,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     controller.productId.value=product_id.toString();
     final cart = Provider.of<CartProvider>(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+      ),
       bottomNavigationBar: Consumer<CartProvider>(
           builder: (BuildContext context, value, Widget? child) {
             final ValueNotifier<double?> totalPrice = ValueNotifier(null);
@@ -56,12 +59,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             title: AppConstentData.totalPrice,
                             value:   (val?.toStringAsFixed(2) ?? '0'));
                       }),
-                  // Padding(
-                  //   padding:  EdgeInsets.fromLTRB(10,0,10,0),
-                  //   child: CustomButton(onPressed: (){
-                  //   }, title: AppConstentData.addtocart,
-                  //       colors:GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR)),
-                  // ),
+                  Padding(
+                    padding:  EdgeInsets.fromLTRB(10,0,10,0),
+                    child: CustomButton(onPressed: (){
+                    }, title: AppConstentData.addtocart,
+                        colors:GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false,),
+                  ),
                 ],
               ),
             );
@@ -107,20 +110,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     //---------------------product name------------------
                     if(controller.model!=null || controller.model!="null")...
                       {
-                        if(controller.model!.name != "null" ||
-                            controller.model!.name != "null")...
-                        {
-                          Text("" + controller.model!.name.toString(),
-                            style: TextStyle(
-                              color: GradientHelper.getColorFromHex(
-                                  AppColors.RED_COLOR),
-                              fontFamily: "NotoSerif",
-                              fontSize: AppSizeClass.maxSize20,
-                              fontWeight: FontWeight.bold,
-                            ),
-
+                        Text("" + controller.model!.name.toString(),
+                          style: TextStyle(
+                            color: GradientHelper.getColorFromHex(
+                                AppColors.RED_COLOR),
+                            fontFamily: "NotoSerif",
+                            fontSize: AppSizeClass.maxSize20,
+                            fontWeight: FontWeight.bold,
                           ),
-                        },
+
+                        ),
                       },
                     //--------------------product description -----------------
                     Text(""+CommonUtilsClass.removeHtmlTags(controller.model!.description.toString()),

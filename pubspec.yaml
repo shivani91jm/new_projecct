@@ -50,6 +50,7 @@ dependencies:
   device_preview: any
   webview_flutter: any
   shimmer: any
+  another_carousel_pro: any
 
 
 

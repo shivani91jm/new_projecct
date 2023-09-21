@@ -27,13 +27,15 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor:GradientHelper.getColorFromHex(AppColors.RED_COLOR), // Status bar background color
+      statusBarIconBrightness: Brightness.light, // Status bar text color (dark or light)
+    ));
   return ChangeNotifierProvider(create: (_)=> CartProvider(),
     child: Builder(builder: (BuildContext context){
       return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true,
-        ),
+
         onGenerateRoute: RoutePages.generateRoute,
         initialRoute: RouteNames.dashboard_screen,
       );

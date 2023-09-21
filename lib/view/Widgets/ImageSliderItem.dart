@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
+import 'package:new_projecct/controller/HomeController.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/HomeAppBar.dart';
 class ImageSliderItem  extends StatelessWidget {
   final String imagePath;
   final String address;
+  HomeController controller;
+  int currentPage;
   
-  ImageSliderItem({required this.imagePath,required this.address});
+  ImageSliderItem({required this.imagePath,required this.address,required this.controller,required this.currentPage});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +29,14 @@ class ImageSliderItem  extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.fromLTRB(10, 20, 30, 0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(80),
+
+          ),
           child: Center(
             child:   Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HomeAppBar(currentLocation: address,),
                 Container(
                   width: 280,
                   margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
@@ -89,7 +95,8 @@ class ImageSliderItem  extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
+
               ],
             ),
           ),
@@ -97,4 +104,5 @@ class ImageSliderItem  extends StatelessWidget {
       ],
     );
   }
+
 }

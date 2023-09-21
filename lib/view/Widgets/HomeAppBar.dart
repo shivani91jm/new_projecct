@@ -9,6 +9,7 @@ class HomeAppBar extends StatelessWidget {
    @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width*.8,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -21,17 +22,17 @@ class HomeAppBar extends StatelessWidget {
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
                  Padding(
-                   padding: const EdgeInsets.fromLTRB(8.0,15.0,0.0,0.0),
+                   padding: const EdgeInsets.fromLTRB(8.0,5.0,0.0,0.0),
                    child: Icon(Icons.location_on,
                      size: AppSizeClass.maxSize30,
-                     color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),),
+                     color: AppColors.whiteColors),
                  ),
                  Expanded(
                    child: Padding(
-                     padding: const EdgeInsets.fromLTRB(8.0,10.0,0.0,0.0),
+                     padding: const EdgeInsets.fromLTRB(8.0,5.0,0.0,0.0),
                      child: Text(currentLocation,style: TextStyle(
-                         color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                         fontWeight: FontWeight.bold,
+                         color:AppColors.whiteColors,
+                         fontWeight: FontWeight.w400,
                          fontSize: AppSizeClass.maxSize17
                      ),),
                    ),

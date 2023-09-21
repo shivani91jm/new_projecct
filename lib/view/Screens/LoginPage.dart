@@ -14,8 +14,7 @@ import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
 
 class LoginPage extends StatefulWidget {
    LoginPage({super.key});
-
-  @override
+   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 

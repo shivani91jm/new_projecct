@@ -20,27 +20,23 @@ class HomeController extends GetxController {
   RxList<CategoriesByIdModelClass> datass=<CategoriesByIdModelClass>[].obs;
   Timer? _timer;
 //-------------------slider create -----------------------
-  final RxList<String> sliderimageUrls = [
-    "https://palrancho.co/wp-content/uploads/2020/03/Papa-Cocida.png",
-    "https://palrancho.co/wp-content/uploads/2020/03/Aguacate.png",
-    "https://palrancho.co/wp-content/uploads/2020/03/orden-de-arepas.jpg",
-  ].obs;
+
   @override
  void onInit() {
    // TODO: implement onInit
    super.onInit();
-   _timer = Timer.periodic(Duration(seconds: 3), (timer) {
-     if (currentIndex.value < sliderimageUrls.length - 1) {
-       currentIndex++;
-     }
-     else {
-       currentIndex.value = 0;
-     }
-     pageController.animateToPage(currentIndex.value,
-       duration: Duration(milliseconds: 500),
-       curve: Curves.easeInOut,
-     );
-   });
+   // _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+   //   if (currentIndex.value < sliderimageUrls.length - 1) {
+   //     currentIndex++;
+   //   }
+   //   else {
+   //     currentIndex.value = 0;
+   //   }
+   //   pageController.animateToPage(currentIndex.value,
+   //     duration: Duration(milliseconds: 500),
+   //     curve: Curves.easeInOut,
+   //   );
+   // });
   // getStoreData();
    loadCatProductIDWise();
 
