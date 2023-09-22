@@ -8,11 +8,7 @@ import 'package:new_projecct/Utils/Urls/BaseUrlsClass.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_projecct/model/Login/LoginModelClass.dart';
 class SignUpController extends GetxController{
-  TextEditingController emailController=TextEditingController();
-  TextEditingController passwordController=TextEditingController();
-  TextEditingController usernameController=TextEditingController();
-  TextEditingController mobileController=TextEditingController();
-  TextEditingController addressController=TextEditingController();
+
   BuildContext? context=Get.context!;
   RxBool loading=false.obs;
   var latitude='';

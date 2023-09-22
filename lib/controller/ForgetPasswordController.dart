@@ -11,13 +11,12 @@ import 'package:new_projecct/model/Login/LoginModelClass.dart';
 
 class ForgetPasswordController extends GetxController {
   TextEditingController editingController=TextEditingController();
-  TextEditingController passwordController=TextEditingController();
-  TextEditingController confirmPassController=TextEditingController();
   bool passwordsMatch = true;
   RxBool loading=false.obs;
  BuildContext? context=Get.context;
  var password=''.obs;
-  //--------------validate email ---------------------
+
+ //--------------validate email ---------------------
   void validation(GlobalKey<FormState> _formKey){
     if (_formKey.currentState!.validate()) {
       print("dhfjfjf");
@@ -86,13 +85,13 @@ class ForgetPasswordController extends GetxController {
     return null;
   }
   //------------------------update password ---------------------
-    void changePassword(String email) async{
+    void changePassword(String email,String passwwwwwwword) async{
       loading.value=true;
       var urls="https://palrancho.co/wp-json/custom/v1/update-password?";
       print("url is location"+urls);
       var body=jsonEncode(<String, String>{
         'email': email,
-        'new_password': passwordController.text
+        'new_password':passwwwwwwword
       });
       print("body"+body.toString());
       final response = await http.post(Uri.parse(urls),

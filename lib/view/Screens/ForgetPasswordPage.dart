@@ -7,6 +7,7 @@ import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/ForgetPasswordController.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
+import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
 
 
 class ForgetPassword extends StatefulWidget {
@@ -22,7 +23,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+        ),
         bottomNavigationBar: Container(
           height: 50,
           margin: EdgeInsets.all(10),
@@ -33,7 +36,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               controller.checkEmailExitsOrNot(_formKey);
               },
               title: AppConstentData.continues,
-              colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false,
+              colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false.obs,
             ),
           ),
         ),
@@ -82,18 +85,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         SizedBox(
                           height: 40,
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: TextInputFields(
-                        //     controller: controller.editingController,
-                        //     hintText: AppConstentData.Email,
-                        //     labelText:  AppConstentData.Email, isHint: false,
-                        //     nmber: TextInputType.emailAddress,
-                        //     validator: controller.validateEmail,
-                        //     bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                        //     textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                        //   ),
-                        // ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextInputFields(
+                            controller: controller.editingController,
+                            hintText: AppConstentData.Email,
+                            labelText:  AppConstentData.Email, isHint: false,
+                            nmber: TextInputType.emailAddress,
+                            validator: controller.validateEmail,
+                            bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                            textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                          ),
+                        ),
                         SizedBox(
                           height: 20,
                         ),

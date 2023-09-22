@@ -9,8 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:new_projecct/model/Login/LoginModelClass.dart';
 import 'package:new_projecct/view/Widgets/CustomDialogBox.dart';
 class LoginController extends GetxController {
-  TextEditingController emailController=TextEditingController();
-  TextEditingController passwordController=TextEditingController();
+
   BuildContext? context=Get.context!;
   RxBool loading=false.obs;
   @override
@@ -23,16 +22,12 @@ class LoginController extends GetxController {
     if (value!.isEmpty ) {
       return CommonUtilsClass.toastMessage("" + AppConstentData.enterEmail);
     }
-   // else if (isValidEmail(value)) {
-   //   return CommonUtilsClass.toastMessage("Please enter a valid email address");
-   //
-   //  }
+    // else if (isValidEmail(value)) {
+    //   return CommonUtilsClass.toastMessage("Please enter a valid email address");
+    //
+    //  }
 
-  else{
-      var email=emailController.text;
-      var password=passwordController.text;
-      loginApi(email,password);
-    }
+
 
     return null;
   }
@@ -40,9 +35,6 @@ class LoginController extends GetxController {
     if (value!.isEmpty) {
       return CommonUtilsClass.toastMessage("" + AppConstentData.enterPassword);
     }
-
-
-
     return null;
   }
   loginApi(String email, String password) async{
@@ -62,11 +54,12 @@ class LoginController extends GetxController {
     print("res"+response.body.toString());
     if (response.statusCode == 200)
     {
-      loading.value=false;
+
       LoginModelClass data =  LoginModelClass.fromJson(jsonDecode(response.body));
 
       if(data!=null)
       {
+        loading.value=false;
         CommonUtilsClass.toastMessage(data.message.toString());
         showDialog(context: context!,
             builder: (BuildContext context){
@@ -96,20 +89,20 @@ class LoginController extends GetxController {
     }
   }
 
-    //  validation( GlobalKey<FormState> formKey){
-    //   if (formKey.currentState!.validate()) {
-    //
-    //     loginApi();
-    //    // Navigator.pushNamed(context!,RouteNames.location_screen);
-    //   }
-    // }
+//  validation( GlobalKey<FormState> formKey){
+//   if (formKey.currentState!.validate()) {
+//
+//     loginApi();
+//    // Navigator.pushNamed(context!,RouteNames.location_screen);
+//   }
+// }
 
-  //================== proper validate email -------------
-  // bool isValidEmail(String email) {
-  //   // Regular expression pattern for a basic email validation
-  //   final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
-  //   return emailRegex.hasMatch(email);
-  // }
+//================== proper validate email -------------
+// bool isValidEmail(String email) {
+//   // Regular expression pattern for a basic email validation
+//   final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+//   return emailRegex.hasMatch(email);
+// }
 
 
 

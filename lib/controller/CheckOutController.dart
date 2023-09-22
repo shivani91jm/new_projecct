@@ -9,11 +9,13 @@ import 'package:new_projecct/model/ContactUs/ContactUsModel.dart';
 class CheckOutController extends GetxController {
   BuildContext? context=Get.context;
   var text;
+  RxBool loading = false.obs;
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    checkoutOrder();
+    //checkoutOrder();
   }
   void checkoutOrder() async {
     var firstname="shivi";
@@ -26,17 +28,17 @@ class CheckOutController extends GetxController {
     var country="india";
     var email="sh@gmail.com";
     var phone="8887885012";
-    var product_id="496";
-    var quantity="1";
+    var product_id="[2410,469]";
+    var quantity="[3,5]";
     var payment_method="basic";
     var payment_method_title="online payment";
     var set_paid="true";
-   // var url= "https://websitedemoonline.com/iytastaging/create_order.php?first_name='$firstname'&last_name='$last_name'&address_1='$address_1'&address_2='$address_2'&city='$city'&state='$state'&postcode='$postcode'&country='$country'&email='$email'&phone='$phone'&product_id='$product_id'&quantity='$quantity'&payment_method='$payment_method'&payment_method_title='$payment_method_title'&set_paid='$set_paid";
-
-    //var url="https://palrancho.co/wp-json/wp/v2/pages/11159";
-    var url="https://websitedemoonline.com/iytastaging/create_order.php?first_name=shi&last_name=demofds&address_1=testting%20demodff&city=knp&state=uttar&postcode=208019&country=in&email=shivani%40techindiasoftware.com&phone=9807000990&product_ids[]=2410&quantities[]=4&product_ids[]=496&quantities[]=3&payment_method=bacs&payment_method_title=&set_paid=true&user_id=1";
+    var user_id="251";
+    var url= "https://websitedemoonline.com/iytastaging/create_order.php?first_name='$firstname'&last_name='$last_name'&address_1='$address_1'&address_2='$address_2'&city='$city'&state='$state'&postcode='$postcode'&country='$country'&email='$email'&phone='$phone'&product_data='$product_id'&quantity='$quantity'&payment_method='$payment_method'&payment_method_title='$payment_method_title'&set_paid='$set_paid'&user_id='$user_id";
+    //var url="https://websitedemoonline.com/iytastaging/create_order.php?product_data=[2410,469]&user_id=1&first_name=fdsfdsf&last_name=dfdfdsf&address_1=123 Main St&city=New york&state=ny&postcode=10001&country=us&email=abc@gmail.com&phone=123456789&quantity=[3,4]";
     print("url"+url.toString());
-    final response = await http.get(Uri.parse(url), headers: <String, String>{
+    final response = await http.get(Uri.parse(url),
+      headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },);
       print("response"+response.body.toString());
@@ -57,4 +59,5 @@ class CheckOutController extends GetxController {
         throw Exception('Failed to load album');
      }
   }
+
 }

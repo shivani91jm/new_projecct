@@ -63,7 +63,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     padding:  EdgeInsets.fromLTRB(10,0,10,0),
                     child: CustomButton(onPressed: (){
                     }, title: AppConstentData.addtocart,
-                        colors:GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false,),
+                        colors:GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false.obs,),
                   ),
                 ],
               ),

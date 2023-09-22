@@ -21,7 +21,9 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor:GradientHelper.getColorFromHex(AppColors.RED_COLOR) ,
+      ),
      bottomNavigationBar: Padding(
        padding: const EdgeInsets.fromLTRB(10,10,10,20),
        child: Container(
@@ -35,7 +37,7 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
          var shopUrl=   prefs.getString('shopUrl');
            print("shop url"+shopUrl.toString()+"shop consumer key"+shopConsumerKey.toString()+"shop consumer secrete"+ShopConsumerScreate.toString());
            }, title: AppConstentData.continues,
-           colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: false,
+           colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: false.obs,
          ),
        ),
      ),

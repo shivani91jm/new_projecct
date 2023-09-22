@@ -34,6 +34,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
         title: GestureDetector(
           onTap: () async{},
           child: Row(
@@ -173,8 +174,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                             Navigator.pushNamed(context,RouteNames.delivery_screen,arguments: {
                               "page_flag":"2"
                             });
-
-                          },
+                            },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

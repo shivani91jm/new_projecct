@@ -4,34 +4,36 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
-
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/LoginController.dart';
 import 'package:new_projecct/services/google_singin.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
-
 class LoginPage extends StatefulWidget {
-   LoginPage({super.key});
-   @override
+  LoginPage({super.key});
+
+  @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-   LoginController controller=Get.put(LoginController());
-   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-   @override
+  TextEditingController emailController=TextEditingController();
+  TextEditingController passwordController=TextEditingController();
+  LoginController controller=Get.put(LoginController());
+  final formKey = GlobalKey<FormState>();
+  @override
   Widget build(BuildContext context) {
     LinearGradient gradient = GradientHelper.getGradientFromStringColor(AppColors.RED_COLOR,AppColors.Red_drak_COLOR);
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: GradientHelper.getColorFromHex(AppColors.Red_drak_COLOR),
         actions: [
           GestureDetector(
             onTap: () async{
               Navigator.pushReplacementNamed(context, RouteNames.dashboard_screen);
-              },
+            },
             child: Container(
               width: MediaQuery.of(context).size.width,
               decoration:  BoxDecoration(
@@ -97,42 +99,55 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         children: [
                           TextInputFields(
-                            controller: controller.emailController,
+                            controller: emailController,
                             hintText: AppConstentData.Email,
                             labelText:  AppConstentData.Email, isHint: false,
                             nmber: TextInputType.emailAddress,
                             bordercolors: AppColors.whiteColors,
-                            textcolors: AppColors.whiteColors, validator: (value) {
-                              controller.validateEmail(value);
-                          },),
+                            textcolors: AppColors.whiteColors,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Enter email';
+                              } else if(!value.contains("@")){
+                                return "Enter valid email";
+                              }
+                              else{
+                                return null;
+                              }
+                            },),
                           SizedBox(
                             height: 20,
                           ),
                           TextInputFields(
-                            controller: controller.passwordController,
+                            controller: passwordController,
                             hintText: AppConstentData.Password,
                             labelText:  AppConstentData.Password, isHint: true,
                             nmber: TextInputType.visiblePassword,
                             bordercolors: AppColors.whiteColors,
                             textcolors: AppColors.whiteColors, validator: (value ) {
-                            controller.validatePassword(value);
+                            if (value.toString().length < 3) {
+                              return 'Password should be longer or equal to 3 characters'
+                                  .tr;
+                            } else {
+                              return null;
+                            }
                           },
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                         Obx(() =>  CustomButton(
-                           onPressed: () {
-                            if(formKey.currentState!.validate()){
-                              var email=controller.emailController.text;
-                              var password=controller.passwordController.text;
-                              controller.loginApi(email, password);
-                            }
+                          Obx(() =>  CustomButton(
+                            onPressed: () {
+                              if(formKey.currentState!.validate()){
+                                var email=emailController.text;
+                                var password=passwordController.text;
+                                controller.loginApi(email, password);
+                              }
 
                             }, title: controller.loading.value?"Login": AppConstentData.Login,
-                           colors:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                           isLoading: controller.loading.value,
-                         ),),
+                            colors:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                            isLoading: controller.loading,
+                          ),),
                           GestureDetector(
                             onTap: () async {
                               Navigator.pushNamed(context, RouteNames.forgetpassword_screen);
@@ -171,6 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(1.0),
                                     child: CircleAvatar(
+                                      backgroundColor: AppColors.whiteColors,
                                       child: Image.asset(
                                           height: 20,
                                           width: 20,
@@ -194,6 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(1.0),
                                   child: CircleAvatar(
+                                    backgroundColor: AppColors.whiteColors,
                                     child: Image.asset(
                                         height: 20,
                                         width: 20,
@@ -210,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                           GestureDetector(
                             onTap: () async{
                               Navigator.pushNamed(context!,RouteNames.registration_screen);
-                              },
+                            },
                             child: Container(
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -250,14 +267,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 
-   bool isValidEmail(String email) {
-     final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
-     return email.isNotEmpty && email.contains('@');
-   }
+  bool isValidEmail(String email) {
+    final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+    return email.isNotEmpty && email.contains('@');
+  }
 
-   // Function to validate password
-   bool isValidPassword(String password) {
+  // Function to validate password
+  bool isValidPassword(String password) {
 
-     return password.length >= 6;
-   }
+    return password.length >= 6;
+  }
 }

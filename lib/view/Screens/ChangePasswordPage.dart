@@ -16,6 +16,9 @@ class ChangePassword extends StatefulWidget {
 class _ChangePasswordState extends State<ChangePassword> {
   ForgetPasswordController controller=Get.put(ForgetPasswordController());
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController passwordController=TextEditingController();
+  TextEditingController confirmPassController=TextEditingController();
+
   var email="";
   @override
   Widget build(BuildContext context) {
@@ -47,11 +50,24 @@ class _ChangePasswordState extends State<ChangePassword> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextInputFields(
-                            controller: controller.passwordController,
+                            controller: passwordController,
                             hintText: AppConstentData.Password,
-                            labelText:  AppConstentData.Password, isHint: true,
+                            labelText:  AppConstentData.Password,
+                            isHint: true,
                             nmber: TextInputType.visiblePassword,
-                            validator: controller.validateEmail,
+                            validator: (value){
+                              if(value!.isEmpty) {
+                                return 'Enter Confirm  Password';
+                              }
+                              else if(value.toString().length<3)
+                              {
+                                return 'Password should be longer or equal to 3 characters';
+                              }
+                              else
+                                {
+                                  return null;
+                                }
+                            },
                             bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                             textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                           ),
@@ -60,11 +76,28 @@ class _ChangePasswordState extends State<ChangePassword> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextInputFields(
-                            controller: controller.confirmPassController,
+                            controller: confirmPassController,
                             hintText: AppConstentData.ConPassword,
                             labelText:  AppConstentData.ConPassword, isHint: true,
                             nmber: TextInputType.visiblePassword,
-                            validator: controller.validateConfirmPassword,
+                            validator: (value)
+                            {
+                              if(value!.isEmpty) {
+                                return 'Enter Confirm  Password';
+                              }
+                              else if(value.toString().length<3)
+                                {
+                                  return 'Password should be longer or equal to 3 characters';
+                                }
+                              else if(value.toString()!=passwordController.text)
+                                {
+                                  return 'Password not matched';
+                                }
+                              else
+                                {
+                                  return null;
+                                }
+                            },
                             bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                             textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                           ),
@@ -79,11 +112,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                               padding: const EdgeInsets.fromLTRB(8.0,0.0,8.0,0.0),
                               child: Obx(() => CustomButton(
                                 onPressed: () {
-                                  controller.changePassword(email);
+                                  String text=confirmPassController.text;
+                                  controller.changePassword(email,text);
                                 },
                                 title: AppConstentData.changePassword,
                                 colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                isLoading: controller.loading.value,
+                                isLoading: controller.loading,
                               ),)
                           ),
                         ),

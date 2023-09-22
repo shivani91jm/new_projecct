@@ -4,18 +4,16 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
-import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
-import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
 import 'package:new_projecct/database/db_helper.dart';
 import 'package:new_projecct/model/ProductModel/ProductModelClass.dart';
 import 'package:new_projecct/view/Widgets/CartProductIncrementandDecrement.dart';
 import 'package:new_projecct/view/Widgets/CartProductTotalPrice.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
+import 'package:new_projecct/view/Widgets/DividerWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
-
 class AddToCartPage extends StatefulWidget {
   const AddToCartPage({super.key});
   @override
@@ -23,6 +21,9 @@ class AddToCartPage extends StatefulWidget {
 }
 class _AddToCartPageState extends State<AddToCartPage> {
   DatabaseHelper? dbHelper = DatabaseHelper();
+  var totalTax;
+  var gradtotal;
+
   @override
   void initState() {
     super.initState();
@@ -70,30 +71,59 @@ class _AddToCartPageState extends State<AddToCartPage> {
             print("data"+element.productPrice.toString());
             print("quqnity"+element.quantity.toString());
             print("total price"+totalPrice.value.toString());
+           totalTax= ((element.productPrice! * double.parse(element.quantity!.value.toString())) + (totalPrice.value ?? 0))*7.00/100;
             totalPrice.value = ((element.productPrice! * double.parse(element.quantity!.value.toString())) + (totalPrice.value ?? 0));
+            gradtotal=totalTax+totalPrice.value;
           }
+
+
+          print("value"+totalTax.toString());
           return Container(
-            height: 140,
+            height: 400,
+            color: Colors.grey[100],
             child: Column(
               children: [
                 ValueListenableBuilder<double?>(
                     valueListenable: totalPrice,
                     builder: (context, val, child) {
                       return CartProductTotalPrice(
-                          title: AppConstentData.totalPrice,
+                          title: "Sub Total",
+                          value:   (val?.toStringAsFixed(2) ?? '0'));
+                    }),
+                DividerWidgets(),
+                ValueListenableBuilder<double?>(
+                    valueListenable: ValueNotifier(totalTax),
+                    builder: (context, val, child) {
+                      return CartProductTotalPrice(
+                          title: "Tax",
+                          value:   (val?.toStringAsFixed(2) ?? '0'));
+                    }),
+                DividerWidgets(),
+                ValueListenableBuilder<double?>(
+                    valueListenable: ValueNotifier(gradtotal),
+                    builder: (context, val, child) {
+                      return CartProductTotalPrice(
+                          title: "Total",
                           value:   (val?.toStringAsFixed(2) ?? '0'));
                     }),
                 Padding(
                   padding:  EdgeInsets.fromLTRB(10,0,10,0),
-                  child: CustomButton(onPressed: (){
-                  }, title: AppConstentData.continues,
-                      colors:GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR), isLoading: false,),
+                  child: CustomButton(
+                    onPressed: () async{
+                      Navigator.pushNamed(context, RouteNames.checkout_screen,arguments: {
+                        "page_id":"1",
+                      });
+                    },
+                    title: AppConstentData.continues,
+                      colors:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                    isLoading: false.obs,),
                 ),
               ],
             ),
           );
         }),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Consumer<CartProvider>(
@@ -107,118 +137,118 @@ class _AddToCartPageState extends State<AddToCartPage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
                         ));
                   }
-                else
+                  else
                   {
-                    return  ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      physics:NeverScrollableScrollPhysics(),
-                      itemCount:provider.cart.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          elevation: AppSizeClass.maxSize10,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(5.0,2.0,5.0,5.0),
-                                child: Card(
-                                  elevation: AppSizeClass.maxSize3,
-                                  clipBehavior: Clip.hardEdge,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  child: Container(
-                                    width: 100,
-                                    child: Image.network(provider.cart[index].image!),
+                    return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        physics:NeverScrollableScrollPhysics(),
+                        itemCount:provider.cart.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index)
+                         {
+                            return Card(
+                            elevation: AppSizeClass.maxSize10,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(5.0,2.0,5.0,5.0),
+                                  child: Card(
+                                    elevation: AppSizeClass.maxSize3,
+                                    clipBehavior: Clip.hardEdge,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                    child: Container(
+                                      width: 100,
+                                      child: Image.network(provider.cart[index].image!),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 200,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                  Container(
-                                      child: Text(""+provider.cart[index].productName.toString(),style: TextStyle(
-                                          color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                                          fontFamily: "NotoSerif",
-                                          fontSize: AppSizeClass.maxSize18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        )),
-                                    Row(
-                                      children: [
-                                        ValueListenableBuilder<int>(
-                                            valueListenable: provider.cart[index].quantity!,
-                                            builder: (context, val, child) {
-                                              return CartProductIncreAndDecre(
-                                                addQuantity: () {
-                                                  cart.addQuantity(provider.cart[index].id!);
-                                                  dbHelper!.updateQuantity(CartModelClass(
-                                                      id:provider.cart[index].id!,
-                                                      productId:  provider.cart[index].productId!.toString(),
-                                                      productName: provider.cart[index].productName,
-                                                      initilPrice: provider.cart[index].initilPrice,
-                                                      productPrice: provider.cart[index].productPrice,
-                                                      quantity: ValueNotifier(provider.cart[index].quantity!.value),
-                                                      image: provider.cart[index].image, productDetails: 'ghfhhfdg'))
-                                                      .then((value) {
-                                                    setState(() {
-                                                      cart.addTotalPrice(double.parse(provider.cart[index].productPrice.toString()));
+                                SizedBox(
+                                  width: 200,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                    Container(
+                                        child: Text(""+provider.cart[index].productName.toString(),style: TextStyle(
+                                            color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                                            fontFamily: "NotoSerif",
+                                            fontSize: AppSizeClass.maxSize18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          )),
+                                      Row(
+                                        children: [
+                                          ValueListenableBuilder<int>(
+                                              valueListenable: provider.cart[index].quantity!,
+                                              builder: (context, val, child) {
+                                                return CartProductIncreAndDecre(
+                                                  addQuantity: () {
+                                                    cart.addQuantity(provider.cart[index].id!);
+                                                    dbHelper!.updateQuantity(CartModelClass(
+                                                        id:provider.cart[index].id!,
+                                                        productId:  provider.cart[index].productId!.toString(),
+                                                        productName: provider.cart[index].productName,
+                                                        initilPrice: provider.cart[index].initilPrice,
+                                                        productPrice: provider.cart[index].productPrice,
+                                                        quantity: ValueNotifier(provider.cart[index].quantity!.value),
+                                                        image: provider.cart[index].image, productDetails: 'ghfhhfdg'))
+                                                        .then((value) {
+                                                      setState(() {
+                                                        cart.addTotalPrice(double.parse(provider.cart[index].productPrice.toString()));
+                                                      });
                                                     });
-                                                  });
-                                                },
-                                                deleteQuantity: () {
-                                                  cart.deleteQuantity(
-                                                      provider.cart[index].id!);
-                                                  cart.removeTotalPrice(double.parse(
-                                                      provider.cart[index].productPrice
-                                                          .toString()));
-                                                },
-                                                text: val.toString(),
-                                                color: GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR),
-                                              );
-                                            }),
-                                        RichText(
-                                          maxLines: 1,
-                                          text: TextSpan(
-                                              text: '' r"$",
-                                              style: TextStyle(
-                                                  color: Colors.blueGrey.shade800,
-                                                  fontSize: 16.0),
-                                              children: [
-                                                TextSpan(
-                                                    text:
-                                                    '${provider.cart[index].productPrice!}\n',
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                        FontWeight.bold)),
-                                              ]),
-                                        ),
-                                      ],
-                                    ),
-                                    IconButton(
-                                        onPressed: () {
-                                          dbHelper!.deleteCartItem(provider.cart[index].id!);
-                                          provider.removeItem(provider.cart[index].id!);
-                                          provider.removeCounter();
-                                        },
-                                        icon: Icon(
-                                          Icons.delete,
-                                          color: Colors.red.shade800,
-                                        )
-                                    ),
+                                                  },
+                                                  deleteQuantity: () {
+                                                    cart.deleteQuantity(
+                                                        provider.cart[index].id!);
+                                                    cart.removeTotalPrice(double.parse(
+                                                        provider.cart[index].productPrice
+                                                            .toString()));
+                                                  },
+                                                  text: val.toString(),
+                                                  color: GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR),
+                                                );
+                                              }),
+                                          RichText(
+                                            maxLines: 1,
+                                            text: TextSpan(
+                                                text: '' r"$",
+                                                style: TextStyle(
+                                                    color: Colors.blueGrey.shade800,
+                                                    fontSize: 16.0),
+                                                children: [
+                                                  TextSpan(
+                                                      text:
+                                                      '${provider.cart[index].productPrice!}\n',
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                          FontWeight.bold)),
+                                                ]),
+                                          ),
+                                        ],
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            dbHelper!.deleteCartItem(provider.cart[index].id!);
+                                            provider.removeItem(provider.cart[index].id!);
+                                            provider.removeCounter();
+                                          },
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Colors.red.shade800,
+                                          )
+                                      ),
 
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-
-                      },
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                          },
                     );
                   }
               },

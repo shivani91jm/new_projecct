@@ -9,9 +9,7 @@ class ImageSliderItem  extends StatelessWidget {
   final String address;
   HomeController controller;
   int currentPage;
-  
   ImageSliderItem({required this.imagePath,required this.address,required this.controller,required this.currentPage});
-
   @override
   Widget build(BuildContext context) {
     return Stack(

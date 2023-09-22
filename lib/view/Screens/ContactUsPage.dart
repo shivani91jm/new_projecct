@@ -9,7 +9,6 @@ import 'package:new_projecct/view/Widgets/AppDetailsPage.dart';
 import 'package:new_projecct/view/Widgets/CoustomAppBar.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
-
 class ConatctUsPage extends StatefulWidget {
   const ConatctUsPage({super.key});
   @override
@@ -19,6 +18,9 @@ class ConatctUsPage extends StatefulWidget {
 class _ConatctUsPageState extends State<ConatctUsPage> {
   ContactUsController controller =Get.put(ContactUsController());
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController nameController=TextEditingController();
+  TextEditingController emailController =TextEditingController();
+  TextEditingController megController =TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,7 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
           children: [
             //---------------app bar--------------
             CustomAppBar(text: AppConstentData.contactUu, height: 300, flag: true,),
-            //-------------------body conatiner-----------------
+            //-------------------body contaner -----------------
             Container(
               margin: EdgeInsets.all(10),
               child: Padding(
@@ -55,11 +57,18 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
                       ),
                       //--------------------name controller --------------------
                       TextInputFields(
-                        controller: controller.nameController,
+                        controller: nameController,
                         hintText: AppConstentData.UserName,
                         labelText:  AppConstentData.UserName, isHint: false,
                         nmber: TextInputType.text,
-                        validator: controller.validateName,
+                        validator: (value){
+                          if (value!.isEmpty) {
+                            return 'Enter Username';
+                          }
+                          else{
+                            return null;
+                          }
+                        },
                         bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                         textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                       ),
@@ -68,11 +77,20 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
                       ),
                       //--------------email ----------------
                       TextInputFields(
-                        controller: controller.emailController,
+                        controller: emailController,
                         hintText: AppConstentData.entermsg,
                         labelText:  AppConstentData.entermsg, isHint: false,
                         nmber: TextInputType.emailAddress,
-                        validator: controller.validateEmail,
+                        validator: (value){
+                          if (value!.isEmpty) {
+                            return 'Enter email';
+                          } else if(!value.contains("@")){
+                            return "Enter valid email";
+                          }
+                          else{
+                            return null;
+                          }
+                        },
                         bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                         textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                       ),
@@ -81,11 +99,18 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
                       ),
                       //----------------------Meg controller ---------------------
                       TextInputFields(
-                        controller: controller.megController,
+                        controller: megController,
                         hintText: AppConstentData.entermsg,
                         labelText:  AppConstentData.entermsg, isHint: false,
                         nmber: TextInputType.text,
-                        validator: controller.validateMessage,
+                        validator: (value){
+                          if (value!.isEmpty) {
+                            return 'Enter any query';
+                          }
+                          else{
+                            return null;
+                          }
+                        },
                         bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                         textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                       ),
@@ -97,12 +122,15 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
                         {
                           if(formKey.currentState!.validate())
                             {
-                              controller.submitContactDetails();
+                              String name=nameController.text;
+                              String email=emailController.text;
+                              String subject=megController.text;
+                              controller.submitContactDetails(name,email,subject);
                             }
                         },
                         title: AppConstentData.submit,
                         colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                        isLoading: false,
+                        isLoading: false.obs,
                       )
 
                     ],

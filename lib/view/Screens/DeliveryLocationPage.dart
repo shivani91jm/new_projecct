@@ -47,6 +47,7 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
           centerTitle: true,
           title: Text("Choose delivery location",style: TextStyle(
               color:AppColors.blackColors,
@@ -57,7 +58,10 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
         ),
         bottomNavigationBar:Obx(() =>  Container(
             height: 200,
-            child: SetDeliveryLocation(controller: controller, contexts: context, currentLocaion: controller.addressController.toString(), page_flag: page_type,))),
+            child: SetDeliveryLocation(controller: controller,
+              contexts: context,
+              currentLocaion: controller.addressController.toString(),
+              page_flag: page_type,))),
         body: _buildBody(),
         floatingActionButton: FloatingActionButton(onPressed: (){
           _gotoCurrentPostion();

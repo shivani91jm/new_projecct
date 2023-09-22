@@ -135,7 +135,7 @@ class CompleteAddressPage extends StatelessWidget {
                       controller.saveLocation();
                   },
                     title: AppConstentData.saveadd,
-                      colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: false,),
+                      colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: false.obs,),
                   // Add more list items here
                   SizedBox(
                     height: 20,

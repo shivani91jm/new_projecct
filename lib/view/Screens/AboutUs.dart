@@ -50,6 +50,9 @@ class _AboutUsPageState extends State<AboutUsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+        ),
         body:   Stack(
           children: <Widget>[
             WebViewWidget(controller: controller!,),

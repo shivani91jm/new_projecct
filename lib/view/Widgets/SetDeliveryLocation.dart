@@ -65,7 +65,7 @@ class SetDeliveryLocation extends StatelessWidget {
                     },
 
                     title: AppConstentData.confirmLocation,
-                    colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false,
+                    colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false.obs,
                   )
                 }
                 else...
@@ -77,7 +77,7 @@ class SetDeliveryLocation extends StatelessWidget {
                       },
 
                       title: AppConstentData.entercompleteadd,
-                      colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false,
+                      colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false.obs,
                     )
                   }
 

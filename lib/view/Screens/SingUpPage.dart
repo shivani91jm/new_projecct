@@ -13,7 +13,6 @@ import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
 class SingUpPage extends StatefulWidget {
   SingUpPage({super.key});
-
   @override
   State<SingUpPage> createState() => _SingUpPageState();
 }
@@ -22,8 +21,12 @@ class _SingUpPageState extends State<SingUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? _currentAddress;
   Position? _currentPosition;
-
-@override
+  TextEditingController emailController=TextEditingController();
+  TextEditingController passwordController=TextEditingController();
+  TextEditingController usernameController=TextEditingController();
+  TextEditingController mobileController=TextEditingController();
+  TextEditingController addressController=TextEditingController();
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -78,11 +81,18 @@ class _SingUpPageState extends State<SingUpPage> {
                           children: [
                             //-----------------username----------------
                             TextInputFields(
-                              controller: controller.usernameController,
+                              controller: usernameController,
                               hintText: AppConstentData.UserName,
                               labelText:  AppConstentData.UserName, isHint: false,
                               nmber: TextInputType.text,
-                              validator: controller.validateUserName,
+                             validator: (value){
+                               if (value!.isEmpty) {
+                                 return 'Enter User Name';
+                               }
+                              else {
+                                 return null;
+                               }
+                             },
                               bordercolors: AppColors.whiteColors, textcolors: AppColors.whiteColors,
                             ),
                             SizedBox(
@@ -90,11 +100,21 @@ class _SingUpPageState extends State<SingUpPage> {
                             ),
                             //----------------email ---------------------
                             TextInputFields(
-                              controller: controller.emailController,
+                              controller: emailController,
                               hintText: AppConstentData.Email,
                               labelText:  AppConstentData.Email, isHint: false,
                               nmber: TextInputType.emailAddress,
-                              validator: controller.validateEmail,
+                              validator: (value){
+                                if (value!.isEmpty) {
+                                  return 'Enter Email';
+                                }
+                                else if(!value.contains("@")){
+                                  return "Enter valid email";
+                                }
+                                else{
+                                  return null;
+                                }
+                              },
                               bordercolors: AppColors.whiteColors, textcolors: AppColors.whiteColors,
                             ),
                             SizedBox(
@@ -102,11 +122,23 @@ class _SingUpPageState extends State<SingUpPage> {
                             ),
                             //----------------------password ------------------------
                             TextInputFields(
-                              controller: controller.passwordController,
+                              controller: passwordController,
                               hintText: AppConstentData.Password,
                               labelText:  AppConstentData.Password, isHint: true,
                               nmber: TextInputType.visiblePassword,
-                              validator: controller.validatePassword,
+                              validator: (value){
+                                if (value!.isEmpty) {
+                                  return 'Enter Password';
+                                }
+                                if (value.toString().length < 3) {
+                                  return 'Password should be longer or equal to 3 characters'
+                                      .tr;
+                                } else {
+                                  return null;
+                                }
+
+
+                              },
                               bordercolors: AppColors.whiteColors, textcolors: AppColors.whiteColors,
                             ),
                             SizedBox(
@@ -114,11 +146,21 @@ class _SingUpPageState extends State<SingUpPage> {
                             ),
                             //-----------------mobile number------------------
                             TextInputFields(
-                              controller: controller.mobileController,
+                              controller: mobileController,
                               hintText: AppConstentData.Moboile,
                               labelText:  AppConstentData.Moboile, isHint: false,
                               nmber: TextInputType.phone,
-                              validator: controller.validateMobile,
+                              validator: (value){
+                                if (value!.isEmpty) {
+                                  return 'Enter Mobile';
+                                }
+                                else if(value.toString().length!=12)
+                                  {
+                                    return 'Enter only 12 digit';
+                                  }
+
+                                return null;
+                              },
                               bordercolors: AppColors.whiteColors, textcolors: AppColors.whiteColors,
                             ),
                             SizedBox(
@@ -126,11 +168,16 @@ class _SingUpPageState extends State<SingUpPage> {
                             ),
                             //---------------------address controller-----------
                             TextInputFields(
-                              controller: controller.addressController,
+                              controller: addressController,
                               hintText: AppConstentData.address,
                               labelText:  AppConstentData.address, isHint: false,
                               nmber: TextInputType.text,
-                              validator: controller.validateAddress,
+                              validator: (value){
+
+
+
+                                return null;
+                              },
                               bordercolors: AppColors.whiteColors, textcolors: AppColors.whiteColors,
                             ),
                             SizedBox(
@@ -139,15 +186,15 @@ class _SingUpPageState extends State<SingUpPage> {
                             Obx(() =>   CustomButton(
                               onPressed: () async{
                                 if (_formKey.currentState!.validate()) {
-                                  var username=controller.usernameController.text;
-                                  var email=controller.emailController.text;
-                                  var password=controller.passwordController.text;
-                                  var mobile=controller.mobileController.text;
-                                  var add= controller.addressController.text;
+                                  var username=usernameController.text;
+                                  var email=emailController.text;
+                                  var password=passwordController.text;
+                                  var mobile=mobileController.text;
+                                  var add= addressController.text;
                                     controller.singUpApi(username,email,password,mobile,add);
                                 }
                                 }, title: controller.loading.value?"SignUp": AppConstentData.SignUp,
-                              colors:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: controller.loading.value,
+                              colors:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: controller.loading,
                             ),),
                             SizedBox(
                               height: 20,
@@ -156,7 +203,11 @@ class _SingUpPageState extends State<SingUpPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
+                              GestureDetector(
+                                onTap:(){
+
+                                },
+                                child:   Container(
                                   decoration:  BoxDecoration(
                                     color: AppColors.whiteColors,
                                     borderRadius: BorderRadius.circular(25),
@@ -168,6 +219,7 @@ class _SingUpPageState extends State<SingUpPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(1.0),
                                     child: CircleAvatar(
+                                      backgroundColor: AppColors.whiteColors,
                                       child: Image.asset(
                                           height: 20,
                                           width: 20,
@@ -176,6 +228,7 @@ class _SingUpPageState extends State<SingUpPage> {
                                     ),
                                   ),
                                 ),
+                              ),
                                 SizedBox(
                                   width: 20,
                                 ),
@@ -191,6 +244,7 @@ class _SingUpPageState extends State<SingUpPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(1.0),
                                     child: CircleAvatar(
+                                      backgroundColor: AppColors.whiteColors,
                                       child: Image.asset(
                                           height: 20,
                                           width: 20,
@@ -290,7 +344,7 @@ class _SingUpPageState extends State<SingUpPage> {
       Placemark place = placemarks[0];
       print("address"+place.toString());
       setState(() {
-        controller.addressController.text = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
+        addressController.text = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
         print("address"+_currentAddress.toString());
       });
     }).catchError((e) {

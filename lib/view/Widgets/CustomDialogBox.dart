@@ -65,7 +65,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       alignment: Alignment.bottomRight,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            elevation: 0 // Background color
+                            elevation: 0,
+                          backgroundColor: AppColors.whiteColors// Background color
                         ),
                         onPressed: () {
                           Navigator.pop(context,"");
@@ -82,7 +83,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       alignment: Alignment.bottomRight,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          elevation: 0 // Background color
+                          elevation: 0,
+                          backgroundColor: AppColors.whiteColors// Background color
                         ),
                         onPressed: () async {
                             Navigator.pop(context,"");

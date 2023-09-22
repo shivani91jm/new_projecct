@@ -115,7 +115,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                             onPressed: () async{},
                             title: AppConstentData.updateProfile,
                             colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                            isLoading: false)
+                            isLoading: false.obs)
                       ],
                     ),
                   )

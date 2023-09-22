@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
@@ -7,7 +8,7 @@ class CustomButton extends StatelessWidget {
   final GestureTapCallback onPressed;
   Color? colors;
   String? title;
- final  bool isLoading;
+ final  RxBool isLoading;
  CustomButton({Key?key,required this.onPressed,required this.title,required this.colors,required this.isLoading}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class CustomButton extends StatelessWidget {
               alignment: Alignment.center,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8.0,2.0,8.0,2.0),
-                child: isLoading? Container(
+                child: isLoading.value? Container(
                   height: 20,
                   width: 20,
                   child: Center(
@@ -44,7 +45,7 @@ class CustomButton extends StatelessWidget {
           ],
         ),
       ),
-      onPressed: isLoading ? null : onPressed,
+      onPressed: isLoading .value? null : onPressed,
       shape: const StadiumBorder(),
     );
   }

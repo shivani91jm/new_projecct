@@ -13,6 +13,8 @@ class CartProvider with ChangeNotifier {
   int get quantity=> _quantity;
   List<CartModelClass> cart = [];
   List<CartModelClass>  get carts => cart;
+  int _totalTex=0;
+  int get totalTax=>_totalTex;
   Future<List<CartModelClass>> getData() async {
     cart = await dbHelper.getCartList();
     notifyListeners();

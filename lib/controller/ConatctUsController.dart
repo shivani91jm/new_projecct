@@ -8,19 +8,17 @@ import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/model/ContactUs/ContactUsModel.dart';
 
 class ContactUsController extends GetxController {
-  TextEditingController nameController=TextEditingController();
-  TextEditingController emailController =TextEditingController();
-  TextEditingController megController =TextEditingController();
+
   RxBool  loading=false.obs;
   BuildContext? context=Get.context;
-  void submitContactDetails() async{
+  void submitContactDetails(String name,String email,String subject) async{
     loading.value=true;
     var urls="https://palrancho.co/wp-json/custom-contact-form/v1/submit?";
     print("url is location"+urls);
     var body=jsonEncode(<String, String>{
-      'name': nameController.text,
-      'email': emailController.text,
-      'subject': megController.text
+      'name': name,
+      'email': email,
+      'subject': subject
     });
     print("body"+body.toString());
     final response = await http.post(Uri.parse(urls),
