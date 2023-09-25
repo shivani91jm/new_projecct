@@ -4,10 +4,7 @@ import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class DeliveryLocationController extends GetxController{
-  TextEditingController flatController=TextEditingController();
-  TextEditingController areaController=TextEditingController();
-  TextEditingController nerarByController=TextEditingController();
-  TextEditingController houseNoController=TextEditingController();
+
    TextEditingController selectLocationController=TextEditingController();
   var selectedValue = ''.obs;
   var latitude=''.obs;
@@ -20,19 +17,7 @@ class DeliveryLocationController extends GetxController{
   }
   //-------------------save address----------------------
   void saveLocation() async {
-    if(formKey.currentState!.validate())
-      {
-        var flatno=flatController.text;
-        var area=areaController.text;
-        var nearby=nerarByController.text;
-        var houseno=houseNoController.text;
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString('type',typeAreaLikeHome.value);
-        prefs.setString("flat", flatno);
-        prefs.setString("area", area);
-        prefs.setString("houseno", houseno);
-        prefs.setString("nearby", nearby);
-      }
+
 
   }
 //-----------------select current location --------------------------------
@@ -45,15 +30,17 @@ class DeliveryLocationController extends GetxController{
     if (value!.isEmpty) {
       return CommonUtilsClass.toastMessage("" + AppConstentData.flathouseno);
     }
-
-    return null;
+    else {
+      return null;
+    }
   }
   String? validateArea(String? value) {
     if (value!.isEmpty) {
       return CommonUtilsClass.toastMessage("" + AppConstentData.areasectorlocatity);
     }
-
-    return null;
+    else {
+      return null;
+    }
   }
   String? validateNearBy(String? value) {
     return null;

@@ -18,7 +18,6 @@ class _ChangePasswordState extends State<ChangePassword> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController passwordController=TextEditingController();
   TextEditingController confirmPassController=TextEditingController();
-
   var email="";
   @override
   Widget build(BuildContext context) {
@@ -69,7 +68,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 }
                             },
                             bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                            textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                            textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), enable: true,
                           ),
                         ),
                         //----------------- confirm password------------
@@ -98,6 +97,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   return null;
                                 }
                             },
+                            enable: true,
                             bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                             textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                           ),

@@ -10,6 +10,7 @@ final String labelText;
  final String? Function(String?) validator;
  Color? bordercolors;
  Color? textcolors;
+ final bool enable;
 
  TextInputFields({Key?key,
     required this.controller,
@@ -19,7 +20,7 @@ final String labelText;
     required this.nmber,
     required this.validator,
    required  this.bordercolors,
-   required this.textcolors
+   required this.textcolors,required this.enable
   }) : super(key: key);
 
   @override
@@ -38,7 +39,7 @@ final String labelText;
       cursorColor: textcolors,
       decoration: InputDecoration(
         filled: false,
-
+        enabled: enable,
         contentPadding: EdgeInsets.only(left: 11, right: 3, top: 12, bottom: 12),
       //  contentPadding: EdgeInsets.symmetric(vertical: 8.0),
         hintText: hintText,

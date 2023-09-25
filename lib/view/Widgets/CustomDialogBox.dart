@@ -93,9 +93,6 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                           TextStyle(fontSize: 18,
                              fontWeight: FontWeight.bold,
                               color:   GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR)),),
-
-
-
                       ),
                     ),
                   ],

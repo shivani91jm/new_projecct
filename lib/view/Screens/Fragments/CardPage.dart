@@ -14,6 +14,7 @@ import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/DividerWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:shared_preferences/shared_preferences.dart';
 class AddToCartPage extends StatefulWidget {
   const AddToCartPage({super.key});
   @override
@@ -106,10 +107,21 @@ class _AddToCartPageState extends State<AddToCartPage> {
                 Padding(
                   padding:  EdgeInsets.fromLTRB(10,0,10,0),
                   child: CustomButton(
-                    onPressed: () async{
-                      Navigator.pushNamed(context, RouteNames.checkout_screen,arguments: {
-                        "page_id":"1",
-                      });
+                    onPressed: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      var email=  await prefs.getString('email')?? "";
+                      print("data"+email.toString());
+                      if(email!="null" && email!="")
+                        {
+                          Navigator.pushNamed(context, RouteNames.checkout_screen,arguments: {
+                            "page_id":"1",
+                          });
+                        }
+                      else
+                        {
+                            Navigator.pushNamed(context, RouteNames.login_screen);
+                        }
+
                     },
                     title: AppConstentData.continues,
                       colors:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),

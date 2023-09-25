@@ -4,6 +4,8 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
   @override
@@ -14,7 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 3), ()=>Navigator.pushReplacementNamed(context,RouteNames.location_screen));
+    getValue();
+
   }
   @override
   Widget build(BuildContext context) {
@@ -53,6 +56,21 @@ class _SplashScreenState extends State<SplashScreen> {
     ),
       ),
     );
+  }
+
+  void getValue() async{
+    final prefs = await SharedPreferences.getInstance();
+  var email=  await prefs.getString('email')?? "";
+  print("data"+email.toString());
+  Timer(Duration(seconds: 3), (){
+      if(email!="null" && email!="")
+        {
+          Navigator.pushReplacementNamed(context,RouteNames.dashboard_screen);
+        }
+      else {
+        Navigator.pushReplacementNamed(context,RouteNames.location_screen);
+      }
+    });
   }
 }
 

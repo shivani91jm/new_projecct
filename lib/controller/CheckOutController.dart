@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/model/ContactUs/ContactUsModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckOutController extends GetxController {
   BuildContext? context=Get.context;
@@ -18,16 +19,20 @@ class CheckOutController extends GetxController {
     //checkoutOrder();
   }
   void checkoutOrder() async {
-    var firstname="shivi";
-    var last_name="singh";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   var emails=   prefs.getString('email')?? "";
+   var username = prefs.getString('username')?? "";
+   var usermobile = prefs.getString('mobile_number')?? "";
+   var firstname=username;
+    var last_name="";
     var address_1="i block ";
     var address_2="guajini ";
     var city="kanpur nagar";
     var state="utter pradesh";
     var postcode="208022";
     var country="india";
-    var email="sh@gmail.com";
-    var phone="8887885012";
+    var email=emails;
+    var phone=usermobile;
     var product_id="[2410,469]";
     var quantity="[3,5]";
     var payment_method="basic";

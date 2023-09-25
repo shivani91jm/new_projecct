@@ -8,6 +8,7 @@ import 'package:new_projecct/Utils/Urls/BaseUrlsClass.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_projecct/model/Login/LoginModelClass.dart';
 import 'package:new_projecct/view/Widgets/CustomDialogBox.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class LoginController extends GetxController {
 
   BuildContext? context=Get.context!;
@@ -26,8 +27,6 @@ class LoginController extends GetxController {
     //   return CommonUtilsClass.toastMessage("Please enter a valid email address");
     //
     //  }
-
-
 
     return null;
   }
@@ -54,15 +53,18 @@ class LoginController extends GetxController {
     print("res"+response.body.toString());
     if (response.statusCode == 200)
     {
-
       LoginModelClass data =  LoginModelClass.fromJson(jsonDecode(response.body));
-
       if(data!=null)
       {
         loading.value=false;
         CommonUtilsClass.toastMessage(data.message.toString());
-        showDialog(context: context!,
-            builder: (BuildContext context){
+
+        //------------------------store data in local ---------------------
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('email', email);
+          await prefs.setString('username', data.username.toString());
+          await prefs.setString('mobile_number', data.mobileNumber.toString());
+          showDialog(context: context!, builder: (BuildContext context){
               return  CustomDialogBox(title: AppConstentData.Login,
                 descriptions: AppConstentData.loginsucess,
                 img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
@@ -89,20 +91,6 @@ class LoginController extends GetxController {
     }
   }
 
-//  validation( GlobalKey<FormState> formKey){
-//   if (formKey.currentState!.validate()) {
-//
-//     loginApi();
-//    // Navigator.pushNamed(context!,RouteNames.location_screen);
-//   }
-// }
-
-//================== proper validate email -------------
-// bool isValidEmail(String email) {
-//   // Regular expression pattern for a basic email validation
-//   final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
-//   return emailRegex.hasMatch(email);
-// }
 
 
 

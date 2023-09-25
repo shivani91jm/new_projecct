@@ -16,7 +16,6 @@ class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
@@ -99,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         children: [
                           TextInputFields(
+                            enable: true,
                             controller: emailController,
                             hintText: AppConstentData.Email,
                             labelText:  AppConstentData.Email, isHint: false,
@@ -119,6 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                             height: 20,
                           ),
                           TextInputFields(
+                            enable: true,
                             controller: passwordController,
                             hintText: AppConstentData.Password,
                             labelText:  AppConstentData.Password, isHint: true,

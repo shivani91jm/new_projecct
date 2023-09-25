@@ -9,6 +9,7 @@ import 'package:new_projecct/controller/UpdateUserProfileController.dart';
 import 'package:new_projecct/view/Widgets/CoustomAppBar.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class UserProfileDetails extends StatefulWidget {
   const UserProfileDetails({super.key});
   @override
@@ -18,6 +19,13 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
   UpdateUserProfileController controller = Get.put(UpdateUserProfileController());
     final double coverHeight=230;
     final double circleHeight=140;
+    var email="",username="",usermobile="";
+    @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getValue();
+  }
     @override
   Widget build(BuildContext context) {
     final top =coverHeight-circleHeight/2;
@@ -46,7 +54,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                       alignment: Alignment.center,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(8.0,2.0,8.0,0.0),
-                        child: Text("User Name",
+                        child: Text(""+username,
                           style: TextStyle(
                           color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                           fontWeight: FontWeight.bold,
@@ -57,7 +65,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                     ),
                     Align(
                       alignment: Alignment.center,
-                      child: Text("user@gmail.com",
+                      child: Text(""+email,
                         style: TextStyle(
                             color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                             fontWeight: FontWeight.w300,
@@ -91,9 +99,19 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                           hintText: AppConstentData.UserName,
                           labelText:  AppConstentData.UserName, isHint: false,
                           nmber: TextInputType.text,
-                          validator: controller.validatePassword,
+                          validator: (value){
+                            if(value!.isEmpty)
+                              {
+                                return 'Username is Empty';
+                              }
+                            else
+                              {
+                                return null;
+                              }
+                          },
                           bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                           textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                          enable: true,
                         ),
                         SizedBox(
                           height: 20,
@@ -106,13 +124,31 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                           nmber: TextInputType.emailAddress,
                           validator: controller.validatePassword,
                           bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                          textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                          textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), enable: false,
+                        ),
+                        //-----------------mobile number ---------------------
+                        SizedBox(
+                          height: 20,
+                        ),
+                        //--------------email  controller ----------------
+                        TextInputFields(
+                          controller: controller.emailController,
+                          hintText: AppConstentData.entermsg,
+                          labelText:  AppConstentData.entermsg, isHint: false,
+                          nmber: TextInputType.phone,
+                            validator: (value){
+                                  return null;
+                               },
+                          bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                          textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), enable: false,
                         ),
                         SizedBox(
                           height: 30,
                         ),
                         CustomButton(
-                            onPressed: () async{},
+                            onPressed: () async{
+
+                            },
                             title: AppConstentData.updateProfile,
                             colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                             isLoading: false.obs)
@@ -181,4 +217,14 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
       ),
     );
  }
+  void getValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   setState(() {
+     email=   prefs.getString('email')?? "";
+     username = prefs.getString('username')?? "";
+     usermobile = prefs.getString('mobile_number')?? "";
+     print("data value"+email.toString()+"username"+username+"mobile"+usermobile);
+   });
+
+  }
 }

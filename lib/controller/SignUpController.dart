@@ -7,6 +7,7 @@ import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/Urls/BaseUrlsClass.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_projecct/model/Login/LoginModelClass.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class SignUpController extends GetxController{
 
   BuildContext? context=Get.context!;
@@ -85,7 +86,11 @@ class SignUpController extends GetxController{
       if(data!=null)
       {
         CommonUtilsClass.toastMessage(data.message.toString());
-         Navigator.pushNamed(context!,RouteNames.location_screen);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('email', email);
+        await prefs.setString('username', data.username.toString());
+        await prefs.setString('mobile_number', data.mobileNumber.toString());
+         Navigator.pushReplacementNamed(context!,RouteNames.dashboard_screen);
       }
     }
     else if (response.statusCode == 500) {

@@ -50,7 +50,7 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
           backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
           centerTitle: true,
           title: Text("Choose delivery location",style: TextStyle(
-              color:AppColors.blackColors,
+              color:AppColors.whiteColors,
               fontSize: AppSizeClass.maxSize20,
               fontWeight: FontWeight.bold,
               fontFamily: "NotoSerif"
@@ -58,15 +58,21 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
         ),
         bottomNavigationBar:Obx(() =>  Container(
             height: 200,
-            child: SetDeliveryLocation(controller: controller,
+            child: SetDeliveryLocation(
+              controller: controller,
               contexts: context,
               currentLocaion: controller.addressController.toString(),
-              page_flag: page_type,))),
+              page_flag: page_type
+              ,)
+             )
+        ),
         body: _buildBody(),
-        floatingActionButton: FloatingActionButton(onPressed: (){
+        floatingActionButton: FloatingActionButton(
+          backgroundColor:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+          onPressed: (){
           _gotoCurrentPostion();
         },
-        child:Icon(Icons.location_searching,color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),) ,),
+        child:Icon(Icons.location_searching,color:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR)) ,),
       ),
     );
   }

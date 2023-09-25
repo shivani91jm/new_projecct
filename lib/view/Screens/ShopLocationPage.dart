@@ -31,12 +31,9 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
            height: 50,
            child: CustomButton(onPressed: () async{
              Navigator.pushNamed(context!,RouteNames.login_screen);
-          // var   shopUrl=SessionClass.getShopUrl();
-             var shopConsumerKey=SessionClass.getShopConsumerKey();
-            var ShopConsumerScreate=SessionClass.getShopConsumerSecret();
-           SharedPreferences prefs = await SharedPreferences.getInstance();
-           var shopUrl=   prefs.getString('shopUrl');
-             print("shop url"+shopUrl.toString()+"shop consumer key"+shopConsumerKey.toString()+"shop consumer secrete"+ShopConsumerScreate.toString());
+             SharedPreferences prefs = await SharedPreferences.getInstance();
+           var shopUrl=   prefs.getString('shopUrl')?? "";
+             // print("shop url"+shopUrl.toString()+"shop consumer key"+shopConsumerKey.toString()+"shop consumer secrete"+ShopConsumerScreate.toString());
              }, title: AppConstentData.continues,
              colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: false.obs,
            ),
@@ -118,13 +115,7 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
                 prefs.setString("shop_consumer_key", consumer_key);
                 prefs.setString("shop_consumer_secrete", consumer_secrete);
                 prefs.setString("shop_name", shop_name);
-
-
                 print("choose location"+shopUrl +"shop id"+shop_name+"key"+consumer_key+"secrete"+consumer_secrete);
-                // SessionClass.addShopUrl(shopUrl);
-                // SessionClass.addShopConsumerKey(consumer_key);
-                // SessionClass.addShopConsumerSecret(consumer_secrete);
-                // SessionClass.addShopName(shop_name);
                 },
               contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
             ),),

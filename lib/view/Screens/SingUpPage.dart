@@ -81,6 +81,7 @@ class _SingUpPageState extends State<SingUpPage> {
                           children: [
                             //-----------------username----------------
                             TextInputFields(
+                              enable: true,
                               controller: usernameController,
                               hintText: AppConstentData.UserName,
                               labelText:  AppConstentData.UserName, isHint: false,
@@ -100,6 +101,7 @@ class _SingUpPageState extends State<SingUpPage> {
                             ),
                             //----------------email ---------------------
                             TextInputFields(
+                              enable: true,
                               controller: emailController,
                               hintText: AppConstentData.Email,
                               labelText:  AppConstentData.Email, isHint: false,
@@ -122,6 +124,7 @@ class _SingUpPageState extends State<SingUpPage> {
                             ),
                             //----------------------password ------------------------
                             TextInputFields(
+                              enable: true,
                               controller: passwordController,
                               hintText: AppConstentData.Password,
                               labelText:  AppConstentData.Password, isHint: true,
@@ -146,6 +149,7 @@ class _SingUpPageState extends State<SingUpPage> {
                             ),
                             //-----------------mobile number------------------
                             TextInputFields(
+                              enable: true,
                               controller: mobileController,
                               hintText: AppConstentData.Moboile,
                               labelText:  AppConstentData.Moboile, isHint: false,
@@ -168,14 +172,12 @@ class _SingUpPageState extends State<SingUpPage> {
                             ),
                             //---------------------address controller-----------
                             TextInputFields(
+                              enable: true,
                               controller: addressController,
                               hintText: AppConstentData.address,
                               labelText:  AppConstentData.address, isHint: false,
                               nmber: TextInputType.text,
                               validator: (value){
-
-
-
                                 return null;
                               },
                               bordercolors: AppColors.whiteColors, textcolors: AppColors.whiteColors,

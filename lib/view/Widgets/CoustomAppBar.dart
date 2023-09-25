@@ -27,10 +27,12 @@ class CustomAppBar extends StatelessWidget {
         clipper: BezierClipper(),
         child: Container(
           decoration: BoxDecoration(
+            color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
             image: new DecorationImage(
-              image: new ExactAssetImage(ImageUrls.contact_url),
+                image: new ExactAssetImage(ImageUrls.contact_url,),
               fit: BoxFit.cover
-            ),// Color of the curved bottom area
+            ),
+
           ),
           child: Container(
               child: Column(

@@ -88,6 +88,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextInputFields(
+                            enable: true,
                             controller: controller.editingController,
                             hintText: AppConstentData.Email,
                             labelText:  AppConstentData.Email, isHint: false,

@@ -57,6 +57,7 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
                       ),
                       //--------------------name controller --------------------
                       TextInputFields(
+                        enable: true,
                         controller: nameController,
                         hintText: AppConstentData.UserName,
                         labelText:  AppConstentData.UserName, isHint: false,
@@ -91,6 +92,7 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
                             return null;
                           }
                         },
+                        enable: true,
                         bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                         textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                       ),
@@ -112,7 +114,7 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
                           }
                         },
                         bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                        textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                        textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), enable: true,
                       ),
                       SizedBox(
                         height: 30,

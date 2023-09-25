@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
@@ -19,6 +20,22 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   final double coverHeight=230;
   final double circleHeight=140;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // You can set it back to the default color
+    ));
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+    ));
+  }
   @override
   Widget build(BuildContext context) {
     final top =coverHeight-circleHeight/2;
@@ -277,7 +294,7 @@ class _SettingPageState extends State<SettingPage> {
                     DividerWidgets(),
                     //--------------------logout container --------------------------
                     GestureDetector(
-                      onTap: (){
+                      onTap: () async{
                         DialogUtils.showCustomDialog(context,
                             title: AppConstentData.logout,
                             okBtnText: AppConstentData.ok,
@@ -317,8 +334,18 @@ class _SettingPageState extends State<SettingPage> {
                               ],
                             ),
                             IconButton(icon:Icon(Icons.logout_outlined),color: Colors.grey[400],
-                              onPressed: (){
-                                Navigator.pushNamed(context,RouteNames.aboutus_screen);
+                              onPressed: () async{
+                                DialogUtils.showCustomDialog(context,
+                                    title: AppConstentData.logout,
+                                    okBtnText: AppConstentData.ok,
+                                    cancelBtnText: AppConstentData.cancel,
+                                    okBtnFunction: () async {
+                                      GoogleSignIn _googleSignIn = GoogleSignIn();
+                                      bool isSignedIn = await _googleSignIn.isSignedIn();
+                                      _googleSignIn.signOut();
+                                      Navigator.pop(context);
+
+                                    });
                               },)
                           ],
                         ),

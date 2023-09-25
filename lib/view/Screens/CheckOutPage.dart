@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
@@ -56,11 +57,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15))),
                       child: Container(
-
-                          decoration: BoxDecoration(
-                            border: Border(
-                                left: BorderSide(color: Colors.red, width: 15)),
-                          ),
+                        decoration: BoxDecoration(
+                            border: Border(left: BorderSide(color: Colors.red, width: 15)),),
                           padding: EdgeInsets.all(5.0),
                           alignment: Alignment.centerLeft,
                         child: Row(
@@ -286,19 +284,22 @@ class _CheckOutPageState extends State<CheckOutPage> {
               ),
               if(page_flag=="1")...
                 {
-                  CustomButton(
-                      onPressed: () {
-                        PaymentDialogBox();
-                      }, title:'Select Address at next step',
+                   CustomButton(
+                      onPressed: () async {
+                          Navigator.pushNamed(context,RouteNames.delivery_screen,arguments: {
+                            "page_flag":"2"
+                          });
+                       },
+                       title:'Select Address at next step',
                       colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                       isLoading: false.obs)
                 }
                 else...
                 {
                    CustomButton(
-                      onPressed: () {
+                      onPressed: () async{
 
-                      }, title:'Select Address at next step',
+                      }, title:'Checkout',
                       colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                       isLoading: false.obs
                    )
