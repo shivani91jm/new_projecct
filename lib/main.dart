@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
     child: Builder(builder: (BuildContext context){
       return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-
         onGenerateRoute: RoutePages.generateRoute,
         initialRoute: RouteNames.splash_screen,
       );

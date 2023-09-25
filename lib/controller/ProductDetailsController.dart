@@ -13,10 +13,9 @@ class ProductDetailsController extends GetxController{
   RxList<RecentProductsDetails> recentProduct=<RecentProductsDetails>[].obs;
   @override
   void onInit() {
+    super.onInit();
     loadProduct();
     RecentProduct();
-    super.onInit();
-
 
   }
   @override
@@ -26,10 +25,10 @@ class ProductDetailsController extends GetxController{
   }
   void loadProduct() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    shopUrl= prefs.getString('shopUrl')!;
-    shopConsumerKey=prefs.getString("shop_consumer_key")!;
-    ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")!;
-    prefs.getString("shop_name");
+    // shopUrl= prefs.getString('shopUrl')!;
+    // shopConsumerKey=prefs.getString("shop_consumer_key")!;
+    // ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")!;
+    // prefs.getString("shop_name");
     var urls= "https://palrancho.co/wp-json/wc/v3/products/"+productId.value+"?consumer_key=ck_0def1385963b008287e6d7aa1bff5a63f9a89880&consumer_secret=cs_bc192e77a03225f3bceef8d913c47692b0716869";
   //  var urls= shopUrl+"/wp-json/wc/v3/products/"+productId.value+"?consumer_key="+shopConsumerKey+"&consumer_secret="+ShopConsumerScreate;
     print("url is location"+urls);
@@ -52,10 +51,10 @@ class ProductDetailsController extends GetxController{
   }
   void RecentProduct() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    shopUrl= prefs.getString('shopUrl')!;
-    shopConsumerKey=prefs.getString("shop_consumer_key")!;
-    ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")!;
-    prefs.getString("shop_name");
+    // shopUrl= prefs.getString('shopUrl')!;
+    // shopConsumerKey=prefs.getString("shop_consumer_key")!;
+    // ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")!;
+    // prefs.getString("shop_name");
    // var urls= shopUrl+"/wp-json/custom/v1/related-products/"+productId.value;
     var urls= "https://palrancho.co/wp-json/custom/v1/related-products/"+productId.value;
     print("recent url is location"+urls);

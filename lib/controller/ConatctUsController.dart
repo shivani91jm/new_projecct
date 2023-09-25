@@ -8,7 +8,6 @@ import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/model/ContactUs/ContactUsModel.dart';
 
 class ContactUsController extends GetxController {
-
   RxBool  loading=false.obs;
   BuildContext? context=Get.context;
   void submitContactDetails(String name,String email,String subject) async{

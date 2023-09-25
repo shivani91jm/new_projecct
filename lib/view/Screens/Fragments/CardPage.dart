@@ -64,7 +64,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
           )
         ],
       ),
-      bottomNavigationBar: Consumer<CartProvider>(
+         bottomNavigationBar: Consumer<CartProvider>(
         builder: (BuildContext context, value, Widget? child) {
           final ValueNotifier<double?> totalPrice = ValueNotifier(null);
           for (var element in value.cart) {
@@ -75,9 +75,6 @@ class _AddToCartPageState extends State<AddToCartPage> {
             totalPrice.value = ((element.productPrice! * double.parse(element.quantity!.value.toString())) + (totalPrice.value ?? 0));
             gradtotal=totalTax+totalPrice.value;
           }
-
-
-          print("value"+totalTax.toString());
           return Container(
             height: 400,
             color: Colors.grey[100],
@@ -202,11 +199,8 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                                     });
                                                   },
                                                   deleteQuantity: () {
-                                                    cart.deleteQuantity(
-                                                        provider.cart[index].id!);
-                                                    cart.removeTotalPrice(double.parse(
-                                                        provider.cart[index].productPrice
-                                                            .toString()));
+                                                    cart.deleteQuantity(provider.cart[index].id!);
+                                                    cart.removeTotalPrice(double.parse(provider.cart[index].productPrice.toString()));
                                                   },
                                                   text: val.toString(),
                                                   color: GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR),

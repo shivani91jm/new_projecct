@@ -8,6 +8,7 @@ import 'package:new_projecct/view/Screens/ContactUsPage.dart';
 import 'package:new_projecct/view/Screens/DashBoardPage.dart';
 import 'package:new_projecct/view/Screens/DeliveryLocationPage.dart';
 import 'package:new_projecct/view/Screens/ForgetPasswordPage.dart';
+import 'package:new_projecct/view/Screens/Fragments/AllCategoriesPage.dart';
 import 'package:new_projecct/view/Screens/Fragments/CardPage.dart';
 import 'package:new_projecct/view/Screens/Fragments/ProductDetailsPage.dart';
 import 'package:new_projecct/view/Screens/LoginPage.dart';
@@ -22,7 +23,7 @@ class RoutePages {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteNames.splash_screen:
-    return MaterialPageRoute(builder: (_) => SplashScreen());
+    return MaterialPageRoute(builder: (_) => AllCategoriesPage());
     case RouteNames.login_screen:
     return MaterialPageRoute(builder: (_) => LoginPage());
     case RouteNames.dashboard_screen:

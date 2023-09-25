@@ -1,8 +1,6 @@
-import 'package:new_projecct/model/ProductDetails/Attributes.dart';
-import 'package:new_projecct/model/ProductDetails/Categories.dart';
-import 'package:new_projecct/model/ProductDetails/Images.dart';
+import 'package:new_projecct/model/AllCategories/Categories.dart';
 
-class ProductDetailsModel {
+class AllCategoriesModalClass {
   int? id;
   String? name;
   String? slug;
@@ -21,15 +19,13 @@ class ProductDetailsModel {
   String? price;
   String? regularPrice;
   String? salePrice;
- var dateOnSaleFrom;
- var dateOnSaleFromGmt;
- var dateOnSaleTo;
- var dateOnSaleToGmt;
+
   bool? onSale;
   bool? purchasable;
   int? totalSales;
   bool? virtual;
   bool? downloadable;
+
   int? downloadLimit;
   int? downloadExpiry;
   String? externalUrl;
@@ -37,11 +33,11 @@ class ProductDetailsModel {
   String? taxStatus;
   String? taxClass;
   bool? manageStock;
- var stockQuantity;
+
   String? backorders;
   bool? backordersAllowed;
   bool? backordered;
-  var lowStockAmount;
+
   bool? soldIndividually;
   String? weight;
 
@@ -57,11 +53,14 @@ class ProductDetailsModel {
   String? purchaseNote;
   List<Categories>? categories;
 
-  List<Images>? images;
-  List<Attributes>? attributes;
+  int? menuOrder;
+  String? priceHtml;
+  List<int>? relatedIds;
 
   String? stockStatus;
-  ProductDetailsModel(
+  bool? hasOptions;
+
+  AllCategoriesModalClass(
       {this.id,
         this.name,
         this.slug,
@@ -80,10 +79,7 @@ class ProductDetailsModel {
         this.price,
         this.regularPrice,
         this.salePrice,
-        this.dateOnSaleFrom,
-        this.dateOnSaleFromGmt,
-        this.dateOnSaleTo,
-        this.dateOnSaleToGmt,
+
         this.onSale,
         this.purchasable,
         this.totalSales,
@@ -97,13 +93,14 @@ class ProductDetailsModel {
         this.taxStatus,
         this.taxClass,
         this.manageStock,
-        this.stockQuantity,
+
         this.backorders,
         this.backordersAllowed,
         this.backordered,
-        this.lowStockAmount,
+
         this.soldIndividually,
         this.weight,
+
         this.shippingRequired,
         this.shippingTaxable,
         this.shippingClass,
@@ -111,15 +108,21 @@ class ProductDetailsModel {
         this.reviewsAllowed,
         this.averageRating,
         this.ratingCount,
+
         this.parentId,
         this.purchaseNote,
         this.categories,
-        this.images,
-        this.attributes,
-        this.stockStatus
+
+        this.menuOrder,
+        this.priceHtml,
+        this.relatedIds,
+
+        this.stockStatus,
+        this.hasOptions
+
       });
 
-  ProductDetailsModel.fromJson(Map<String, dynamic> json) {
+  AllCategoriesModalClass.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];
@@ -138,10 +141,7 @@ class ProductDetailsModel {
     price = json['price'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
-    dateOnSaleFrom = json['date_on_sale_from'];
-    dateOnSaleFromGmt = json['date_on_sale_from_gmt'];
-    dateOnSaleTo = json['date_on_sale_to'];
-    dateOnSaleToGmt = json['date_on_sale_to_gmt'];
+
     onSale = json['on_sale'];
     purchasable = json['purchasable'];
     totalSales = json['total_sales'];
@@ -155,11 +155,10 @@ class ProductDetailsModel {
     taxStatus = json['tax_status'];
     taxClass = json['tax_class'];
     manageStock = json['manage_stock'];
-    stockQuantity = json['stock_quantity'];
-    backorders = json['backorders'];
+
     backordersAllowed = json['backorders_allowed'];
     backordered = json['backordered'];
-    lowStockAmount = json['low_stock_amount'];
+
     soldIndividually = json['sold_individually'];
     weight = json['weight'];
 
@@ -171,7 +170,6 @@ class ProductDetailsModel {
     averageRating = json['average_rating'];
     ratingCount = json['rating_count'];
 
-
     parentId = json['parent_id'];
     purchaseNote = json['purchase_note'];
     if (json['categories'] != null) {
@@ -180,21 +178,12 @@ class ProductDetailsModel {
         categories!.add(new Categories.fromJson(v));
       });
     }
-
-    if (json['images'] != null) {
-      images = <Images>[];
-      json['images'].forEach((v) {
-        images!.add(new Images.fromJson(v));
-      });
-    }
-    if (json['attributes'] != null) {
-      attributes = <Attributes>[];
-      json['attributes'].forEach((v) {
-        attributes!.add(new Attributes.fromJson(v));
-      });
-    }
+    menuOrder = json['menu_order'];
+    priceHtml = json['price_html'];
+    relatedIds = json['related_ids'].cast<int>();
 
     stockStatus = json['stock_status'];
+    hasOptions = json['has_options'];
 
   }
 
@@ -218,10 +207,7 @@ class ProductDetailsModel {
     data['price'] = this.price;
     data['regular_price'] = this.regularPrice;
     data['sale_price'] = this.salePrice;
-    data['date_on_sale_from'] = this.dateOnSaleFrom;
-    data['date_on_sale_from_gmt'] = this.dateOnSaleFromGmt;
-    data['date_on_sale_to'] = this.dateOnSaleTo;
-    data['date_on_sale_to_gmt'] = this.dateOnSaleToGmt;
+
     data['on_sale'] = this.onSale;
     data['purchasable'] = this.purchasable;
     data['total_sales'] = this.totalSales;
@@ -235,11 +221,11 @@ class ProductDetailsModel {
     data['tax_status'] = this.taxStatus;
     data['tax_class'] = this.taxClass;
     data['manage_stock'] = this.manageStock;
-    data['stock_quantity'] = this.stockQuantity;
+
     data['backorders'] = this.backorders;
     data['backorders_allowed'] = this.backordersAllowed;
     data['backordered'] = this.backordered;
-    data['low_stock_amount'] = this.lowStockAmount;
+
     data['sold_individually'] = this.soldIndividually;
     data['weight'] = this.weight;
 
@@ -250,20 +236,18 @@ class ProductDetailsModel {
     data['reviews_allowed'] = this.reviewsAllowed;
     data['average_rating'] = this.averageRating;
     data['rating_count'] = this.ratingCount;
+
     data['parent_id'] = this.parentId;
     data['purchase_note'] = this.purchaseNote;
     if (this.categories != null) {
       data['categories'] = this.categories!.map((v) => v.toJson()).toList();
     }
-
-    if (this.images != null) {
-      data['images'] = this.images!.map((v) => v.toJson()).toList();
-    }
-    if (this.attributes != null) {
-      data['attributes'] = this.attributes!.map((v) => v.toJson()).toList();
-    }
+    data['menu_order'] = this.menuOrder;
+    data['price_html'] = this.priceHtml;
+    data['related_ids'] = this.relatedIds;
 
     data['stock_status'] = this.stockStatus;
+    data['has_options'] = this.hasOptions;
 
     return data;
   }

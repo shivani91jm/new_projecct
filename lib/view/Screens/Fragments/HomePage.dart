@@ -1,5 +1,4 @@
 import 'package:another_carousel_pro/another_carousel_pro.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,9 +14,7 @@ import 'package:new_projecct/controller/CartProvider.dart';
 import 'package:new_projecct/controller/HomeController.dart';
 import 'package:new_projecct/database/db_helper.dart';
 import 'package:new_projecct/model/ProductModel/ProductModelClass.dart';
-import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/HomeAppBar.dart';
-import 'package:new_projecct/view/Widgets/ImageSliderItem.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:badges/badges.dart' as badges;
@@ -136,14 +133,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               )
-             ],
-           )
-          ],
-        ),
+             ],)],),
         body: Obx(() => controller.isLoading.value?  Center(child: CircularProgressIndicator(
-          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-        ),
-        ) : HomeData()))
+          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),) : HomeData()))
    );
 
   }
@@ -292,7 +284,7 @@ class _HomePageState extends State<HomePage> {
                     height: 10,
                   ),
                   SizedBox(
-                    height: 300,
+                    height: 280,
                     child:  ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount:controller.futureCategoriews[index].products!.length,
@@ -320,8 +312,7 @@ class _HomePageState extends State<HomePage> {
                                "product_price": data.price.toString()
                              });
                            },
-                     child: Container(
-
+                      child: Container(
                        child: Card(
                          elevation: AppSizeClass.maxSize10,
                            clipBehavior: Clip.hardEdge,
@@ -460,11 +451,10 @@ class _HomePageState extends State<HomePage> {
 
                    ],
                  ),
-               ),
+                         ),
                      ),
-             ),
-           );
-
+                  ),
+               );
                         }),
                   )
                 ]

@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 class TextInputFields extends StatelessWidget {
-  final TextEditingController controller;
-  final bool isHint;
-  final String hintText;
-  final String labelText;
-  final TextInputType nmber;
-  final String? Function(String?) validator;
-  Color? bordercolors;
-  Color? textcolors;
+ final TextEditingController controller;
+ final bool isHint;
+ final String hintText;
+final String labelText;
+ final TextInputType nmber;
+ final String? Function(String?) validator;
+ Color? bordercolors;
+ Color? textcolors;
 
-  TextInputFields({Key?key,
+ TextInputFields({Key?key,
     required this.controller,
     required this.hintText,
     required this.labelText,
     required this.isHint,
     required this.nmber,
     required this.validator,
-    required  this.bordercolors,
-    required this.textcolors
+   required  this.bordercolors,
+   required this.textcolors
   }) : super(key: key);
 
   @override
@@ -40,15 +40,15 @@ class TextInputFields extends StatelessWidget {
         filled: false,
 
         contentPadding: EdgeInsets.only(left: 11, right: 3, top: 12, bottom: 12),
-        //  contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+      //  contentPadding: EdgeInsets.symmetric(vertical: 8.0),
         hintText: hintText,
         hintStyle: TextStyle(
-            color: textcolors,
+          color: textcolors,
             fontFamily: "NotoSerif",
             fontWeight: FontWeight.w500
         ),
         errorStyle: TextStyle(
-            color: bordercolors
+          color: bordercolors
         ),
         errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -56,15 +56,15 @@ class TextInputFields extends StatelessWidget {
         ),
         labelText: labelText,
         labelStyle: TextStyle(
-            color:textcolors,
-            fontFamily: "NotoSerif",
+          color:textcolors,
+          fontFamily: "NotoSerif",
             fontWeight: FontWeight.w500
         ),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(4)),
             borderSide:  BorderSide(
-                color: bordercolors!
-            )
+            color: bordercolors!
+          )
         ),
 
         disabledBorder: OutlineInputBorder(

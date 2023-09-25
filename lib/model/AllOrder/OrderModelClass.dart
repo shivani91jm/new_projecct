@@ -32,7 +32,6 @@ class OrderModelClass {
   String? datePaid;
   String? cartHash;
   String? number;
-
   String? paymentUrl;
   bool? isEditable;
   bool? needsPayment;

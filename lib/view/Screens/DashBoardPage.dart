@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
-import 'package:new_projecct/view/Screens/Fragments/AddToFavourites.dart';
+import 'package:new_projecct/view/Screens/Fragments/AllCategoriesPage.dart';
 import 'package:new_projecct/view/Screens/Fragments/CardPage.dart';
 import 'package:new_projecct/view/Screens/Fragments/HomePage.dart';
 import 'package:new_projecct/view/Screens/Fragments/SettingPage.dart';
@@ -15,7 +15,7 @@ class DashBoardPage extends StatefulWidget {
 class _DashBoardPageState extends State<DashBoardPage> {
   List<Widget> _screen = [
      HomePage(),
-     FavouritesPage(),
+    AllCategoriesPage(),
      AddToCartPage(),
       SettingPage(),
   ];
