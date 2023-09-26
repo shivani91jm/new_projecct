@@ -11,13 +11,13 @@ class CartProvider with ChangeNotifier {
   double _totalPrice= 0.0;
   double  get totalPrice => _totalPrice;
   int get quantity=> _quantity;
-  List<CartModelClass> cart = [];
-  List<CartModelClass>  get carts => cart;
+  late Future<List<CartModelClass>> cart;
+  Future<List<CartModelClass>>  get carts => cart;
   int _totalTex=0;
   int get totalTax=>_totalTex;
   Future<List<CartModelClass>> getData() async {
-    cart = await dbHelper.getCartList();
-    notifyListeners();
+    cart =  dbHelper.getCartList();
+
     return cart;
   }
   void setPrefernceItem() async{
@@ -64,32 +64,32 @@ class CartProvider with ChangeNotifier {
     getPreferenceItem();
     return _totalPrice;
   }
-  void addQuantity(int id) {
-    final index = cart.indexWhere((element) => element.id == id);
-    cart[index].quantity!.value = cart[index].quantity!.value + 1;
-    setPrefernceItem();
-    notifyListeners();
-  }
-  void deleteQuantity(int id) {
-    final index = cart.indexWhere((element) => element.id == id);
-    final currentQuantity = cart[index].quantity!.value;
-    if (currentQuantity <= 1) {
-      currentQuantity == 1;
-    } else {
-      cart[index].quantity!.value = currentQuantity - 1;
-    }
-    setPrefernceItem();
-    notifyListeners();
-  }
+  // void addQuantity(int id) {
+  //   final index = cart.indexWhere((element) => element.id == id);
+  //   cart[index].quantity!= cart[index].quantity! + 1;
+  //   setPrefernceItem();
+  //   notifyListeners();
+  // }
+  // void deleteQuantity(int id) {
+  //   final index = cart.indexWhere((element) => element.id == id);
+  //   final currentQuantity = cart[index].quantity!;
+  //   if (currentQuantity <= 1) {
+  //     currentQuantity == 1;
+  //   } else {
+  //     cart[index].quantity = currentQuantity - 1;
+  //   }
+  //   setPrefernceItem();
+  //   notifyListeners();
+  // }
   int getQuantity(int quantity) {
     getPreferenceItem();
     return _quantity;
   }
-  void removeItem(int id) {
-    final index = cart.indexWhere((element) => element.id == id);
-    cart.removeAt(index);
-   setPrefernceItem();
-    notifyListeners();
-  }
+  // void removeItem(int id) {
+  //   final index = cart.indexWhere((element) => element.id == id);
+  //   cart.removeAt(index);
+  //  setPrefernceItem();
+  //   notifyListeners();
+  // }
 
 }

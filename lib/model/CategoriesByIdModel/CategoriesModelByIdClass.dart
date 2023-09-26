@@ -8,12 +8,14 @@ class CategoriesByIdModelClass {
   String? name;
   String? price;
   var image;
-  CategoriesByIdModelClass({this.id, this.name, this.price, this.image});
+  var content;
+  CategoriesByIdModelClass({this.id, this.name, this.price, this.image,this.content});
   CategoriesByIdModelClass.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     price = json['price'];
     image = json['image'];
+    content=json['content'];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -21,6 +23,7 @@ class CategoriesByIdModelClass {
     data['name'] = this.name;
     data['price'] = this.price;
     data['image'] = this.image;
+    data['content']=this.content;
     return data;
   }
 }

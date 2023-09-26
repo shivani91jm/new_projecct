@@ -16,6 +16,7 @@ import 'package:new_projecct/view/Screens/ShopLocationPage.dart';
 import 'package:new_projecct/view/Screens/SingUpPage.dart';
 import 'package:new_projecct/view/Screens/SplashScreenPage.dart';
 import 'package:new_projecct/view/Screens/UserProfileDetailsPage.dart';
+import 'package:new_projecct/view/Widgets/CompleteAddressPage.dart';
 import '../view/Screens/testclover.dart';
 
 class RoutePages {
@@ -39,6 +40,8 @@ class RoutePages {
     return MaterialPageRoute(builder: (_) => DeliveryLocationPage(data:settings.arguments as Map));
     case RouteNames.complete_address_screen:
     return MaterialPageRoute(builder: (_) => SelectLocationPage());
+      case RouteNames.address_form_screen:
+        return MaterialPageRoute(builder: (_) => CompleteAddressPage());
     case RouteNames.aboutus_screen:
     return MaterialPageRoute(builder: (_) => AboutUsPage());
     case RouteNames.contactus_screen:

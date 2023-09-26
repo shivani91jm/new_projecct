@@ -47,25 +47,25 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       // ),
       bottomNavigationBar: Consumer<CartProvider>(
           builder: (BuildContext context, value, Widget? child) {
-            final ValueNotifier<double?> totalPrice = ValueNotifier(null);
-            for (var element in value.cart) {
-              print("data"+element.productPrice.toString());
-              print("quqnity"+element.quantity.toString());
-              print("total price"+totalPrice.value.toString());
-              totalPrice.value = ((element.productPrice! * double.parse(element.quantity!.value.toString())) + (totalPrice.value ?? 0));
-            }
+            // final ValueNotifier<double?> totalPrice = ValueNotifier(null);
+            // for (var element in value.cart) {
+            //   print("data"+element.productPrice.toString());
+            //   print("quqnity"+element.quantity.toString());
+            //   print("total price"+totalPrice.value.toString());
+            //   totalPrice.value = ((element.productPrice! * double.parse(element.quantity!.toString())) + (totalPrice.value ?? 0));
+            // }
             return Container(
               height: 140,
               color: AppColors.whiteColors,
               child: Column(
                 children: [
-                  ValueListenableBuilder<double?>(
-                      valueListenable: totalPrice,
-                      builder: (context, val, child) {
-                        return CartProductTotalPrice(
-                            title: AppConstentData.totalPrice,
-                            value:   (val?.toStringAsFixed(2) ?? '0'));
-                      }),
+                  // ValueListenableBuilder<double?>(
+                  //     valueListenable: totalPrice,
+                  //     builder: (context, val, child) {
+                  //       return CartProductTotalPrice(
+                  //           title: AppConstentData.totalPrice,
+                  //           value:   (val?.toStringAsFixed(2) ?? '0'));
+                  //     }),
                   Padding(
                     padding:  EdgeInsets.fromLTRB(10,0,10,0),
                     child: CustomButton(
@@ -256,7 +256,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           height: 250,
           child: Stack(
             children: [
-             Column(
+              Column(
                children: [
                  Expanded(
                      flex: 1,

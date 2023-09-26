@@ -103,19 +103,19 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
               ),
               value: controller.locationList[index],
               groupValue: controller.selectedLocationId!.value,
-              onChanged: (value) async{
+              onChanged: (value) async {
                 print("value of shop"+value.toString());
                 controller.selectedLocationId!.value= value as Locations;
                 var shopUrl=controller.selectedLocationId!.value.storeUrl.toString();
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                var consumer_key=controller.selectedLocationId!.value.consumerKey.toString();
-                var consumer_secrete=controller.selectedLocationId!.value.consumerSecret.toString();
-                var shop_name=controller.selectedLocationId!.value.storeName.toString();
-                prefs.setString('shopUrl', shopUrl);
-                prefs.setString("shop_consumer_key", consumer_key);
-                prefs.setString("shop_consumer_secrete", consumer_secrete);
-                prefs.setString("shop_name", shop_name);
-                print("choose location"+shopUrl +"shop id"+shop_name+"key"+consumer_key+"secrete"+consumer_secrete);
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    var consumer_key=controller.selectedLocationId!.value.consumerKey.toString();
+                    var consumer_secrete=controller.selectedLocationId!.value.consumerSecret.toString();
+                    var shop_name=controller.selectedLocationId!.value.storeName.toString();
+                      prefs.setString('shopUrl', shopUrl);
+                      prefs.setString("shop_consumer_key", consumer_key);
+                      prefs.setString("shop_consumer_secrete", consumer_secrete);
+                      prefs.setString("shop_name", shop_name);
+                    print("choose location"+shopUrl +"shop id"+shop_name+"key"+consumer_key+"secrete"+consumer_secrete);
                 },
               contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
             ),),

@@ -9,6 +9,7 @@ import 'package:new_projecct/view/Widgets/AppDetailsPage.dart';
 import 'package:new_projecct/view/Widgets/CoustomAppBar.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
+
 class ConatctUsPage extends StatefulWidget {
   const ConatctUsPage({super.key});
   @override

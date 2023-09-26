@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
@@ -73,7 +74,8 @@ class SetDeliveryLocation extends StatelessWidget {
                     CustomButton(
                       onPressed: () async
                       {
-                        _showBottomSheet(contexts!,controller);
+                        // _showBottomSheet(contexts!,controller);
+                        Navigator.pushNamed(context, RouteNames.address_form_screen);
                       },
 
                       title: AppConstentData.entercompleteadd,
@@ -87,12 +89,12 @@ class SetDeliveryLocation extends StatelessWidget {
       ),
     );
   }
-  void _showBottomSheet(BuildContext context,DeliveryLocationController controller) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return CompleteAddressPage(controller: controller,);
-      },
-    );
-  }
+  // void _showBottomSheet(BuildContext context,DeliveryLocationController controller) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return CompleteAddressPage(controller: controller,);
+  //     },
+  //   );
+  // }
 }

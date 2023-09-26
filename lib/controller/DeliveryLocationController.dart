@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DeliveryLocationController extends GetxController{
 
    TextEditingController selectLocationController=TextEditingController();
-  var selectedValue = ''.obs;
+  var selectedValue = 'Myself'.obs;
   var latitude=''.obs;
   var longitude=''.obs;
   var addressController=''.obs;

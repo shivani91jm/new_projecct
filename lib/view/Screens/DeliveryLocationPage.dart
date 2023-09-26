@@ -72,7 +72,8 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
           onPressed: (){
           _gotoCurrentPostion();
         },
-        child:Icon(Icons.location_searching,color:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR)) ,),
+        child:Icon(Icons.location_searching,
+            color:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR)) ,),
       ),
     );
   }

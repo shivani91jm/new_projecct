@@ -72,7 +72,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                     fontSize: AppSizeClass.maxSize17,
                                     fontWeight: FontWeight.normal,
                                     fontFamily: "NotoSerif",
-                                    color:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                                    color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                                   )
                               ),
                             ),

@@ -7,7 +7,7 @@ late final int? id;
  final String? productDetails;
  final double? initilPrice;
  final double? productPrice;
- final ValueNotifier<int>? quantity;
+ late final int quantity;
  final String? image;
 
 CartModelClass({
@@ -27,7 +27,7 @@ CartModelClass.fromJson(Map<dynamic, dynamic> json) :
       productDetails=json['productDetails'],
       initilPrice=json['initilPrice'],
       productPrice=json['productPrice'],
-      quantity = ValueNotifier(json['qunatity']),
+      quantity = json['qunatity'],
       image=json['image'];
 
 Map<String, dynamic> toMap() {
@@ -38,7 +38,7 @@ Map<String, dynamic> toMap() {
     'productDetails': this.productDetails,
     'initilPrice': this.initilPrice,
     'productPrice': this.productPrice,
-    'qunatity': quantity?.value,
+    'qunatity': quantity,
     'image': this.image
   };
 }

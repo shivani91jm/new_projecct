@@ -88,8 +88,10 @@ class SignUpController extends GetxController{
         CommonUtilsClass.toastMessage(data.message.toString());
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('email', email);
-        await prefs.setString('username', data.username.toString());
+        await prefs.setString('user_id', data.userId.toString());
+        await prefs.setString('username', data.userNicename.toString());
         await prefs.setString('mobile_number', data.mobileNumber.toString());
+        await prefs.setString('user_profile', data.profilePicture.toString());
          Navigator.pushReplacementNamed(context!,RouteNames.dashboard_screen);
       }
     }

@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
-import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
@@ -34,7 +33,6 @@ class _HomePageState extends State<HomePage> {
     "https://palrancho.co/wp-content/uploads/2020/03/Aguacate.png",
     "https://palrancho.co/wp-content/uploads/2020/03/orden-de-arepas.jpg",
   ];
-
   @override
   void initState() {
     _gotoCurrentPostion();
@@ -408,22 +406,16 @@ class _HomePageState extends State<HomePage> {
                                            {
                                              imgae= "https://palrancho.co/wp-content/uploads/2020/03/Papa-Cocida.png";
                                            }
-                                           Navigator.pushNamed(context, RouteNames.productdetails_screen,arguments: {
-                                             "product_id":id,
-                                             "product_name":name,
-                                             "product_image": imgae,
-
-                                             //"product_price": controller.futureCategoriews[index].price.toString()
-                                           });
+                                           Navigator.pushNamed(context, RouteNames.addtocart_screen);
                                            databaseHelper!.insert(
                                                CartModelClass(
-                                                   id: index,
+                                                   id: cat_in,
                                                    productId: data.id.toString(),
                                                    productName: data.name,
-                                                   productDetails: data.name,
+                                                   productDetails: data.content,
                                                    initilPrice: double.parse(data.price.toString()),
                                                    productPrice: double.parse(data.price.toString()),
-                                                   quantity: ValueNotifier(1),
+                                                   quantity: 1,
                                                    image: imgae
                                                )
                                            ).then((value)  {
