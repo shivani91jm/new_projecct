@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
@@ -24,12 +25,13 @@ class AddToCartPage extends StatefulWidget {
 }
 class _AddToCartPageState extends State<AddToCartPage> {
 
-  var totalTax;
+  var totalTax=0.0;
   var gradtotal;
 
   @override
   void initState() {
     super.initState();
+    totalTax=  totalTax* 0.07;
     context.read<CartProvider>().getData();
   }
   @override
@@ -70,51 +72,28 @@ class _AddToCartPageState extends State<AddToCartPage> {
       ),
          bottomNavigationBar: Consumer<CartProvider>(
           builder: (context, value,  child) {
-          double totalPrice=0.0;
-
-          // for (var element in value.cart) {
-          //   print("data"+element.productPrice.toString());
-          //   print("quqnity"+element.quantity.toString());
-          //   totalTax= ((element.productPrice! * double.parse(element.quantity!.toString())) + (totalPrice?? 0))*7.00/100;
-          //   totalPrice = ((element.productPrice! * double.parse(element.quantity!.toString())) + (totalPrice ?? 0));
-          //   gradtotal=totalTax+totalPrice;
-          // }
-          return Container(
+            print("value.totalPrice"+value.totalPrice.toString());
+            return Container(
             height: 250,
             color: Colors.grey[100],
-            child: Column(
-              children: [
-                // ValueListenableBuilder<double?>(
-                //     valueListenable: totalPrice,
-                //     builder: (context, val, child) {
-                //       return);
-                //     }),
-                CartProductTotalPrice(title: "Sub Total", value:   (value.totalPrice.toStringAsFixed(2))),
-                DividerWidgets(),
-              //  CartProductTotalPrice(title: "Tax", value:   (r'$'+((value.totalPrice.toStringAsFixed(2))))),
-                ValueListenableBuilder<double?>(
-                    valueListenable: ValueNotifier(totalTax),
-                    builder: (context, val, child) {
-                      return CartProductTotalPrice(
-                          title: "Tax",
-                          value:   (val?.toStringAsFixed(2) ?? '0'));
-                    }),
-                DividerWidgets(),
-                ValueListenableBuilder<double?>(
-                    valueListenable: ValueNotifier(gradtotal),
-                    builder: (context, val, child) {
-                      return CartProductTotalPrice(
-                          title: "Total",
-                          value:   (val?.toStringAsFixed(2) ?? '0'));
-                    }),
-                Padding(
-                  padding:  EdgeInsets.fromLTRB(10,0,10,0),
-                  child: CustomButton(
-                    onPressed: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      var email=  await prefs.getString('email')?? "";
-                      print("data"+email.toString());
-                      if(email!="null" && email!="")
+            child: Visibility(
+              visible: (((value.totalPrice.toString())=="0.00" ||(value.totalPrice.toString())=="0.0"||  (value.totalPrice.toString())=="-0.00" || (value.totalPrice.toString()).contains("-"))?false:true),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CartProductTotalPrice(title: "Sub Total", value:   (value.totalPrice.toStringAsFixed(2))),
+                  DividerWidgets(),
+                  CartProductTotalPrice(title: "Tax (7%)", value: ((double.parse(value.totalPrice.toString())*7/100).toStringAsFixed(2))),
+                  DividerWidgets(),
+                  CartProductTotalPrice(title: "Total", value:   ((double.parse(value.totalPrice.toString())*7.00/100+double.parse(value.totalPrice.toString())).toStringAsFixed(2))),
+                  Padding(
+                    padding:  EdgeInsets.fromLTRB(10,0,10,0),
+                    child: CustomButton(
+                      onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        var email=  await prefs.getString('email')?? "";
+                        print("data"+email.toString());
+                        if(email!="null" && email!="")
                         {
                           var product_id=cart.getData();
                           print("data"+product_id.toString());
@@ -123,17 +102,18 @@ class _AddToCartPageState extends State<AddToCartPage> {
                           });
 
                         }
-                      else {
+                        else {
                           var product_id=cart.getData();
                           print("data fgfhgfjhfgjghjhk"+product_id.toString());
                           showAlert();
                         }
                       },
-                    title: AppConstentData.continues,
+                      title: AppConstentData.continues,
                       colors:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                    isLoading: false.obs,),
-                ),
-              ],
+                      isLoading: false.obs,),
+                  ),
+                ],
+              ),
             ),
           );
         }),
@@ -209,64 +189,87 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       )),
-                                  Row(
-                                    children: [
-                                      // ValueListenableBuilder<int>(
-                                      //     valueListenable: provider.cart[index].quantity!,
-                                      //     builder: (context, val, child) {
-                                      //       return ;
-                                      //     }),
-                                      CartProductIncreAndDecre(
-                                        addQuantity: () {
-                                          // cart.addQuantity(provider.cart[index].id!);
-                                          // dbHelper!.updateQuantity(CartModelClass(
-                                          //     id:provider.cart[index].id!,
-                                          //     productId:  provider.cart[index].productId!.toString(),
-                                          //     productName: provider.cart[index].productName,
-                                          //     initilPrice: provider.cart[index].initilPrice,
-                                          //     productPrice: provider.cart[index].productPrice,
-                                          //     quantity: provider.cart[index].quantity!,
-                                          //     image: provider.cart[index].image, productDetails: 'ghfhhfdg'))
-                                          //     .then((value) {
-                                          //   setState(() {
-                                          //     cart.addTotalPrice(double.parse(provider.cart[index].productPrice.toString()));
-                                          //   });
-                                          // });
-                                        },
-                                        deleteQuantity: () {
-                                          // cart.deleteQuantity(provider.cart[index].id!);
-                                          // cart.removeTotalPrice(double.parse(provider.cart[index].productPrice.toString()));
-                                        },
+                                 Container(
+                                   child:  RichText(
+                                     maxLines: 1,
+                                     text: TextSpan(
+                                         text: '' r"$",
+                                         style: TextStyle(
+                                             color: Colors.blueGrey.shade800,
+                                             fontSize: 16.0),
+                                         children: [
+                                           TextSpan(
+                                               text:
+                                               '${snapshot.data![index].productPrice!}\n',
+                                               style: const TextStyle(
+                                                 fontWeight: FontWeight.bold,
+                                                 fontFamily: "NotoSerif",
+                                                 fontSize: AppSizeClass.maxSize14,
 
-                                        color: GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR),
-                                        text: snapshot.data![index].quantity!.toString(),
-                                      ),
-                                      RichText(
-                                        maxLines: 1,
-                                        text: TextSpan(
-                                            text: '' r"$",
-                                            style: TextStyle(
-                                                color: Colors.blueGrey.shade800,
-                                                fontSize: 16.0),
-                                            children: [
-                                              TextSpan(
-                                                  text:
-                                                  '${snapshot.data![index].productPrice!}\n',
-                                                  style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: "NotoSerif",
-                                                    fontSize: AppSizeClass.maxSize14,
+                                               )),
+                                         ]),
+                                   ),
+                                 ),
+                                  CartProductIncreAndDecre(
+                                    addQuantity: () {
+                                     int quantity=snapshot.data![index].quantity;
+                                     double? price=snapshot.data![index].initilPrice;
+                                     quantity++;
+                                     double? newprice=price! * (quantity.toDouble());
+                                     dbHelper.updateQuantity(
+                                         CartModelClass(
+                                             // id:snapshot.data![index].id,
+                                             productId: snapshot.data![index].productId,
+                                             productName: snapshot.data![index].productName,
+                                             productDetails: snapshot.data![index].productDetails,
+                                             initilPrice: snapshot.data![index].initilPrice,
+                                             productPrice: newprice,
+                                             quantity: quantity,
+                                             image: snapshot.data![index].image)).
+                                     then((value){
+                                               newprice=0.0;
+                                               quantity=0;
+                                               cart.addTotalPrice(snapshot.data![index].initilPrice!);
+                                     }).onError((error, stackTrace){
 
-                                                  )),
-                                            ]),
-                                      ),
-                                    ],
+                                       print(error.toString());
+                                     });
+
+                                     },
+                                    deleteQuantity: () {
+                                      int quantity=snapshot.data![index].quantity;
+                                      double? price=snapshot.data![index].initilPrice;
+                                      quantity--;
+                                      double? newprice=price! * (quantity.toDouble());
+                                      if(quantity>0){
+                                        dbHelper.updateQuantity(
+                                            CartModelClass(
+                                                // id:snapshot.data![index].id,
+                                                productId: snapshot.data![index].productId,
+                                                productName: snapshot.data![index].productName,
+                                                productDetails: snapshot.data![index].productDetails,
+                                                initilPrice: snapshot.data![index].initilPrice,
+                                                productPrice: newprice,
+                                                quantity: quantity,
+                                                image: snapshot.data![index].image)).
+                                        then((value){
+                                          newprice=0.0;
+                                          quantity=0;
+                                          cart.removeTotalPrice(snapshot.data![index].initilPrice!);
+                                        }).onError((error, stackTrace){
+
+                                          print(error.toString());
+                                        });
+                                      }
+                                      },
+
+                                    color: GradientHelper.getColorFromHex(AppColors.Box_BG_COLOR),
+                                    text: snapshot.data![index].quantity!.toString(),
                                   ),
                                   IconButton(
                                       onPressed: () {
-                                        dbHelper!.deleteCartItem(snapshot.data![index].id!);
-                                       // cart.removeItem(provider.cart[index].id!);
-                                        cart.removeCounter();
+                                         dbHelper!.deleteCartItem(int.parse(snapshot.data![index].productId.toString()));
+                                         cart.removeCounter();
                                         cart.removeTotalPrice(snapshot.data![index].productPrice!);
                                       },
                                       icon: Icon(
@@ -284,11 +287,8 @@ class _AddToCartPageState extends State<AddToCartPage> {
                     },
                   )
               );
-            } else if (snapshot.hasError) {
-              return Text('Cart Empty');
             }
 
-            // By default, show a loading spinner.
             return const CircularProgressIndicator();
           },
         )

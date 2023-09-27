@@ -1,7 +1,8 @@
 import 'package:new_projecct/model/AllOrder/Billing.dart';
+import 'package:new_projecct/model/AllOrder/LineItems.dart';
 import 'package:new_projecct/model/AllOrder/Shipping.dart';
 
-class OrderModelClass {
+class AllOrdersModel {
   int? id;
   int? parentId;
   String? status;
@@ -28,22 +29,26 @@ class OrderModelClass {
   String? customerUserAgent;
   String? createdVia;
   String? customerNote;
-  String? dateCompleted;
+  Null? dateCompleted;
   String? datePaid;
   String? cartHash;
   String? number;
+
+  List<LineItems>? lineItems;
+
+
   String? paymentUrl;
   bool? isEditable;
   bool? needsPayment;
   bool? needsProcessing;
   String? dateCreatedGmt;
   String? dateModifiedGmt;
-  String? dateCompletedGmt;
+
   String? datePaidGmt;
+  String? currencySymbol;
 
 
-
-  OrderModelClass(
+  AllOrdersModel(
       {this.id,
         this.parentId,
         this.status,
@@ -75,19 +80,20 @@ class OrderModelClass {
         this.cartHash,
         this.number,
 
-
+        this.lineItems,
         this.paymentUrl,
         this.isEditable,
         this.needsPayment,
         this.needsProcessing,
         this.dateCreatedGmt,
         this.dateModifiedGmt,
-        this.dateCompletedGmt,
+
         this.datePaidGmt,
+        this.currencySymbol,
 
       });
 
-  OrderModelClass.fromJson(Map<String, dynamic> json) {
+  AllOrdersModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     parentId = json['parent_id'];
     status = json['status'];
@@ -122,6 +128,13 @@ class OrderModelClass {
     cartHash = json['cart_hash'];
     number = json['number'];
 
+    if (json['line_items'] != null) {
+      lineItems = <LineItems>[];
+      json['line_items'].forEach((v) {
+        lineItems!.add(new LineItems.fromJson(v));
+      });
+    }
+
 
 
     paymentUrl = json['payment_url'];
@@ -130,8 +143,9 @@ class OrderModelClass {
     needsProcessing = json['needs_processing'];
     dateCreatedGmt = json['date_created_gmt'];
     dateModifiedGmt = json['date_modified_gmt'];
-    dateCompletedGmt = json['date_completed_gmt'];
+
     datePaidGmt = json['date_paid_gmt'];
+    currencySymbol = json['currency_symbol'];
 
   }
 
@@ -172,6 +186,10 @@ class OrderModelClass {
     data['cart_hash'] = this.cartHash;
     data['number'] = this.number;
 
+    if (this.lineItems != null) {
+      data['line_items'] = this.lineItems!.map((v) => v.toJson()).toList();
+    }
+
 
     data['payment_url'] = this.paymentUrl;
     data['is_editable'] = this.isEditable;
@@ -179,8 +197,9 @@ class OrderModelClass {
     data['needs_processing'] = this.needsProcessing;
     data['date_created_gmt'] = this.dateCreatedGmt;
     data['date_modified_gmt'] = this.dateModifiedGmt;
-    data['date_completed_gmt'] = this.dateCompletedGmt;
+
     data['date_paid_gmt'] = this.datePaidGmt;
+    data['currency_symbol'] = this.currencySymbol;
 
     return data;
   }

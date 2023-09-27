@@ -1,6 +1,7 @@
 import 'package:new_projecct/model/AllCategories/Categories.dart';
+import 'package:new_projecct/model/AllCategories/Images.dart';
 
-class AllCategoriesModalClass {
+class AllCategoriesByIdDataModel {
   int? id;
   String? name;
   String? slug;
@@ -19,7 +20,6 @@ class AllCategoriesModalClass {
   String? price;
   String? regularPrice;
   String? salePrice;
-
   bool? onSale;
   bool? purchasable;
   int? totalSales;
@@ -52,16 +52,16 @@ class AllCategoriesModalClass {
   int? parentId;
   String? purchaseNote;
   List<Categories>? categories;
+  List<Images>? images;
 
   int? menuOrder;
   String? priceHtml;
-  List<int>? relatedIds;
 
   String? stockStatus;
   bool? hasOptions;
-
-  AllCategoriesModalClass(
-      {this.id,
+  AllCategoriesByIdDataModel(
+      {
+        this.id,
         this.name,
         this.slug,
         this.permalink,
@@ -113,16 +113,19 @@ class AllCategoriesModalClass {
         this.purchaseNote,
         this.categories,
 
+        this.images,
+
+
         this.menuOrder,
         this.priceHtml,
-        this.relatedIds,
+
 
         this.stockStatus,
-        this.hasOptions
+        this.hasOptions,
 
       });
 
-  AllCategoriesModalClass.fromJson(Map<String, dynamic> json) {
+  AllCategoriesByIdDataModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];
@@ -156,6 +159,7 @@ class AllCategoriesModalClass {
     taxClass = json['tax_class'];
     manageStock = json['manage_stock'];
 
+    backorders = json['backorders'];
     backordersAllowed = json['backorders_allowed'];
     backordered = json['backordered'];
 
@@ -170,6 +174,7 @@ class AllCategoriesModalClass {
     averageRating = json['average_rating'];
     ratingCount = json['rating_count'];
 
+
     parentId = json['parent_id'];
     purchaseNote = json['purchase_note'];
     if (json['categories'] != null) {
@@ -178,9 +183,17 @@ class AllCategoriesModalClass {
         categories!.add(new Categories.fromJson(v));
       });
     }
+
+    if (json['images'] != null) {
+      images = <Images>[];
+      json['images'].forEach((v) {
+        images!.add(new Images.fromJson(v));
+      });
+    }
+
     menuOrder = json['menu_order'];
     priceHtml = json['price_html'];
-    relatedIds = json['related_ids'].cast<int>();
+
 
     stockStatus = json['stock_status'];
     hasOptions = json['has_options'];
@@ -212,7 +225,6 @@ class AllCategoriesModalClass {
     data['purchasable'] = this.purchasable;
     data['total_sales'] = this.totalSales;
     data['virtual'] = this.virtual;
-    data['downloadable'] = this.downloadable;
 
     data['download_limit'] = this.downloadLimit;
     data['download_expiry'] = this.downloadExpiry;
@@ -242,9 +254,13 @@ class AllCategoriesModalClass {
     if (this.categories != null) {
       data['categories'] = this.categories!.map((v) => v.toJson()).toList();
     }
+
+    if (this.images != null) {
+      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    }
+
     data['menu_order'] = this.menuOrder;
     data['price_html'] = this.priceHtml;
-    data['related_ids'] = this.relatedIds;
 
     data['stock_status'] = this.stockStatus;
     data['has_options'] = this.hasOptions;

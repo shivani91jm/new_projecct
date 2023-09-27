@@ -7,6 +7,7 @@ import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/model/CategoriesByIdModel/CategoriesModelByIdClass.dart';
 import 'package:new_projecct/model/dynamicproduct/prouct_dynamic.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class HomeController extends GetxController {
   final PageController pageController = PageController();
   var currentIndex = 0.obs;

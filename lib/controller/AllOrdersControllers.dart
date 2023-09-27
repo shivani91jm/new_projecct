@@ -8,7 +8,7 @@ import 'package:new_projecct/model/AllOrder/OrderModelClass.dart';
 class AllOrdersController extends GetxController{
   var text="";
   RxBool isLoading=false.obs;
-  RxList<OrderModelClass> datass=<OrderModelClass>[].obs;
+  RxList<AllOrdersModel> datass=<AllOrdersModel>[].obs;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -16,18 +16,21 @@ class AllOrdersController extends GetxController{
     loadData();
   }
   void loadData() async{
-  var url="https://palrancho.co/wp-json/wc/v3/orders?consumer_key=ck_0def1385963b008287e6d7aa1bff5a63f9a89880&consumer_secret=cs_bc192e77a03225f3bceef8d913c47692b0716869";
+    isLoading.value = true;
+  var url="https://palrancho.co/order_data.php?user_id=251";
   final response = await http.get(Uri.parse(url),
     headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   },);
   if (response.statusCode == 200)
   {
-    isLoading.value = false;
+    datass.clear();
+
     List<dynamic> data=json.decode(response.body);
     print("data"+data.toString());
+    isLoading.value = false;
     data.map((e) {
-      OrderModelClass datas = OrderModelClass.fromJson(e);
+      AllOrdersModel datas = AllOrdersModel.fromJson(e);
       datass.add(datas);
       print("futureCategoriewsdata" + datass.length.toString());
 
@@ -41,6 +44,7 @@ class AllOrdersController extends GetxController{
     CommonUtilsClass.toastMessage("Server side Error");
   }
   else {
+    isLoading.value = false;
     throw Exception('Failed to load album');
   }
 }

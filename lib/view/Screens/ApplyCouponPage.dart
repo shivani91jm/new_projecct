@@ -27,7 +27,8 @@ class _ApplyCouponState extends State<ApplyCoupon> {
             fontWeight: FontWeight.bold,
             fontFamily: "NotoSerif",
             color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-            ),)
+            ),
+            )
           ]
         ),
       ),

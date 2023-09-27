@@ -409,7 +409,7 @@ class _HomePageState extends State<HomePage> {
                                            Navigator.pushNamed(context, RouteNames.addtocart_screen);
                                            databaseHelper!.insert(
                                                CartModelClass(
-                                                   id: cat_in,
+                                                   // id: cat_in,
                                                    productId: data.id.toString(),
                                                    productName: data.name,
                                                    productDetails: data.content,

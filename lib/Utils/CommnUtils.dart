@@ -35,4 +35,5 @@ class CommonUtilsClass {
 
   factory CommonUtilsClass() => _instance;
 
+
 }

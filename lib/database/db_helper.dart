@@ -22,7 +22,7 @@ class DatabaseHelper{
 
   }
   onCreate(Database db,int version)async {
-    await db.execute("CREATE TABLE product_cart( id INTEGER PRIMARY KEY, productId VARCHAR UNIQUE, productName TEXT,productDetails TEXT,initilPrice DOUBLE,productPrice DOUBLE,qunatity INTEGER,image TEXT )"
+    await db.execute("CREATE TABLE product_cart(id INTEGER PRIMARY KEY AUTOINCREMENT, productId VARCHAR UNIQUE, productName TEXT,productDetails TEXT,initilPrice DOUBLE,productPrice DOUBLE,qunatity INTEGER,image TEXT )"
     );
 
   }
@@ -36,7 +36,7 @@ class DatabaseHelper{
     final List<Map<String, Object?>> queryResult = await dbClient!.query('product_cart');
     return queryResult.map((result) => CartModelClass.fromJson(result)).toList();
   }
-  //update quantity
+  //-----------------update quantity----------------------------
   Future<int> updateQuantity(CartModelClass cart) async {
     var dbClient = await database;
    var id= await dbClient!.update('product_cart',cart.toMap(),
@@ -47,6 +47,6 @@ class DatabaseHelper{
   }
   Future<int> deleteCartItem(int id) async {
     var dbClient = await database;
-    return await dbClient!.delete('product_cart', where: 'id = ?', whereArgs: [id]);
+    return await dbClient!.delete('product_cart', where: 'productId = ?', whereArgs: [id]);
   }
 }

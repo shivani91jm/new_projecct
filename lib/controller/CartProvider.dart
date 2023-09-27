@@ -64,32 +64,11 @@ class CartProvider with ChangeNotifier {
     getPreferenceItem();
     return _totalPrice;
   }
-  // void addQuantity(int id) {
-  //   final index = cart.indexWhere((element) => element.id == id);
-  //   cart[index].quantity!= cart[index].quantity! + 1;
-  //   setPrefernceItem();
-  //   notifyListeners();
-  // }
-  // void deleteQuantity(int id) {
-  //   final index = cart.indexWhere((element) => element.id == id);
-  //   final currentQuantity = cart[index].quantity!;
-  //   if (currentQuantity <= 1) {
-  //     currentQuantity == 1;
-  //   } else {
-  //     cart[index].quantity = currentQuantity - 1;
-  //   }
-  //   setPrefernceItem();
-  //   notifyListeners();
-  // }
+
   int getQuantity(int quantity) {
     getPreferenceItem();
     return _quantity;
   }
-  // void removeItem(int id) {
-  //   final index = cart.indexWhere((element) => element.id == id);
-  //   cart.removeAt(index);
-  //  setPrefernceItem();
-  //   notifyListeners();
-  // }
+
 
 }
