@@ -11,5 +11,6 @@ class ImageUrls
   static const String marker_url = "assets/images/locationpin.png";
   static const String empty_url = "assets/images/cartempty.png";
   static const String extis_url = "assets/images/exits.png";
+  static const String profile_url = "assets/images/profile.png";
 
 }

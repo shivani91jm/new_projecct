@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
@@ -20,6 +23,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
     final double coverHeight=230;
     final double circleHeight=140;
     var email="",username="",usermobile="";
+  File? galleryFile;
     @override
   void initState() {
     // TODO: implement initState
@@ -202,18 +206,32 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
         ));
   }
   Widget datacgfgh() {
-    return CircleAvatar(
-      radius: circleHeight/2,
-      child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(AppSizeClass.maxSize25)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Image.asset(ImageUrls.google_url),
-              ],
-            ),
-          )
+    return GestureDetector(
+      onTap: (){
+        _showPicker(context: context);
+      },
+      child: CircleAvatar(
+        backgroundColor: AppColors.whiteColors,
+        radius: circleHeight/2,
+        child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(AppSizeClass.maxSize25)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+
+                  galleryFile == null ?  Center(child: CircleAvatar(
+                    child: Container(
+
+                      color: AppColors.whiteColors,
+                      child: Image.asset(ImageUrls.profile_url,) ,
+                    ),
+                  )) : Center(child: Image.file(galleryFile!))
+
+                ],
+              ),
+            )
+        ),
       ),
     );
  }
@@ -227,4 +245,48 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
    });
 
   }
+  Future getImage(ImageSource img,) async {
+    final pickedFile = await ImagePicker().pickImage(source: img);
+    XFile? xfilePick = pickedFile;
+    setState(
+          () {
+        if (xfilePick != null) {
+          galleryFile = File(pickedFile!.path);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
+              const SnackBar(content: Text('Nothing is selected')));
+        }
+      },
+    );
+  }
+  void _showPicker({required BuildContext context,}) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Photo Library'),
+                onTap: () async {
+                  getImage(ImageSource.gallery);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Camera'),
+                onTap: () {
+                  getImage(ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
 }

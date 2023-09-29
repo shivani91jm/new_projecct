@@ -29,12 +29,12 @@ class _TextCloverState extends State<TextClover> {
     );
   }
   Future<void> makePayment() async {
-    final String cloverApiKey = 'ad02ee1d-b00d-34db-0c06-d2b48e79e1de'; // Replace with your Clover API key
-    final String paymentEndpoint = 'https://palrancho.co/v3/payments'; // Replace with the actual Clover API endpoint for payments
+    final String cloverApiKey = 'ad02ee1d-b00d-34db-0c06-d2b48e79e1de';
+    final String paymentEndpoint = 'https://palrancho.co/v3/payments';
 
     final Map<String, dynamic> paymentData = {
-      'amount': 1000, // Replace with the payment amount in cents
-      'currency': 'USD', // Replace with the desired currency
+      'amount': 1000,
+      'currency': 'USD',
       // Add other payment details as needed
     };
 
@@ -64,5 +64,52 @@ class _TextCloverState extends State<TextClover> {
       print('Error: $e');
     }
   }
+
+  Future<void> fetchOrderDetails(String orderId) async {
+    final String url = 'https://apisandbox.dev.clover.com/v3/merchants/PPSP55WHHYYV1/orders/1';
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer <YOUR_ACCESS_TOKEN>',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      // Process the data
+    } else {
+      throw Exception('Failed to load order details');
+    }
+  }
+  Future<void> createCloverOrder(String accessToken) async {
+    final url = Uri.parse('https://api.clover.com/v3/merchants/PPSP55WHHYYV1/orders'); // Replace {merchant_id} with your merchant's ID.
+
+    // Define the order details as a JSON payload
+    final orderData = {
+      "total": 1000, // Replace with the total amount of the order.
+      "state": "open", // Order state (e.g., "open")
+      // Add other order details here as needed.
+    };
+
+    // Make the HTTP POST request
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer 2a88f2a3-1715-417e-c85d-1b8b38954d38',
+      },
+      body: json.encode(orderData),
+    );
+
+    if (response.statusCode == 201) {
+      // Order created successfully
+      print('Order created successfully');
+    } else {
+      // Handle the error
+      print('Failed to create order. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  }
+
 
 }

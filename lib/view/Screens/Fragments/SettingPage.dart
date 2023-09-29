@@ -210,7 +210,6 @@ class _SettingPageState extends State<SettingPage> {
                     DividerWidgets(),
                     GestureDetector(
                    onTap: () async{
-
                      Navigator.pushNamed(context!, RouteNames.changepassword_screen,);
                      },
                    child:  Padding(

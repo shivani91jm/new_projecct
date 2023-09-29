@@ -52,6 +52,7 @@ dependencies:
   shimmer: any
   another_carousel_pro: any
   cached_network_image: any
+  image_picker:  any
 
 
 
