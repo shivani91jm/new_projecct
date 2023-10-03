@@ -15,6 +15,13 @@ class AllOrdersPage extends StatefulWidget {
 
 class _AllOrdersPageState extends State<AllOrdersPage> {
   AllOrdersController controller=Get.put(AllOrdersController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.loadData();
+  }
+
 
   @override
   Widget build(BuildContext context) {

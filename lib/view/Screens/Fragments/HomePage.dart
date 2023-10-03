@@ -1,4 +1,4 @@
-import 'package:another_carousel_pro/another_carousel_pro.dart';
+// import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,13 +10,16 @@ import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
+import 'package:new_projecct/controller/CheckInternetController.dart';
 import 'package:new_projecct/controller/HomeController.dart';
 import 'package:new_projecct/database/db_helper.dart';
 import 'package:new_projecct/model/ProductModel/ProductModelClass.dart';
 import 'package:new_projecct/view/Widgets/HomeAppBar.dart';
+import 'package:new_projecct/view/Widgets/NoInternetClass.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:sqflite/sqflite.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
@@ -27,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   DatabaseHelper? databaseHelper=DatabaseHelper();
   String getCurrentLocation="";
   PageController _pageController = PageController();
+  final CheckInternetController _controller = Get.find<CheckInternetController>();
   int _currentPage = 0;
   final List<String> sliderimageUrls = [
     "https://palrancho.co/wp-content/uploads/2020/03/Papa-Cocida.png",
@@ -92,50 +96,53 @@ class _HomePageState extends State<HomePage> {
       onRefresh: () async {
        controller.loadCatProductIDWise();
       },
-      child: Scaffold(
+      child: Obx(() => _controller.connectionType.value == 1 ? datawiget() : _controller.connectionType.value == 2 ?  datawiget() : NoInternetClass(page: RouteNames.dashboard_screen,))
+   );
+
+  }
+  Widget datawiget(){
+    return  Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
           actions: [
-           Row(
-             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-             mainAxisSize: MainAxisSize.max,
-             children: [
-               HomeAppBar(currentLocation: getCurrentLocation.toString(),),
-               GestureDetector(
-                onTap: (){
-                  Navigator.pushNamed(context!,RouteNames.addtocart_screen);
-                },
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(4, 0, 30, 0),
-                  child: badges.Badge(
-                    badgeAnimation: badges.BadgeAnimation.rotation(
-                      animationDuration: Duration(seconds: 1),
-                      colorChangeAnimationDuration: Duration(seconds: 1),
-                      loopAnimation: false,
-                      curve: Curves.fastOutSlowIn,
-                      colorChangeAnimationCurve: Curves.easeInCubic,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                HomeAppBar(currentLocation: getCurrentLocation.toString(),),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushNamed(context!,RouteNames.addtocart_screen);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(4, 0, 30, 0),
+                    child: badges.Badge(
+                      badgeAnimation: badges.BadgeAnimation.rotation(
+                        animationDuration: Duration(seconds: 1),
+                        colorChangeAnimationDuration: Duration(seconds: 1),
+                        loopAnimation: false,
+                        curve: Curves.fastOutSlowIn,
+                        colorChangeAnimationCurve: Curves.easeInCubic,
+                      ),
+                      badgeStyle: badges.BadgeStyle(
+                        shape: badges.BadgeShape.circle,
+                        badgeColor: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                      ),
+                      badgeContent: Consumer<CartProvider>(
+                        builder: (context,value,child){
+                          return Text(value.getCounter().toString(),style: TextStyle(
+                              color: AppColors.whiteColors
+                          ),);
+                        },
+                      ),
+                      child: Icon(Icons.shopping_cart_checkout,color: AppColors.whiteColors,),
                     ),
-                    badgeStyle: badges.BadgeStyle(
-                      shape: badges.BadgeShape.circle,
-                      badgeColor: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                    ),
-                    badgeContent: Consumer<CartProvider>(
-                      builder: (context,value,child){
-                        return Text(value.getCounter().toString(),style: TextStyle(
-                            color: AppColors.whiteColors
-                        ),);
-                      },
-                    ),
-                    child: Icon(Icons.shopping_cart_checkout,color: AppColors.whiteColors,),
                   ),
-                ),
-              )
-             ],)],),
+                )
+              ],)],),
         body: Obx(() => controller.isLoading.value?  Center(child: CircularProgressIndicator(
-          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),) : HomeData()))
-   );
-
+          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),) : HomeData()));
   }
   Widget HomeData(){
    return SingleChildScrollView(
@@ -167,18 +174,18 @@ class _HomePageState extends State<HomePage> {
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
-          AnotherCarousel(
-            images: [
-              NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/32-1.jpg'),
-              NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/56.jpg'),
-              NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/PalRancho_Choripapitas_2880x2304-scaled.jpg'),
-            ],
-            dotSize: 6.0,
-            dotSpacing: 15.0,
-            dotColor:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-            indicatorBgPadding: 5.0,
-            dotBgColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR).withOpacity(0.5),
-          ),
+          // AnotherCarousel(
+          //   images: [
+          //     NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/32-1.jpg'),
+          //     NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/56.jpg'),
+          //     NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/PalRancho_Choripapitas_2880x2304-scaled.jpg'),
+          //   ],
+          //   dotSize: 6.0,
+          //   dotSpacing: 15.0,
+          //   dotColor:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+          //   indicatorBgPadding: 5.0,
+          //   dotBgColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR).withOpacity(0.5),
+          // ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -422,9 +429,43 @@ class _HomePageState extends State<HomePage> {
                                              print("add product added");
                                              cart.addTotalPrice(double.parse(data.price.toString()));
                                              cart.addCounter();
+                                             Get.snackbar(
+                                               "Add product added cart.",
+                                               "",
+                                               snackPosition: SnackPosition.BOTTOM,
+                                               backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                               borderRadius: 5,
+                                               margin: EdgeInsets.all(5),
+                                               colorText: Colors.white,
+                                               duration: Duration(seconds: 4),
+                                               isDismissible: true,
 
+                                               forwardAnimationCurve: Curves.easeOutBack,
+                                             );
                                            }).onError((error, stackTrace) {
                                              print("erorr"+error.toString());
+                                             if (error is DatabaseException && error.isUniqueConstraintError()) {
+                                         //      // Handle the UNIQUE constraint error here
+                                              Get.snackbar(
+                                                "Product already exists in the cart.",
+                                                "",
+                                                snackPosition: SnackPosition.BOTTOM,
+                                                backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                                borderRadius: 5,
+                                                margin: EdgeInsets.all(5),
+                                                colorText: Colors.white,
+                                                duration: Duration(seconds: 4),
+                                                isDismissible: true,
+
+                                                forwardAnimationCurve: Curves.easeOutBack,
+
+                                              );
+
+                                              print("Product already exists in the cart.");
+                                            }
+
+
+
                                            });
 
                                          },

@@ -6,9 +6,11 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
+import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/SignUpController.dart';
+import 'package:new_projecct/services/google_singin.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
 class SingUpPage extends StatefulWidget {
@@ -207,7 +209,7 @@ class _SingUpPageState extends State<SingUpPage> {
                               children: [
                               GestureDetector(
                                 onTap:(){
-
+                                  GoogleSinginClass.signup(context);
                                 },
                                 child:   Container(
                                   decoration:  BoxDecoration(
@@ -215,9 +217,7 @@ class _SingUpPageState extends State<SingUpPage> {
                                     borderRadius: BorderRadius.circular(25),
                                     border: Border.all(
                                       color: AppColors.whiteColors ,
-                                    ),
-
-                                  ),
+                                    ),),
                                   child: Padding(
                                     padding: const EdgeInsets.all(1.0),
                                     child: CircleAvatar(
@@ -234,23 +234,28 @@ class _SingUpPageState extends State<SingUpPage> {
                                 SizedBox(
                                   width: 20,
                                 ),
-                                Container(
-                                  decoration:  BoxDecoration(
-                                    color: AppColors.whiteColors,
-                                    borderRadius: BorderRadius.circular(25),
-                                    border: Border.all(
-                                      color: AppColors.whiteColors ,
-                                    ),
+                                GestureDetector(
+                                  onTap: (){
+                                    CommonUtilsClass.toastMessage('Coming Soon...');
+                                  },
+                                  child: Container(
+                                    decoration:  BoxDecoration(
+                                      color: AppColors.whiteColors,
+                                      borderRadius: BorderRadius.circular(25),
+                                      border: Border.all(
+                                        color: AppColors.whiteColors ,
+                                      ),
 
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(1.0),
-                                    child: CircleAvatar(
-                                      backgroundColor: AppColors.whiteColors,
-                                      child: Image.asset(
-                                          height: 20,
-                                          width: 20,
-                                          ImageUrls.facebook_url
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(1.0),
+                                      child: CircleAvatar(
+                                        backgroundColor: AppColors.whiteColors,
+                                        child: Image.asset(
+                                            height: 20,
+                                            width: 20,
+                                            ImageUrls.facebook_url
+                                        ),
                                       ),
                                     ),
                                   ),

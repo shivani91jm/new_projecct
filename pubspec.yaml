@@ -53,6 +53,9 @@ dependencies:
   another_carousel_pro: any
   cached_network_image: any
   image_picker:  any
+  oauth2_client: any
+  url_launcher: any
+  connectivity_plus: any
 
 
 

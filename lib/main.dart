@@ -9,6 +9,7 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
+import 'package:new_projecct/controller/ControllerBinding.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
   return ChangeNotifierProvider(create: (_)=> CartProvider(),
     child: Builder(builder: (BuildContext context){
       return GetMaterialApp(
+       initialBinding: ControllerBinding(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RoutePages.generateRoute,
         initialRoute: RouteNames.splash_screen,

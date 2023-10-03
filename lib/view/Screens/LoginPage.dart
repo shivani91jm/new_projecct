@@ -1,14 +1,18 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
+import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
+import 'package:new_projecct/controller/CheckInternetController.dart';
 import 'package:new_projecct/controller/LoginController.dart';
 import 'package:new_projecct/services/google_singin.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
+import 'package:new_projecct/view/Widgets/NoInternetClass.dart';
 import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -17,12 +21,19 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 class _LoginPageState extends State<LoginPage> {
+  final CheckInternetController _controller = Get.find<CheckInternetController>();
+
+  String string = '';
   TextEditingController emailController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
   LoginController controller=Get.put(LoginController());
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    return Obx(() => _controller.connectionType.value == 1 ? datawiget() : _controller.connectionType.value == 2 ?  datawiget() : NoInternetClass(page: RouteNames.login_screen,));
+
+  }
+  Widget datawiget() {
     LinearGradient gradient = GradientHelper.getGradientFromStringColor(AppColors.RED_COLOR,AppColors.Red_drak_COLOR);
     return Scaffold(
       appBar: AppBar(
@@ -182,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 child: GestureDetector(
                                   onTap: (){
-                                    GoogleSinginClass.signup(context,controller);
+                                    GoogleSinginClass.signup(context);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(1.0),
@@ -208,14 +219,19 @@ class _LoginPageState extends State<LoginPage> {
                                     color: AppColors.whiteColors ,
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(1.0),
-                                  child: CircleAvatar(
-                                    backgroundColor: AppColors.whiteColors,
-                                    child: Image.asset(
-                                        height: 20,
-                                        width: 20,
-                                        ImageUrls.facebook_url
+                                child: GestureDetector(
+                                  onTap: () async{
+                                    CommonUtilsClass.toastMessage('Coming Soon...');
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: AppColors.whiteColors,
+                                      child: Image.asset(
+                                          height: 20,
+                                          width: 20,
+                                          ImageUrls.facebook_url
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -226,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                             height: 30,
                           ),
                           GestureDetector(
-                            onTap: () async{
+                            onTap: () async {
                               Navigator.pushNamed(context!,RouteNames.registration_screen);
                             },
                             child: Container(
@@ -266,16 +282,22 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-
   bool isValidEmail(String email) {
     final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return email.isNotEmpty && email.contains('@');
   }
-
-  // Function to validate password
   bool isValidPassword(String password) {
 
     return password.length >= 6;
   }
+  @override
+  void initState() {
+    super.initState();
+
+  }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 }

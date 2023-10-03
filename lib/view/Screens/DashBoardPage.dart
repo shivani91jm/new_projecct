@@ -2,15 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
+import 'package:new_projecct/controller/CheckInternetController.dart';
 import 'package:new_projecct/view/Screens/Fragments/AllCategoriesPage.dart';
 import 'package:new_projecct/view/Screens/Fragments/CardPage.dart';
 import 'package:new_projecct/view/Screens/Fragments/HomePage.dart';
 import 'package:new_projecct/view/Screens/Fragments/SettingPage.dart';
 import 'package:new_projecct/view/Widgets/DividerWidgets.dart';
+import 'package:new_projecct/view/Widgets/NoInternetClass.dart';
 class DashBoardPage extends StatefulWidget {
   const DashBoardPage({super.key});
   @override
@@ -48,6 +51,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   ];
   RxInt _indexNumber=0.obs;
+  final CheckInternetController _controller = Get.find<CheckInternetController>();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -83,10 +87,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
     )
     ),
     ),
-    body: Obx(() => _screen[_indexNumber.value]),
-    ) ,
-
-    );
+    body: Obx(() => _controller.connectionType.value == 1 ? datawiget() : _controller.connectionType.value == 2 ?  datawiget() : NoInternetClass(page: RouteNames.dashboard_screen,))) ,);
+  }
+  Widget datawiget(){
+    return  Obx(() => _screen[_indexNumber.value]);
   }
   Future<bool> _onWillPop() async {
     return (await showDialog(

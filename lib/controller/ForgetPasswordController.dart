@@ -62,6 +62,7 @@ class ForgetPasswordController extends GetxController {
            CommonUtilsClass.toastMessage("Password reset link has been sent to your registered email.");
            Navigator.pushNamed(context!, RouteNames.login_screen);
         }
+
       }
 
       else {

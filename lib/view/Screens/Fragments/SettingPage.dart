@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
@@ -10,6 +11,7 @@ import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/view/Widgets/CoustomAppBar.dart';
 import 'package:new_projecct/view/Widgets/DividerWidgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -46,7 +48,8 @@ class _SettingPageState extends State<SettingPage> {
             //---------------------- profile and header  ------------------
             CustomAppBar(text: "",
               height: coverHeight,
-              flag: false,),
+              flag: false,
+            ),
             Container(
                 child:  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +242,7 @@ class _SettingPageState extends State<SettingPage> {
                          ),
                          IconButton(icon:Icon(Icons.arrow_forward_ios_rounded),color: Colors.grey[400],
                            onPressed: (){
-                             Navigator.pushNamed(context,RouteNames.userProfile_screen);
+                             Navigator.pushNamed(context,RouteNames.changepassword_screen);
                            },)
                        ],
                      ),
@@ -294,17 +297,38 @@ class _SettingPageState extends State<SettingPage> {
                     //--------------------logout container --------------------------
                     GestureDetector(
                       onTap: () async{
-                        DialogUtils.showCustomDialog(context,
-                            title: AppConstentData.logout,
-                            okBtnText: AppConstentData.ok,
-                            cancelBtnText: AppConstentData.cancel,
-                             okBtnFunction: () async {
-                               GoogleSignIn _googleSignIn = GoogleSignIn();
-                               bool isSignedIn = await _googleSignIn.isSignedIn();
-                               _googleSignIn.signOut();
-                               Navigator.pop(context);
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        var  email = prefs.getString('email')?? "";
+                        if(email!="" && email!="null")
+                        {
+                          DialogUtils.showCustomDialog(context,
+                              title: AppConstentData.logout,
+                              okBtnText: AppConstentData.ok,
+                              cancelBtnText: AppConstentData.cancel,
+                              okBtnFunction: () async {
+                                GoogleSignIn _googleSignIn = GoogleSignIn();
+                                bool isSignedIn = await _googleSignIn.isSignedIn();
+                                _googleSignIn.signOut();
+                                Navigator.pop(context);
 
-                            });
+                              });
+                        }
+                        else
+                        {
+                          Get.snackbar(
+                            "Please Login or Signup",
+                            "",
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                            borderRadius: 5,
+                            margin: EdgeInsets.all(5),
+                            colorText: Colors.white,
+                            duration: Duration(seconds: 4),
+                            isDismissible: true,
+                            forwardAnimationCurve: Curves.easeOutBack,
+                          );
+                        }
+
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -334,6 +358,12 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                             IconButton(icon:Icon(Icons.logout_outlined),color: Colors.grey[400],
                               onPressed: () async{
+
+
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                             var  email = prefs.getString('email')?? "";
+                              if(email!="" && email!="null")
+                              {
                                 DialogUtils.showCustomDialog(context,
                                     title: AppConstentData.logout,
                                     okBtnText: AppConstentData.ok,
@@ -345,6 +375,28 @@ class _SettingPageState extends State<SettingPage> {
                                       Navigator.pop(context);
 
                                     });
+                              }
+                              else
+                                {
+                                  Get.snackbar(
+                                    "Please Login or Signup",
+                                    "",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                    borderRadius: 5,
+                                    margin: EdgeInsets.all(5),
+                                    colorText: Colors.white,
+                                    duration: Duration(seconds: 4),
+                                    isDismissible: true,
+                                    forwardAnimationCurve: Curves.easeOutBack,
+                                  );
+                                }
+
+
+
+
+
+
                               },)
                           ],
                         ),

@@ -15,34 +15,30 @@ class CustomButton extends StatelessWidget {
     return RawMaterialButton(
       fillColor: colors,
       splashColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children:  <Widget>[
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8.0,2.0,8.0,2.0),
-                child: isLoading.value? Container(
-                  height: 20,
-                  width: 20,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: colors,
-                    ),
-                  ),
-                ) : Text(title!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: AppColors.whiteColors,
-                      fontSize: AppSizeClass.maxSize15,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "NotoSerif"
-                  ),
-                ),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8.0,8.0,8.0,8.0),
+          child: isLoading.value? Container(
+            height: 15,
+            width: 15,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: AppColors.whiteColors,
               ),
             ),
-          ],
+          ) : Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Text(title!,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: AppColors.whiteColors,
+                  fontSize: AppSizeClass.maxSize15,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "NotoSerif"
+              ),
+            ),
+          ),
         ),
       ),
       onPressed: isLoading .value? null : onPressed,

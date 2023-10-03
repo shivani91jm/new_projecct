@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
+import 'package:new_projecct/model/ContactUs/ContactUsModel.dart';
 import 'package:new_projecct/model/Login/LoginModelClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class UpdateUserProfileController extends GetxController
@@ -28,7 +29,7 @@ class UpdateUserProfileController extends GetxController
     var url="https://palrancho.co/update_user.php";
     print("url is location"+url);
     var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.files.add(await http.MultipartFile.fromPath('profile_picture', image_path));
+   // request.files.add(await http.MultipartFile.fromPath('profile_picture', image_path));
     request.fields['user_id'] = user_id;
     request.fields['first_name'] = first_name;
     request.fields['last_name'] = last_name;
@@ -36,21 +37,21 @@ class UpdateUserProfileController extends GetxController
     print("data value"+response.toString());
     // if (response.statusCode == 200)
     // {
-    //   LoginModelClass data =  LoginModelClass.fromJson(jsonDecode(response.body));
+    //   ContactUsModel data =  ContactUsModel.fromJson(jsonDecode(response));
     //       if(data!=null)
     //       {
     //             loading.value=false;
     //             CommonUtilsClass.toastMessage(data.message.toString());
     //
     //             //------------------------store data in local ---------------------
-    //                 final prefs = await SharedPreferences.getInstance();
-    //                 // await prefs.setString('email', email);
-    //                 await prefs.setString('user_id', data.userId.toString());
-    //                 await prefs.setString('username', data.userNicename.toString());
-    //                 await prefs.setString('mobile_number', data.mobileNumber.toString());
-    //                 await prefs.setString('user_profile', data.profilePicture.toString());
+    //             //     final prefs = await SharedPreferences.getInstance();
+    //             //     // await prefs.setString('email', email);
+    //             //     await prefs.setString('user_id', data.userId.toString());
+    //             //     await prefs.setString('username', data.userNicename.toString());
+    //             //     await prefs.setString('mobile_number', data.mobileNumber.toString());
+    //             //     await prefs.setString('user_profile', data.profilePicture.toString());
     //       }
-    // }
+    //  }
     // else if (response.statusCode==403) {
     //   loading.value=false;
     //   var data=  jsonDecode(response.body);

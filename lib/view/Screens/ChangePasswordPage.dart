@@ -7,6 +7,7 @@ import 'package:new_projecct/controller/ForgetPasswordController.dart';
 import 'package:new_projecct/view/Widgets/CoustomAppBar.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangePassword extends StatefulWidget {
   @override
@@ -111,11 +112,32 @@ class _ChangePasswordState extends State<ChangePassword> {
                           child: Padding(
                               padding: const EdgeInsets.fromLTRB(8.0,0.0,8.0,0.0),
                               child: Obx(() => CustomButton(
-                                onPressed: () {
+                                onPressed: () async{
                                   String text=confirmPassController.text;
-                                  controller.changePassword(email,text);
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  email=   prefs.getString('email')?? "";
+                                  if(email!="" && email!="null") {
+                                    if(formKey.currentState!.validate()) {
+                                      controller.changePassword(email, text);
+                                    }
+                                  }
+                                  else
+                                    {
+                                      Get.snackbar(
+                                        "Please Login or Signup",
+                                        "",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                        borderRadius: 5,
+                                        margin: EdgeInsets.all(5),
+                                        colorText: Colors.white,
+                                        duration: Duration(seconds: 4),
+                                        isDismissible: true,
+                                        forwardAnimationCurve: Curves.easeOutBack,
+                                      );
+                                    }
                                 },
-                                title: AppConstentData.changePassword,
+                                title:controller.loading.value?"": AppConstentData.changePassword,
                                 colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                                 isLoading: controller.loading,
                               ),)

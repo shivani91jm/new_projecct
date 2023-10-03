@@ -325,7 +325,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
         );
     }
-    Widget  CustomProductDetails() {
+     Widget  CustomProductDetails() {
         return Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -339,7 +339,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               SizedBox(
                 height: 20,
               ),
-              //---------product price --------------
 
               //-----------------product name---------
               if(controller.model!=null || controller.model!="null")...

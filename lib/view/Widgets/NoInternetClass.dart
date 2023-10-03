@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_projecct/Routes/RoutesNames.dart';
+import 'package:get/get.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
@@ -7,9 +7,9 @@ import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 class NoInternetClass extends StatelessWidget {
- // final RouteNames. routename;
+  final String page;
 
-  const NoInternetClass({Key? key, }) : super(key: key);
+  const NoInternetClass({Key? key,required this.page}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +59,12 @@ class NoInternetClass extends StatelessWidget {
                   SizedBox(
                     height: 60,
                   ),
-                  // CustomButton(
-                  //   onPressed: () async{
-                  //     Navigator.pushNamed(context!,RouteNames.addtocart_screen);
-                  //   }, title: AppConstentData.noconnection,
-                  //   colors:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                  // ),
+                  CustomButton(
+                    onPressed: () async{
+                    Navigator.pushNamed(context,page);
+                    }, title: AppConstentData.noconnection,
+                    colors:  GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false.obs,
+                  ),
                 ],
               ),
             ),

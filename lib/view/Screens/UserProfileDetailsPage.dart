@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
@@ -149,13 +149,14 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                         SizedBox(
                           height: 30,
                         ),
-                        CustomButton(
-                            onPressed: () async{
+                       Obx(() =>  CustomButton(
+                           onPressed: () async{
 
-                            },
-                            title: AppConstentData.updateProfile,
-                            colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                            isLoading: false.obs)
+                           },
+                           title: controller.loading.value?"update profile":AppConstentData.updateProfile,
+                           colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                           isLoading: controller.loading
+                       ))
                       ],
                     ),
                   )
@@ -184,7 +185,6 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
               }, icon:Icon(
                 Icons.arrow_back_ios_new,
                 color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-
               )),
             ),
             SizedBox(
@@ -208,7 +208,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
   Widget datacgfgh() {
     return GestureDetector(
       onTap: (){
-        _showPicker(context: context);
+        //_showPicker(context: context);
       },
       child: CircleAvatar(
         backgroundColor: AppColors.whiteColors,
@@ -245,48 +245,48 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
    });
 
   }
-  Future getImage(ImageSource img,) async {
-    final pickedFile = await ImagePicker().pickImage(source: img);
-    XFile? xfilePick = pickedFile;
-    setState(
-          () {
-        if (xfilePick != null) {
-          galleryFile = File(pickedFile!.path);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
-              const SnackBar(content: Text('Nothing is selected')));
-        }
-      },
-    );
-  }
-  void _showPicker({required BuildContext context,}) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Photo Library'),
-                onTap: () async {
-                  getImage(ImageSource.gallery);
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_camera),
-                title: const Text('Camera'),
-                onTap: () {
-                  getImage(ImageSource.camera);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // Future getImage(ImageSource img,) async {
+  //   final pickedFile = await ImagePicker().pickImage(source: img);
+  //   XFile? xfilePick = pickedFile;
+  //   setState(
+  //         () {
+  //       if (xfilePick != null) {
+  //         galleryFile = File(pickedFile!.path);
+  //       } else {
+  //         ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
+  //             const SnackBar(content: Text('Nothing is selected')));
+  //       }
+  //     },
+  //   );
+  // }
+  // void _showPicker({required BuildContext context,}) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return SafeArea(
+  //         child: Wrap(
+  //           children: <Widget>[
+  //             ListTile(
+  //               leading: const Icon(Icons.photo_library),
+  //               title: const Text('Photo Library'),
+  //               onTap: () async {
+  //                 getImage(ImageSource.gallery);
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //             ListTile(
+  //               leading: const Icon(Icons.photo_camera),
+  //               title: const Text('Camera'),
+  //               onTap: () {
+  //                 getImage(ImageSource.camera);
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
 }

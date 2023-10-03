@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:new_projecct/Utils/AppColors.dart';
+import 'package:new_projecct/Utils/CommnUtils.dart';
+import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/model/ProductModel/ProductModelClass.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -17,9 +22,8 @@ class DatabaseHelper{
   inilizationDatabase() async{
     io.Directory documentDirectory=await getApplicationDocumentsDirectory();
     String path=join(documentDirectory.path,"cart.db");
-    var db=await openDatabase(path,version: 1,onCreate: onCreate,);
+    var db=await openDatabase(path,version: 2,onCreate: onCreate,);
     return db;
-
   }
   onCreate(Database db,int version)async {
     await db.execute("CREATE TABLE product_cart(id INTEGER PRIMARY KEY AUTOINCREMENT, productId VARCHAR UNIQUE, productName TEXT,productDetails TEXT,initilPrice DOUBLE,productPrice DOUBLE,qunatity INTEGER,image TEXT )"
