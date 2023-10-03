@@ -11,25 +11,23 @@ class CartProductTotalPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
-   margin: EdgeInsets.all(10),
-
-      child:   Padding(
-        padding:  EdgeInsets.fromLTRB(10,10,10,8.0),
+      margin: EdgeInsets.all(5),
+      child: Padding(
+        padding:  EdgeInsets.fromLTRB(10,10,10,10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(title, style: TextStyle(
-                color: AppColors.blackColors,
-                fontSize: AppSizeClass.maxSize20,
+                color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                fontSize: AppSizeClass.maxSize17,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text('' r"$"+ value.toString(),
              style: TextStyle(
-              color: AppColors.blackColors,
-              fontSize: AppSizeClass.maxSize20,
+              color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+              fontSize: AppSizeClass.maxSize17,
               fontWeight: FontWeight.bold,
             ),
             ),

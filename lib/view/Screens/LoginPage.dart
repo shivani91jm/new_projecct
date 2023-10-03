@@ -22,7 +22,6 @@ class LoginPage extends StatefulWidget {
 }
 class _LoginPageState extends State<LoginPage> {
   final CheckInternetController _controller = Get.find<CheckInternetController>();
-
   String string = '';
   TextEditingController emailController=TextEditingController();
   TextEditingController passwordController=TextEditingController();

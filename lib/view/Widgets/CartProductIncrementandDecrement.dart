@@ -18,24 +18,56 @@ class CartProductIncreAndDecre extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Container(
       margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-      decoration:  BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: color !,
-        ),
-      ),
+      // decoration:  BoxDecoration(
+      //   color: color,
+      //   // borderRadius: BorderRadius.circular(15),
+      //   // border: Border.all(
+      //   //   color: color !,
+      //   // ),
+      // ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(onPressed: deleteQuantity, icon: const Icon(Icons.remove,color:AppColors.whiteColors,)),
+        children: [
+              Container(
+                width: 35,
+                height: 35,
+                margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  decoration:  BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(
+                    color: color !,
+                  ),
+                ),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                      child: IconButton(onPressed: deleteQuantity,
+                          icon:  Icon(Icons.remove,color:AppColors.whiteColors,
+                            size: 20,))
+                  )),
               Text(text,style: TextStyle(
-                  color: AppColors.whiteColors,
+                  color: color!,
                   fontFamily: "",
                   fontWeight: FontWeight.bold,
                   fontSize: AppSizeClass.maxSize16
               ),),
-              IconButton(onPressed: addQuantity, icon: const Icon(Icons.add,color: AppColors.whiteColors,)),
+              Container(
+                  width: 35,
+                  height: 35,
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  decoration:  BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(
+                      color: color !,
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(onPressed: addQuantity,
+                        icon: Align(
+                          alignment: Alignment.center,
+                            child: const Icon(Icons.add,color: AppColors.whiteColors, size: 20))),
+                  )),
             ],
       ),
     );
