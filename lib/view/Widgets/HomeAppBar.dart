@@ -30,10 +30,11 @@ class HomeAppBar extends StatelessWidget {
                  Expanded(
                    child: Padding(
                      padding: const EdgeInsets.fromLTRB(8.0,5.0,0.0,0.0),
-                     child: Text(currentLocation,style: TextStyle(
+                     child: Text(currentLocation,
+                       style: TextStyle(
                          color:AppColors.whiteColors,
                          fontWeight: FontWeight.bold,
-                         fontSize: AppSizeClass.maxSize15
+                         fontSize: AppSizeClass.maxSize14
                      ),),
                    ),
                  )

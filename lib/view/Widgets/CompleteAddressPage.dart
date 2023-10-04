@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
@@ -10,6 +9,7 @@ import 'package:new_projecct/controller/DeliveryLocationController.dart';
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class CompleteAddressPage extends StatefulWidget {
 
   CompleteAddressPage({Key? key});
@@ -62,7 +62,7 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
                             color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                             fontSize: AppSizeClass.maxSize20,
                             fontWeight: FontWeight.bold,
-                            fontFamily: "NotoSerif"
+
                         ),
                       ),
                     ),
@@ -80,7 +80,7 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
                         color: AppColors.blackColors,
                         fontSize: AppSizeClass.maxSize14,
                         fontWeight: FontWeight.bold,
-                        fontFamily: "NotoSerif"
+
                     ),),
                     Obx(() =>  RadioListTile(
                       dense: true,
@@ -91,7 +91,7 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
                           color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                           fontSize: AppSizeClass.maxSize14,
                           fontWeight: FontWeight.w300,
-                          fontFamily: "NotoSerif"
+
                       ),),
                       value: 'Myself',
                       groupValue: controller.selectedValue.value,
@@ -109,7 +109,7 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
                           color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                           fontSize: AppSizeClass.maxSize14,
                           fontWeight: FontWeight.w300,
-                          fontFamily: "NotoSerif"
+
                       ),),
                       value: 'Someone else',
                       groupValue: controller.selectedValue.value,
@@ -121,7 +121,7 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
                         color: AppColors.blackColors,
                         fontSize: AppSizeClass.maxSize14,
                         fontWeight: FontWeight.bold,
-                        fontFamily: "NotoSerif"
+
                     ),),
                     SizedBox(
                       height: 20,

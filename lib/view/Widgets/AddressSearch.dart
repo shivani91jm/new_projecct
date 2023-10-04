@@ -28,7 +28,7 @@ class AddressSearch extends SearchDelegate<Suggestion>{
       onPressed: () async {
         query = '';
         //close(context, snapshot.data![index]);
-        Navigator.pop(context,"");
+        Navigator.of(context).pop();
 
 
       },
@@ -57,7 +57,7 @@ class AddressSearch extends SearchDelegate<Suggestion>{
           title: Container(
             child: Row(
               children: [
-                Icon(Icons.location_on,color: GradientHelper.getColorFromHex(AppColors.Red_drak_COLOR)),
+                Icon(Icons.location_on,color: GradientHelper.getColorFromHex(AppColors.RED_COLOR)),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(

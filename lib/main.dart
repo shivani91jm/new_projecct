@@ -11,14 +11,12 @@ import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
 import 'package:new_projecct/controller/ControllerBinding.dart';
 import 'package:provider/provider.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-        runApp(
-        DevicePreview(
+        runApp(DevicePreview(
           enabled: !kReleaseMode,
           builder: (context) => MyApp(), // Wrap your app
         ));

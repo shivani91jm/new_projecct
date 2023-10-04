@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_projecct/Utils/CommnUtils.dart';
+import 'package:new_projecct/model/AllCategories/Categories.dart';
 import 'package:new_projecct/model/CategoriesByIdModel/CategoriesModelByIdClass.dart';
 import 'package:new_projecct/model/dynamicproduct/prouct_dynamic.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,7 @@ class HomeController extends GetxController {
   RxList<String> titleList=<String>[].obs;
   RxList<CategoriesByIdModelClass> datass=<CategoriesByIdModelClass>[].obs;
   Timer? _timer;
+  RxList<Categories> catList=<Categories>[].obs;
 //-------------------slider create -----------------------
 
   @override
@@ -40,6 +42,7 @@ class HomeController extends GetxController {
    // });
   // getStoreData();
    loadCatProductIDWise();
+   allCategories();
 
  }
   @override
@@ -54,7 +57,41 @@ class HomeController extends GetxController {
    // TODO: implement onReady
    super.onReady();
  }
-void loadCatProductIDWise() async{
+
+  void allCategories() async{
+
+    var urls="https://palrancho.co/wp-json/wc/v3/products/categories?consumer_key=ck_0def1385963b008287e6d7aa1bff5a63f9a89880&consumer_secret=cs_bc192e77a03225f3bceef8d913c47692b0716869";
+    print("url is location"+urls);
+    final response = await http.get(Uri.parse(urls),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    if (response.statusCode == 200)
+    {
+
+        List<dynamic> data=json.decode(response.body);
+        print("data"+data.toString());
+        data.map((e) {
+          Categories datas = Categories.fromJson(e);
+          catList.add(datas);
+          print("futureCategoriewsdata" + catList.length.toString());
+        }).toList();
+
+    }
+    else if (response.statusCode == 500 || response.statusCode==403 ) {
+
+      Categories data =  Categories.fromJson(jsonDecode(response.body));
+      if(data!=null)
+      {
+        CommonUtilsClass.toastMessage("error");
+      }
+    }
+    else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  void loadCatProductIDWise() async{
    SharedPreferences prefs = await SharedPreferences.getInstance();
   shopUrl= prefs.getString('shopUrl')??"";
   shopConsumerKey=prefs.getString("shop_consumer_key")??"";

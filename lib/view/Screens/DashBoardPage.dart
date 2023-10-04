@@ -8,7 +8,7 @@ import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/CheckInternetController.dart';
-import 'package:new_projecct/view/Screens/Fragments/AllCategoriesPage.dart';
+
 import 'package:new_projecct/view/Screens/Fragments/CardPage.dart';
 import 'package:new_projecct/view/Screens/Fragments/HomePage.dart';
 import 'package:new_projecct/view/Screens/Fragments/SettingPage.dart';
@@ -23,7 +23,6 @@ class DashBoardPage extends StatefulWidget {
 class _DashBoardPageState extends State<DashBoardPage> {
   List<Widget> _screen = [
      HomePage(),
-    AllCategoriesPage(),
     AddToCartPage(),
     SettingPage(),
   ];
@@ -33,11 +32,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
       "non_active_icon":Icons.home_outlined,
       "label":"Home"
     },
-    {
-      "active_icon":Icons.restaurant_menu_outlined,
-      "non_active_icon":Icons.restaurant_menu_sharp,
-      "label":"Menu"
-    },
+
     {
       "active_icon":Icons.shopping_cart,
       "non_active_icon":Icons.shopping_cart_checkout,
@@ -67,7 +62,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             ()=> BottomNavigationBar(
             backgroundColor:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
             type: BottomNavigationBarType.fixed,
-            items: List.generate(4, (index) {
+            items: List.generate(3, (index) {
             var navBtnProperties=_bottomNavigationProperties[index];
             return BottomNavigationBarItem(
             icon: Icon(navBtnProperties['non_active_icon']),
@@ -93,7 +88,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
     return  Obx(() => _screen[_indexNumber.value]);
   }
   Future<bool> _onWillPop() async {
-    return (await showDialog(
+    return (
+        await showDialog(
       context: context,
       builder: (context) => AlertDialog(
         elevation: 3,

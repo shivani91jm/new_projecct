@@ -1,4 +1,4 @@
-// import 'package:another_carousel_pro/another_carousel_pro.dart';
+ import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -32,11 +32,7 @@ class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController();
   final CheckInternetController _controller = Get.find<CheckInternetController>();
   int _currentPage = 0;
-  final List<String> sliderimageUrls = [
-    "https://palrancho.co/wp-content/uploads/2020/03/Papa-Cocida.png",
-    "https://palrancho.co/wp-content/uploads/2020/03/Aguacate.png",
-    "https://palrancho.co/wp-content/uploads/2020/03/orden-de-arepas.jpg",
-  ];
+
   @override
   void initState() {
     _gotoCurrentPostion();
@@ -75,7 +71,7 @@ class _HomePageState extends State<HomePage> {
     await _getAddress(postion);
   }
   Future _getAddress(LatLng position) async{
-    final prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude,position.longitude);
     Placemark place=placemarks[0];
     String address = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode},${place.country}';
@@ -83,6 +79,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       prefs.setString("currentLocation", address);
       getCurrentLocation= prefs.getString("currentLocation")!;
+
     });
   }
   @override
@@ -155,6 +152,38 @@ class _HomePageState extends State<HomePage> {
          SizedBox(
            height: 20,
          ),
+         Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: [
+             Padding(
+               padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+               child:Text("CATEGORIES",
+                 style: TextStyle(
+                   fontSize: AppSizeClass.maxSize20,
+                   fontWeight: FontWeight.bold,
+
+                   color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                 ),
+               ),
+             ),
+             Padding(
+               padding: EdgeInsets.fromLTRB(15, 10, 10, 0),
+               child:Align(
+                 alignment: Alignment.centerRight,
+                 child: Text("View All",
+                   style: TextStyle(
+                     fontSize: AppSizeClass.maxSize12,
+                     fontWeight: FontWeight.bold,
+
+                     color: AppColors.greyColors),
+                   ),
+                 ),
+               ),
+
+           ],
+         ),
+         showAllCategories(),
+         //---------------product data -----------------------
          homeProduct(),
          SizedBox(
            height: 20,
@@ -174,18 +203,18 @@ class _HomePageState extends State<HomePage> {
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
-          // AnotherCarousel(
-          //   images: [
-          //     NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/32-1.jpg'),
-          //     NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/56.jpg'),
-          //     NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/PalRancho_Choripapitas_2880x2304-scaled.jpg'),
-          //   ],
-          //   dotSize: 6.0,
-          //   dotSpacing: 15.0,
-          //   dotColor:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-          //   indicatorBgPadding: 5.0,
-          //   dotBgColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR).withOpacity(0.5),
-          // ),
+          AnotherCarousel(
+            images: [
+              NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/32-1.jpg'),
+              NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/56.jpg'),
+              NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/PalRancho_Choripapitas_2880x2304-scaled.jpg'),
+            ],
+            dotSize: 6.0,
+            dotSpacing: 15.0,
+            dotColor:  GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+            indicatorBgPadding: 5.0,
+            dotBgColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR).withOpacity(0.5),
+          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -211,15 +240,14 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(fontSize: 20.0,
                                 color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                                 fontWeight: FontWeight.bold,
-                                fontFamily:'NotoSerif'
+
                             ),
                           ),
                           Text(
                             'Delicious Food & Wonderful Eating Experience',
                             style: TextStyle(fontSize: 15.0,
                                 color: AppColors.blackColors,
-                                fontWeight: FontWeight.w200,
-                                fontFamily:'NotoSerif'
+                                fontWeight: FontWeight.w400,
 
                             ),
                           ),
@@ -236,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(fontSize: 14.0,
                                     color: AppColors.whiteColors,
                                     fontWeight: FontWeight.w200,
-                                    fontFamily:'NotoSerif'
+
 
 
                                 ),
@@ -258,7 +286,7 @@ class _HomePageState extends State<HomePage> {
  Widget homeProduct() {
    final cart =Provider.of<CartProvider>(context);
       return  Container(
-        margin: EdgeInsets.all(5),
+        margin: EdgeInsets.fromLTRB(0,0,5,0),
         padding: EdgeInsets.all(5),
         child: ListView.builder(
           scrollDirection: Axis.vertical,
@@ -269,19 +297,14 @@ class _HomePageState extends State<HomePage> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 10,
-                  ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child:Center(
-                      child: Text(controller.futureCategoriews[index].name.toString(),
-                        style: TextStyle(
-                            fontSize: AppSizeClass.maxSize20,
-                            fontWeight: FontWeight.bold,
-                          fontFamily: "NotoSerif",
-                          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                        ),
+                    child:Text(controller.futureCategoriews[index].name.toString(),
+                      style: TextStyle(
+                          fontSize: AppSizeClass.maxSize20,
+                          fontWeight: FontWeight.bold,
+
+                        color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                       ),
                     ),
                   ),
@@ -365,24 +388,23 @@ class _HomePageState extends State<HomePage> {
                                    width: 170,
                                    child: Text(""+data.name.toString(),style: TextStyle(
                                      color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                                     fontFamily: "NotoSerif",
+
                                      fontSize: AppSizeClass.maxSize14,
                                      fontWeight: FontWeight.bold,
                                    ),)
                                ),
                              ),
-
                              Row(
                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                children: [
-                                 Align(
+                                   Align(
                                    alignment: Alignment.topLeft,
                                    child: Container(
                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                                        padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
                                        child: Text('' r"$"+data.price.toString(),style: TextStyle(
                                          color:GradientHelper.getColorFromHex(AppColors.RED_COLOR) ,
-                                         fontFamily: "NotoSerif",
+
                                          fontSize: AppSizeClass.maxSize18,
                                          fontWeight: FontWeight.bold,
 
@@ -399,7 +421,6 @@ class _HomePageState extends State<HomePage> {
                                      child: CircleAvatar(
                                        backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                                        child: IconButton(
-
                                          onPressed: () async
                                          {
                                            var id=data.id.toString();
@@ -496,6 +517,58 @@ class _HomePageState extends State<HomePage> {
         ),
       );
   }
-
+  Widget showAllCategories() {
+    return  Obx(() => Container(
+      height: 80,
+      margin: EdgeInsets.fromLTRB(10,0,10,0),
+      width: MediaQuery.of(context).size.width,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: controller.catList!.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () async{
+              Navigator.pushNamed(context, RouteNames.categories_by_screen,arguments: {
+                  "cat_name":controller.catList[index].name.toString(),
+                  "cat_id":controller.catList[index].id.toString()
+                });
+            },
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Obx(() => Card(
+                    clipBehavior: Clip.hardEdge,
+                    color:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child:Center(
+                        child: Text(controller.catList[index].name.toString(),
+                          style: TextStyle(
+                            fontSize: AppSizeClass.maxSize14,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.whiteColors,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ]
+            ),
+          );
+        },
+      ),
+    ));
+  }
 
 }

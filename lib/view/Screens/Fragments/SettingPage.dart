@@ -51,354 +51,521 @@ class _SettingPageState extends State<SettingPage> {
               flag: false,
             ),
             Container(
+              margin: EdgeInsets.fromLTRB(2,10,2,2),
                 child:  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    //-----------------------your profile----------
                     GestureDetector(
-                      onTap:(){
+                      onTap: ()async{
                         Navigator.pushNamed(context,RouteNames.userProfile_screen);
-                     },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         children: [
-                         Row(
-                           children: [
-                             CircleAvatar(
-                                 child: Icon(Icons.manage_accounts,
-                                   color: AppColors.whiteColors,
-                                 ),
-                               backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                             ),
-                             Padding(
-                               padding: const EdgeInsets.all(8.0),
-                               child: Text("Your Profile",style: TextStyle(
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: AppSizeClass.maxSize16,
-                                 fontFamily: "NotoSerif",
-                                 color:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR)
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        shadowColor: AppColors.green,
+                        elevation: 3,
+                        child: ClipPath(
+                          clipper: ShapeBorderClipper(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(color: Colors.blue, width: 15)),
+                            ),
 
-                               ),),
-                             ),
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20.0,20.0,0,0),
+                                  child: Text("Your Profile ", style: TextStyle(
+                                    fontSize: AppSizeClass.maxSize17,
+                                    fontWeight: FontWeight.w600,
 
-                           ],
-                         ),
-                         IconButton(icon:Icon(Icons.arrow_forward_ios_rounded),color: Colors.grey[400],
-                           onPressed: (){
-                           Navigator.pushNamed(context,RouteNames.userProfile_screen);
-                         },)
-                         ],
+                                    color:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  )),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: IconButton(
+                                      onPressed: () async{
+                                        Navigator.pushNamed(context,RouteNames.userProfile_screen);
+                                      }, icon: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 17,
+                                    ),
+
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+
+                          ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DividerWidgets(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                child: Icon(Icons.supervised_user_circle,
-                                  color: AppColors.whiteColors,),
-                                backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("Your Orders",style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: AppSizeClass.maxSize16,
-                                  fontFamily: "NotoSerif",
 
-                                ),),
-                              ),
+                  //--------------------your order ------------------
+                    GestureDetector(
+                      onTap: ()async{
+                        Navigator.pushNamed(context,RouteNames.allOrders_screen);
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        shadowColor: AppColors.green,
+                        elevation: 3,
+                        child: ClipPath(
+                          clipper: ShapeBorderClipper(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(color: Colors.pink, width: 15)),
+                            ),
 
-                            ],
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20.0,20.0,0,0),
+                                  child: Text("Your Orders ", style: TextStyle(
+                                    fontSize: AppSizeClass.maxSize17,
+                                    fontWeight: FontWeight.w600,
+
+                                    color:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  )),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: IconButton(
+                                      onPressed: () async{
+                                        Navigator.pushNamed(context,RouteNames.allOrders_screen);
+                                      }, icon: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 17,
+                                    ),
+
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+
                           ),
-                          IconButton(icon:Icon(Icons.arrow_forward_ios_rounded),color: Colors.grey[400],
-                            onPressed: (){
-                              Navigator.pushNamed(context,RouteNames.allOrders_screen);
-                            },)
-                        ],
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DividerWidgets(),
+                    //---------------------address book ----------------
                     GestureDetector(
-                      onTap: (){
+                      onTap: ()async{
                         Navigator.pushNamed(context,RouteNames.complete_address_screen);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        shadowColor: AppColors.green,
+                        elevation: 3,
+                        child: ClipPath(
+                          clipper: ShapeBorderClipper(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(color: Colors.green, width: 15)),
+                            ),
+
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CircleAvatar(
-                                  child: Icon(Icons.supervised_user_circle,
-                                    color: AppColors.whiteColors,),
-                                  backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text("Address book",style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: AppSizeClass.maxSize16,
-                                    fontFamily: "NotoSerif",
+                                  padding: const EdgeInsets.fromLTRB(20.0,20.0,0,0),
+                                  child: Text("Address Book ", style: TextStyle(
+                                    fontSize: AppSizeClass.maxSize17,
+                                    fontWeight: FontWeight.w600,
 
-                                  ),),
+                                    color:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  )),
                                 ),
 
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: IconButton(
+                                      onPressed: () async{
+                                        Navigator.pushNamed(context,RouteNames.complete_address_screen);
+                                      }, icon: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 17,
+                                    ),
+
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
-                            IconButton(icon:Icon(Icons.arrow_forward_ios_rounded),color: Colors.grey[400],
-                              onPressed: (){
-                                Navigator.pushNamed(context,RouteNames.complete_address_screen);
-                              },)
 
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DividerWidgets(),
+                //-----------------shop location-------------------
                     GestureDetector(
-                      onTap: (){
+                      onTap: ()async{
+                        Navigator.pushNamed(context,RouteNames.location_screen);
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        shadowColor: AppColors.green,
+                        elevation: 3,
+                        child: ClipPath(
+                          clipper: ShapeBorderClipper(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(color: Colors.pink, width: 15)),
+                            ),
+
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20.0,20.0,0,0),
+                                  child: Text("Shop Location ", style: TextStyle(
+                                    fontSize: AppSizeClass.maxSize17,
+                                    fontWeight: FontWeight.w600,
+
+                                    color:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  )),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: IconButton(
+                                      onPressed: () async{
+                                        Navigator.pushNamed(context,RouteNames.location_screen);
+                                      }, icon: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 17,
+                                    ),
+
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+
+                          ),
+                        ),
+                      ),
+                    ),
+
+                //----------------contact us ------------------------
+                    GestureDetector(
+                      onTap: ()async{
                         Navigator.pushNamed(context,RouteNames.contactus_screen);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  child: Icon(Icons.supervised_user_circle,
-                                    color: AppColors.whiteColors,),
-                                  backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text("Contact Us",style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: AppSizeClass.maxSize16,
-                                    fontFamily: "NotoSerif",
-                                  ),),
-                                ),
-
-                              ],
-                            ),
-                            IconButton(icon:Icon(Icons.arrow_forward_ios_rounded),color: Colors.grey[400],
-                              onPressed: (){
-                                Navigator.pushNamed(context,RouteNames.contactus_screen);
-                              },)
-                          ],
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DividerWidgets(),
-                    GestureDetector(
-                   onTap: () async{
-                     Navigator.pushNamed(context!, RouteNames.changepassword_screen,);
-                     },
-                   child:  Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: [
-                         Row(
-                           children: [
-                             CircleAvatar(
-                               child: Icon(Icons.supervised_user_circle,
-                                 color: AppColors.whiteColors,),
-                               backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                             ),
-                             Padding(
-                               padding: const EdgeInsets.all(8.0),
-                               child: Text(AppConstentData.changePassword,
-                                 style: TextStyle(
-                                 fontWeight: FontWeight.w500,
-                                 fontSize: AppSizeClass.maxSize16,
-                                 fontFamily: "NotoSerif",
-                               ),
-                               ),
-                             ),
+                        shadowColor: AppColors.green,
+                        elevation: 3,
+                        child: ClipPath(
+                          clipper: ShapeBorderClipper(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(color: Colors.yellow, width: 15)),
+                            ),
 
-                           ],
-                         ),
-                         IconButton(icon:Icon(Icons.arrow_forward_ios_rounded),color: Colors.grey[400],
-                           onPressed: (){
-                             Navigator.pushNamed(context,RouteNames.changepassword_screen);
-                           },)
-                       ],
-                     ),
-                   ),
-                 ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DividerWidgets(),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.pushNamed(context,RouteNames.aboutus_screen);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CircleAvatar(
-                                    child: Icon(Icons.contact_page,
-                                      color: AppColors.whiteColors,
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20.0,20.0,0,0),
+                                  child: Text("Contact Us", style: TextStyle(
+                                    fontSize: AppSizeClass.maxSize17,
+                                    fontWeight: FontWeight.w600,
+
+                                    color:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  )),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: IconButton(
+                                      onPressed: () async{
+
+                                        Navigator.pushNamed(context,RouteNames.contactus_screen);
+                                      }, icon: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 17,
                                     ),
-                                  backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text("About Us",style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: AppSizeClass.maxSize16,
-                                    fontFamily: "NotoSerif",
-                                    color: AppColors.blackColors
 
-                                  ),),
-                                ),
-
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
-                            IconButton(icon:Icon(Icons.arrow_forward_ios_rounded),color: Colors.grey[400],
-                              onPressed: (){
-                                Navigator.pushNamed(context,RouteNames.aboutus_screen);
-                              },)
-                          ],
+
+                          ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DividerWidgets(),
-                    //--------------------logout container --------------------------
+
+                  //-----------------------change password -------------
                     GestureDetector(
-                      onTap: () async{
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        var  email = prefs.getString('email')?? "";
-                        if(email!="" && email!="null")
-                        {
-                          DialogUtils.showCustomDialog(context,
-                              title: AppConstentData.logout,
-                              okBtnText: AppConstentData.ok,
-                              cancelBtnText: AppConstentData.cancel,
-                              okBtnFunction: () async {
-                                GoogleSignIn _googleSignIn = GoogleSignIn();
-                                bool isSignedIn = await _googleSignIn.isSignedIn();
-                                _googleSignIn.signOut();
-                                Navigator.pop(context);
-
-                              });
-                        }
-                        else
-                        {
-                          Get.snackbar(
-                            "Please Login or Signup",
-                            "",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                            borderRadius: 5,
-                            margin: EdgeInsets.all(5),
-                            colorText: Colors.white,
-                            duration: Duration(seconds: 4),
-                            isDismissible: true,
-                            forwardAnimationCurve: Curves.easeOutBack,
-                          );
-                        }
-
+                      onTap: ()async{
+                        Navigator.pushNamed(context,RouteNames.changepassword_screen);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        shadowColor: AppColors.green,
+                        elevation: 3,
+                        child: ClipPath(
+                          clipper: ShapeBorderClipper(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(color: Colors.purpleAccent, width: 15)),
+                            ),
+
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CircleAvatar(
-                                  child: Icon(Icons.contact_page,
-                                    color: AppColors.whiteColors,
-                                  ),
-                                  backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(AppConstentData.logout,style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: AppSizeClass.maxSize16,
-                                      fontFamily: "NotoSerif",
-                                      color: AppColors.blackColors
+                                  padding: const EdgeInsets.fromLTRB(20.0,20.0,0,0),
+                                  child: Text("Change Password", style: TextStyle(
+                                    fontSize: AppSizeClass.maxSize17,
+                                    fontWeight: FontWeight.w600,
 
-                                  ),),
+                                    color:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  )),
                                 ),
 
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: IconButton(
+                                      onPressed: () async{
+
+                                        Navigator.pushNamed(context,RouteNames.changepassword_screen);
+                                      }, icon: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 17,
+                                    ),
+
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
-                            IconButton(icon:Icon(Icons.logout_outlined),color: Colors.grey[400],
-                              onPressed: () async{
 
+                          ),
+                        ),
+                      ),
+                    ),
 
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                             var  email = prefs.getString('email')?? "";
-                              if(email!="" && email!="null")
-                              {
-                                DialogUtils.showCustomDialog(context,
-                                    title: AppConstentData.logout,
-                                    okBtnText: AppConstentData.ok,
-                                    cancelBtnText: AppConstentData.cancel,
-                                    okBtnFunction: () async {
-                                      GoogleSignIn _googleSignIn = GoogleSignIn();
-                                      bool isSignedIn = await _googleSignIn.isSignedIn();
-                                      _googleSignIn.signOut();
-                                      Navigator.pop(context);
+    //------------------------------about us------------------------
+                    GestureDetector(
+                      onTap: ()async{
+                        Navigator.pushNamed(context,RouteNames.aboutus_screen);
+                        },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        shadowColor: AppColors.green,
+                        elevation: 3,
+                        child: ClipPath(
+                          clipper: ShapeBorderClipper(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(color: Colors.deepOrange, width: 15)),
+                            ),
 
-                                    });
-                              }
-                              else
-                                {
-                                  Get.snackbar(
-                                    "Please Login or Signup",
-                                    "",
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                    borderRadius: 5,
-                                    margin: EdgeInsets.all(5),
-                                    colorText: Colors.white,
-                                    duration: Duration(seconds: 4),
-                                    isDismissible: true,
-                                    forwardAnimationCurve: Curves.easeOutBack,
-                                  );
-                                }
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20.0,20.0,0,0),
+                                  child: Text("About Us", style: TextStyle(
+                                    fontSize: AppSizeClass.maxSize17,
+                                    fontWeight: FontWeight.w600,
 
+                                    color:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  )),
+                                ),
 
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: IconButton(
+                                      onPressed: () async{
 
+                                        Navigator.pushNamed(context,RouteNames.aboutus_screen);
+                                      }, icon: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 17,
+                                    ),
 
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
 
+                          ),
+                        ),
+                      ),
+                    ),
+                    //--------------------logout container --------------------------
 
-                              },)
-                          ],
+                    GestureDetector(
+                      onTap: ()async{
+
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            var  email = prefs.getString('email')?? "";
+                            if(email!="" && email!="null")
+                            {
+                              DialogUtils.showCustomDialog(context,
+                                  title: AppConstentData.logout,
+                                  okBtnText: AppConstentData.ok,
+                                  cancelBtnText: AppConstentData.cancel,
+                                  okBtnFunction: () async {
+                                    GoogleSignIn _googleSignIn = GoogleSignIn();
+                                    bool isSignedIn = await _googleSignIn.isSignedIn();
+                                    _googleSignIn.signOut();
+                                    Navigator.pop(context);
+
+                                  });
+                            }
+                            else
+                            {
+                             dialogNoAccount();
+                            }
+
+                        },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        shadowColor: AppColors.green,
+                        elevation: 3,
+                        child: ClipPath(
+                          clipper: ShapeBorderClipper(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(color: Colors.cyan, width: 15)),
+                            ),
+
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20.0,20.0,0,0),
+                                  child: Text("Logout", style: TextStyle(
+                                    fontSize: AppSizeClass.maxSize17,
+                                    fontWeight: FontWeight.w600,
+
+                                    color:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  )),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: IconButton(
+                                      onPressed: () async{
+
+                                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                                        var  email = prefs.getString('email')?? "";
+                                        if(email!="" && email!="null")
+                                        {
+                                          DialogUtils.showCustomDialog(context,
+                                              title: AppConstentData.logout,
+                                              okBtnText: AppConstentData.ok,
+                                              cancelBtnText: AppConstentData.cancel,
+                                              okBtnFunction: () async {
+                                                GoogleSignIn _googleSignIn = GoogleSignIn();
+                                                bool isSignedIn = await _googleSignIn.isSignedIn();
+                                                _googleSignIn.signOut();
+                                                Navigator.pop(context);
+
+                                              });
+                                        }
+                                        else
+                                        {
+                                          dialogNoAccount();
+                                        }
+
+                                      }, icon: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 17,
+                                    ),
+
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+
+                          ),
                         ),
                       ),
                     ),
@@ -428,6 +595,90 @@ class _SettingPageState extends State<SettingPage> {
             ),
           )
       ),
+    );
+  }
+
+  void dialogNoAccount() async {
+    await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      elevation: 3,
+
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      title: Align(alignment:Alignment.center,
+          child: Row(
+            children: [
+              Container(
+                child:  Image.asset(ImageUrls.logo_url),
+                height: 40,
+                width: 30,
+              ),
+              Text('Please Login or SingUp',
+                style: TextStyle(
+                  fontSize: AppSizeClass.maxSize17,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "NotoSerif",
+                  color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                ),
+              ),
+            ],
+          )),
+      content: Container(
+          height: 80,
+          decoration: BoxDecoration(),
+          child: Column(
+            children: [
+
+              SizedBox(
+                height: 10,
+              ),
+              DividerWidgets(),
+              SizedBox(
+                height: 10,
+              ),
+              Text("Don't have an account... ",
+                style: TextStyle(
+                  fontSize: AppSizeClass.maxSize17,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "NotoSerif",
+                  color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                ),
+
+              ),
+            ],
+          )),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text('No',
+                style: TextStyle(
+                  fontSize: AppSizeClass.maxSize18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "NotoSerif",
+                  color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, RouteNames.login_screen);
+              },
+              child: Text('Yes',
+                style: TextStyle(
+                  fontSize: AppSizeClass.maxSize18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "NotoSerif",
+                  color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                ),
+              ),
+            ),
+          ],
+        )
+      ],
+    ),
     );
   }
 }

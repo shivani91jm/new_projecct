@@ -6,8 +6,8 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
-import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
+import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
 import 'package:new_projecct/database/db_helper.dart';
 import 'package:new_projecct/model/ProductModel/ProductModelClass.dart';
@@ -38,6 +38,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
     DatabaseHelper? dbHelper = DatabaseHelper();
     final cart = Provider.of<CartProvider>(context);
     return Scaffold(
+      backgroundColor: Colors.white10,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
@@ -72,13 +73,11 @@ class _AddToCartPageState extends State<AddToCartPage> {
       bottomNavigationBar: Consumer<CartProvider>(
           builder: (context, value,  child) {
             print("value.totalPrice"+value.totalPrice.toString());
-            return Card(
-              elevation: 5,
-              child: Container(
-              height: 200,
-
+            return Container(
+            height: 220,
               child: Visibility(
-                visible: (((value.totalPrice.toString())=="0.00" ||(value.totalPrice.toString())=="0.0"||  (value.totalPrice.toString())=="-0.00" || (value.totalPrice.toString()).contains("-"))?false:true),
+              visible: (((value.totalPrice.toString())=="0.00" ||(value.totalPrice.toString())=="0.0"||  (value.totalPrice.toString())=="-0.00" || (value.totalPrice.toString()).contains("-"))?false:true),
+              child: Card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -116,8 +115,8 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   ],
                 ),
               ),
-          ),
-            );
+            ),
+          );
         }),
       body: Column(
          crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,235 +125,322 @@ class _AddToCartPageState extends State<AddToCartPage> {
              future: cart.getData(),
              builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount:snapshot.data!.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index)
-                      {
-                        return Card(
-                          elevation: AppSizeClass.maxSize10,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
+                if(snapshot.data!.isEmpty)
+                  {
+                    return   Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.asset(ImageUrls.empty_url),
+                          margin: EdgeInsets.fromLTRB(10, 30, 10, 10),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Align(
+                            child: Text("Cart is Empty",
+                            style: TextStyle(
+                                color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                fontWeight: FontWeight.bold,
+                                fontSize: AppSizeClass.maxSize25
+                            ),),
+                            alignment: Alignment.center,
                           ),
-                          child: Row(
-
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(5.0,2.0,5.0,5.0),
-                                    child: Container(
-                                      height: 100,
-                                      width: 100,
-                                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(100),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR).withOpacity(0.3),
-                                                offset: Offset(-1,10),
-                                                blurRadius: 10
-                                            )
-                                          ]
-                                      ),
-                                      child: Card(
-                                        clipBehavior: Clip.hardEdge,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(50.0),
-                                        ),
-                                        child: CircleAvatar(
-                                            backgroundColor:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                            child: CachedNetworkImage(imageUrl: snapshot.data![index].image.toString(),
-                                            )),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 240,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.fromLTRB(10,10,0,0),
-                                          padding:  EdgeInsets.fromLTRB(10,10,0,0),
-                                          child: IconButton(
-                                              onPressed: () {
-                                                dbHelper!.deleteCartItem(int.parse(snapshot.data![index].productId.toString()));
-                                                cart.removeCounter();
-                                                cart.removeTotalPrice(snapshot.data![index].productPrice!);
-                                              },
-                                              icon: Icon(
-                                                Icons.delete,
-                                                color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                        ),
+                      ],
+                    );
+                  }
+                else {
+                  return Expanded(
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: snapshot.data!.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: AppSizeClass.maxSize10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Row(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          5.0, 2.0, 5.0, 5.0),
+                                      child: Container(
+                                        height: 100,
+                                        width: 100,
+                                        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(100),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR).withOpacity(0.3),
+                                                  offset: Offset(-1, 10),
+                                                  blurRadius: 10
                                               )
-                                          ),
-                                          alignment: Alignment.centerRight,
+                                            ]
                                         ),
-                                        //----------------------product name container  -----------
-                                         Row(
-                                           children: [
-                                             Container(
-                                               child: Text(""+snapshot.data![index].productName.toString(),
-                                                  style: TextStyle(
-                                                  color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                                  fontFamily: "NotoSerif",
-                                                  fontSize: AppSizeClass.maxSize15,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                ),
-                                               margin: EdgeInsets.fromLTRB(10,10,0,0),
-                                               padding:  EdgeInsets.fromLTRB(10,10,0,0),
-                                             ),
-
-                                           ],
-                                         ),
-                                        //---------------- product price------------------
-                                         Row(
-                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                           children: [
-                                             Column(
-                                               children: [
-                                                 Container(
-                                                   margin: EdgeInsets.fromLTRB(10,10,0,0),
-                                                   padding:  EdgeInsets.fromLTRB(10,0,0,0),
-                                                 child:  RichText(
-                                                   maxLines: 1,
-                                                   text: TextSpan(
-                                                       text: '' r"$",
-                                                       style: TextStyle(
-                                                           color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                                                           fontSize: AppSizeClass.maxSize20),
-                                                       children: [
-                                                         TextSpan(
-                                                             text:
-                                                             '${snapshot.data![index].initilPrice!}\n',
-                                                             style: const TextStyle(
-                                                               fontWeight: FontWeight.bold,
-                                                               fontFamily: "NotoSerif",
-                                                               fontSize: AppSizeClass.maxSize20,
-
-                                                             )),
-                                                       ]),
-                                                 ),
-                                       ),
-                                                 if(snapshot.data![index].quantity>1)...
-                                                   {
-                                                     Container(
-                                                       margin: EdgeInsets
-                                                           .fromLTRB(
-                                                           10, 0, 0, 0),
-                                                       padding: EdgeInsets
-                                                           .fromLTRB(
-                                                           10, 0, 0, 0),
-                                                       child: RichText(
-                                                         maxLines: 1,
-                                                         text: TextSpan(
-                                                             text: 'Price' r"$",
-                                                             style: TextStyle(
-                                                                 color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                                                                 fontSize: AppSizeClass
-                                                                     .maxSize12),
-                                                             children: [
-                                                               TextSpan(
-                                                                   text:
-                                                                   '${snapshot
-                                                                       .data![index]
-                                                                       .productPrice!}\n',
-                                                                   style: const TextStyle(
-                                                                     fontWeight: FontWeight
-                                                                         .bold,
-                                                                     fontFamily: "NotoSerif",
-                                                                     fontSize: AppSizeClass
-                                                                         .maxSize12,
-
-                                                                   )),
-                                                             ]),
-                                                       ),
-                                                     ),
-                                                   }
-                                               ],
-                                             ),
-                                             Container(
-                                               child: CartProductIncreAndDecre(
-                                                 addQuantity: () {
-                                                   int quantity=snapshot.data![index].quantity;
-                                                   double? price=snapshot.data![index].initilPrice;
-                                                   quantity++;
-                                                   double? newprice=price! * (quantity.toDouble());
-                                                   dbHelper.updateQuantity(
-                                                       CartModelClass(
-                                                         // id:snapshot.data![index].id,
-                                                           productId: snapshot.data![index].productId,
-                                                           productName: snapshot.data![index].productName,
-                                                           productDetails: snapshot.data![index].productDetails,
-                                                           initilPrice: snapshot.data![index].initilPrice,
-                                                           productPrice: newprice,
-                                                           quantity: quantity,
-                                                           image: snapshot.data![index].image)).
-                                                   then((value){
-                                                     newprice=0.0;
-                                                     quantity=0;
-                                                     cart.addTotalPrice(snapshot.data![index].initilPrice!);
-                                                   }).onError((error, stackTrace){
-
-                                                     print(error.toString());
-                                                   });
-
-                                                 },
-                                                 deleteQuantity: () {
-                                                   int quantity=snapshot.data![index].quantity;
-                                                   double? price=snapshot.data![index].initilPrice;
-                                                   quantity--;
-                                                   double? newprice=price! * (quantity.toDouble());
-                                                   if(quantity>0){
-                                                     dbHelper.updateQuantity(
-                                                         CartModelClass(
-                                                           // id:snapshot.data![index].id,
-                                                             productId: snapshot.data![index].productId,
-                                                             productName: snapshot.data![index].productName,
-                                                             productDetails: snapshot.data![index].productDetails,
-                                                             initilPrice: snapshot.data![index].initilPrice,
-                                                             productPrice: newprice,
-                                                             quantity: quantity,
-                                                             image: snapshot.data![index].image)).
-                                                     then((value){
-                                                       newprice=0.0;
-                                                       quantity=0;
-                                                       cart.removeTotalPrice(snapshot.data![index].initilPrice!);
-                                                     }).onError((error, stackTrace){
-
-                                                       print(error.toString());
-                                                     });
-                                                   }
-                                                 },
-
-                                                 color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                                 text: snapshot.data![index].quantity!.toString(),
-                                               ),
-                                               padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                             ),
-
-                                           ],
-                                         ),
-
-
-
-                                      ],
+                                        child: Card(
+                                          clipBehavior: Clip.hardEdge,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                50.0),
+                                          ),
+                                          child: CircleAvatar(
+                                              backgroundColor: GradientHelper
+                                                  .getColorFromHex(
+                                                  AppColors.RED_COLOR),
+                                              child: CachedNetworkImage(
+                                                imageUrl: snapshot.data![index]
+                                                    .image.toString(),
+                                              )),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                    SizedBox(
+                                      width: 240,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
 
-                            ],
-                          ),
-                        );
-                      },
-                    )
-                );
+                                          //----------------------product name container  -----------
+                                          Container(
+                                            child: Text("" +
+                                                snapshot.data![index]
+                                                    .productName.toString(),
+                                              style: TextStyle(
+                                                color: GradientHelper
+                                                    .getColorFromHex(
+                                                    AppColors.RED_COLOR),
+
+                                                fontSize: AppSizeClass
+                                                    .maxSize15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+
+                                          ),
+                                          //---------------- product price------------------
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.fromLTRB(
+                                                        10, 10, 0, 0),
+                                                    padding: EdgeInsets
+                                                        .fromLTRB(0, 0, 0, 0),
+                                                    child: RichText(
+                                                      maxLines: 1,
+                                                      text: TextSpan(
+                                                          text: '' r"$",
+                                                          style: TextStyle(
+                                                              color: GradientHelper
+                                                                  .getColorFromHex(
+                                                                  AppColors
+                                                                      .YellowDrak_COLOR),
+                                                              fontSize: AppSizeClass
+                                                                  .maxSize17),
+                                                          children: [
+                                                            TextSpan(
+                                                                text:
+                                                                '${snapshot
+                                                                    .data![index]
+                                                                    .initilPrice!}\n',
+                                                                style: const TextStyle(
+                                                                  fontWeight: FontWeight
+                                                                      .bold,
+
+                                                                  fontSize: AppSizeClass
+                                                                      .maxSize17,
+
+                                                                )),
+                                                          ]),
+                                                    ),
+                                                  ),
+                                                  if(snapshot.data![index].quantity > 1)...
+                                                  {
+                                                    Container(
+                                                      margin: EdgeInsets
+                                                          .fromLTRB(
+                                                          10, 0, 0, 0),
+                                                      padding: EdgeInsets
+                                                          .fromLTRB(
+                                                          10, 0, 0, 0),
+                                                      child: RichText(
+                                                        maxLines: 1,
+                                                        text: TextSpan(
+                                                            text: 'Price' r"$",
+                                                            style: TextStyle(
+                                                                color: GradientHelper
+                                                                    .getColorFromHex(
+                                                                    AppColors
+                                                                        .YellowDrak_COLOR),
+                                                                fontSize: AppSizeClass
+                                                                    .maxSize12),
+                                                            children: [
+                                                              TextSpan(
+                                                                  text:
+                                                                  '${snapshot
+                                                                      .data![index]
+                                                                      .productPrice!}\n',
+                                                                  style: const TextStyle(
+                                                                    fontWeight: FontWeight
+                                                                        .bold,
+
+                                                                    fontSize: AppSizeClass
+                                                                        .maxSize12,
+
+                                                                  )),
+                                                            ]),
+                                                      ),
+                                                    ),
+                                                  }
+                                                ],
+                                              ),
+                                              Container(
+                                                child: CartProductIncreAndDecre(
+                                                  addQuantity: () {
+                                                    int quantity = snapshot
+                                                        .data![index].quantity;
+                                                    double? price = snapshot
+                                                        .data![index]
+                                                        .initilPrice;
+                                                    quantity++;
+                                                    double? newprice = price! *
+                                                        (quantity.toDouble());
+                                                    dbHelper.updateQuantity(
+                                                        CartModelClass(
+                                                          // id:snapshot.data![index].id,
+                                                            productId: snapshot
+                                                                .data![index]
+                                                                .productId,
+                                                            productName: snapshot
+                                                                .data![index]
+                                                                .productName,
+                                                            productDetails: snapshot
+                                                                .data![index]
+                                                                .productDetails,
+                                                            initilPrice: snapshot
+                                                                .data![index]
+                                                                .initilPrice,
+                                                            productPrice: newprice,
+                                                            quantity: quantity,
+                                                            image: snapshot
+                                                                .data![index]
+                                                                .image)).
+                                                    then((value) {
+                                                      newprice = 0.0;
+                                                      quantity = 0;
+                                                      cart.addTotalPrice(
+                                                          snapshot.data![index]
+                                                              .initilPrice!);
+                                                    }).onError((error,
+                                                        stackTrace) {
+                                                      print(error.toString());
+                                                    });
+                                                  },
+                                                  deleteQuantity: () {
+                                                    int quantity = snapshot
+                                                        .data![index].quantity;
+                                                    double? price = snapshot
+                                                        .data![index]
+                                                        .initilPrice;
+                                                    quantity--;
+                                                    double? newprice = price! *
+                                                        (quantity.toDouble());
+                                                    if (quantity > 0) {
+                                                      dbHelper.updateQuantity(
+                                                          CartModelClass(
+                                                            // id:snapshot.data![index].id,
+                                                              productId: snapshot
+                                                                  .data![index]
+                                                                  .productId,
+                                                              productName: snapshot
+                                                                  .data![index]
+                                                                  .productName,
+                                                              productDetails: snapshot
+                                                                  .data![index]
+                                                                  .productDetails,
+                                                              initilPrice: snapshot
+                                                                  .data![index]
+                                                                  .initilPrice,
+                                                              productPrice: newprice,
+                                                              quantity: quantity,
+                                                              image: snapshot
+                                                                  .data![index]
+                                                                  .image)).
+                                                      then((value) {
+                                                        newprice = 0.0;
+                                                        quantity = 0;
+                                                        cart.removeTotalPrice(
+                                                            snapshot
+                                                                .data![index]
+                                                                .initilPrice!);
+                                                      }).onError((error,
+                                                          stackTrace) {
+                                                        print(error.toString());
+                                                      });
+                                                    }
+                                                  },
+
+                                                  color: GradientHelper
+                                                      .getColorFromHex(
+                                                      AppColors.RED_COLOR),
+                                                  text: snapshot.data![index]
+                                                      .quantity!.toString(),
+                                                ),
+                                                padding: EdgeInsets.fromLTRB(
+                                                    5, 5, 5, 5),
+                                              ),
+
+                                            ],
+                                          ),
+
+                                             GestureDetector(
+                                               onTap:(){
+                                                 dbHelper!.deleteCartItem(int.parse(snapshot.data![index].productId.toString()));
+                                                 cart.removeCounter();
+                                                 cart.removeTotalPrice(snapshot.data![index].productPrice!);
+                                                 },
+                                               child: Container(
+                                                 child: Icon(
+                                                    Icons.delete,
+                                                    color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                                                    size: 20,
+                                                  ),
+                                                 margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+
+
+                                               ),
+                                             )
+
+
+
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                  );
+                }
               }
+
               return Center(child:  CircularProgressIndicator(
                 color: GradientHelper.getColorFromHex(AppColors.Red_drak_COLOR),
               ));

@@ -78,9 +78,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             ),
                             Align(
                             child: IconButton(
-                              onPressed: () async{
-
-                            }, icon: Icon(
+                              onPressed: () async{},
+                              icon: Icon(
                               Icons.arrow_forward_ios_rounded,
                               size: 17,
                               color: AppColors.green,
@@ -148,83 +147,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     ),
                   ),
                 ),
-                //---------------------your profile-----------------------------
-                Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                shadowColor: AppColors.green,
-                elevation: 3,
-                  child: ClipPath(
-                  clipper: ShapeBorderClipper(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15))),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                          left: BorderSide(color: Colors.cyan, width: 15)),
-                    ),
-                    padding: EdgeInsets.all(5.0),
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-
-                              Text("Your details", style: TextStyle(
-                                fontSize: AppSizeClass.maxSize17,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: "NotoSerif",
-                                color:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                              )),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("", style: TextStyle(
-                                    fontSize: AppSizeClass.maxSize17,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: "NotoSerif",
-                                    color:GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                  )),
-                                  Text("", style: TextStyle(
-                                    fontSize: AppSizeClass.maxSize17,
-
-                                    fontFamily: "NotoSerif",
-                                    color:AppColors.blackColors,
-                                  )),
-
-                                ],
-                              )
-                            ],
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0,8,0,0),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: IconButton(
-                                onPressed: () async{
-
-                                }, icon: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 17,
-                              ),
-
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-
-                  ),
-                ),
-              ),
             ],
           ),
         ),

@@ -10,6 +10,7 @@ import 'package:new_projecct/Utils/PlaceApiProvider.dart';
 import 'package:new_projecct/Utils/Suggestion.dart';
 import 'package:new_projecct/controller/DeliveryLocationController.dart';
 import 'package:new_projecct/view/Widgets/AddressSearch.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectLocationPage extends StatefulWidget {
   const SelectLocationPage({super.key});
@@ -18,7 +19,7 @@ class SelectLocationPage extends StatefulWidget {
 }
 class _SelectLocationPageState extends State<SelectLocationPage> {
   DeliveryLocationController controller =Get.put(DeliveryLocationController());
-  String? _currentAddress;
+  String _currentAddress="";
   Position? _currentPosition;
   var latitude='';
   var longitude='';
@@ -27,6 +28,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getValue();
     _handleLocationPermission(context);
     _getCurrentPosition();
   }
@@ -35,34 +37,23 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-        title: GestureDetector(
-          onTap: () async{},
-          child: Row(
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.arrow_drop_down_outlined,size: AppSizeClass.maxSize25,
-                    color: AppColors.blackColors ,
-                  ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Select Location",style: TextStyle(
-                            color: AppColors.blackColors,
-                            fontSize: AppSizeClass.maxSize20,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "NotoSerif"
-                        ),),
-                      ),
-                    ],
-                  ),
+        title: Row(
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Select Location",
+                    style: TextStyle(
+                      color: AppColors.whiteColors,
+                      fontSize: AppSizeClass.maxSize20,
+                      fontWeight: FontWeight.w500,
 
-                ],
-              ),
-            ],
-          ),
+                  ),),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
@@ -71,31 +62,34 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                controller: controller.selectLocationController,
-                onTap: () async {
-                  showSearch(
-                    context: context,
-                    delegate: AddressSearch(),
-                  );
-                },
-                decoration: InputDecoration(
-                  icon: Container(
-                    margin: EdgeInsets.only(left: 20),
-                    width: 10,
-                    height: 10,
-                    child: Icon(
-                      Icons.home,
-                      color: Colors.black,
+              Container(
+                child: TextField(
+                  controller: controller.selectLocationController,
+                  onTap: () async {
+                    showSearch(
+                      context: context,
+                      delegate: AddressSearch(),
+                    );
+                  },
+                  decoration: InputDecoration(
+                    icon: Container(
+                      margin: EdgeInsets.only(left: 20),
+                      width: 10,
+                      height: 10,
+                      child: Icon(
+                        Icons.home,
+                        color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                      ),
                     ),
+                    hintText: "Search any location .....",
+                    border: InputBorder.none,
+
+                    contentPadding: EdgeInsets.only(left: 8.0, top: 16.0),
                   ),
-                  hintText: "Enter your shipping address",
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(left: 8.0, top: 16.0),
                 ),
               ),
               Card(
-                  elevation: 1,
+                  elevation: 3,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -129,15 +123,15 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                                    children: [
                                      Text("Use current location",style: TextStyle(
                                          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                         fontSize: AppSizeClass.maxSize14,
+                                         fontSize: AppSizeClass.maxSize15,
                                          fontWeight: FontWeight.bold,
-                                         fontFamily: "NotoSerif"
+
                                      ),),
                                      Text(_currentAddress.toString(),style: TextStyle(
                                          color: GradientHelper.getColorFromHex(AppColors.Red_drak_COLOR),
                                          fontSize: AppSizeClass.maxSize12,
-                                         fontWeight: FontWeight.w200,
-                                         fontFamily: "NotoSerif"
+                                         fontWeight: FontWeight.bold,
+
                                      ),),
 
                                    ],
@@ -164,7 +158,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                         ),
                         Divider(
                           height: 1,
-                          color: Colors.grey[300],
+                          color: Colors.grey[500],
                         ),
                         SizedBox(
                           height: 10,
@@ -190,7 +184,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text("Add location",style: TextStyle(
                                             color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                            fontSize: AppSizeClass.maxSize14,
+                                            fontSize: AppSizeClass.maxSize15,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: "NotoSerif"
                                         ),),
@@ -258,6 +252,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
     });
   }
   Future<void> _getAddressFromLatLng(Position position) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
       controller.latitude.value=_currentPosition!.latitude.toString();
@@ -267,10 +262,17 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
       setState(() {
         _currentAddress= '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
         controller.selectLocation(_currentAddress!);
+        prefs.setString("currentLocation", _currentAddress);
         controller.addressController.value=_currentAddress!;
+
       });
     }).catchError((e) {
       debugPrint(e);
     });
+  }
+
+  void getValue() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _currentAddress= prefs.getString("currentLocation")!;
   }
 }

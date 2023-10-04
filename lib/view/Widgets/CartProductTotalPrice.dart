@@ -22,8 +22,7 @@ class CartProductTotalPrice extends StatelessWidget {
                 color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                 fontSize: AppSizeClass.maxSize17,
                 fontWeight: FontWeight.bold,
-              ),
-            ),
+              ),),
             Text('' r"$"+ value.toString(),
              style: TextStyle(
               color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),

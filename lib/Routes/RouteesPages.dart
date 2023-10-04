@@ -8,6 +8,7 @@ import 'package:new_projecct/view/Screens/ContactUsPage.dart';
 import 'package:new_projecct/view/Screens/DashBoardPage.dart';
 import 'package:new_projecct/view/Screens/DeliveryLocationPage.dart';
 import 'package:new_projecct/view/Screens/ForgetPasswordPage.dart';
+import 'package:new_projecct/view/Screens/Fragments/AllCategoriesPage.dart';
 import 'package:new_projecct/view/Screens/Fragments/CardPage.dart';
 import 'package:new_projecct/view/Screens/Fragments/ProductDetailsPage.dart';
 import 'package:new_projecct/view/Screens/LoginPage.dart';
@@ -56,6 +57,9 @@ class RoutePages {
     return MaterialPageRoute(builder: (_) => ForgetPassword());
     case RouteNames.checkout_screen:
     return MaterialPageRoute(builder: (_) => CheckOutPage(data:settings.arguments as Map));
+    case RouteNames.categories_by_screen:
+    return MaterialPageRoute(builder: (_) => AllCategoriesPage(data:settings.arguments as Map));
+
     default:
     return MaterialPageRoute(builder: (context) {
       return Scaffold(

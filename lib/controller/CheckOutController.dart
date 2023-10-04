@@ -20,7 +20,6 @@ class CheckOutController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getValue();
-
   }
   void checkoutOrder() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,7 +42,6 @@ class CheckOutController extends GetxController {
         var country="india";
         var email="shivani@techindi.con";
         var phone="77777777777";
-
         var payment_method="basic";
         var payment_method_title="online payment";
         var set_paid="true";
@@ -100,7 +98,6 @@ class CheckOutController extends GetxController {
         throw Exception('Failed to load album');
      }
   }
-
   void getValue() async{
     print("fdgdsfhgsdhfshfj");
     DatabaseHelper? dbHelper = DatabaseHelper();
@@ -116,6 +113,5 @@ class CheckOutController extends GetxController {
        }
 
       }
-
-  }
+ }
 
