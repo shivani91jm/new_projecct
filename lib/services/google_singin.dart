@@ -31,6 +31,7 @@ class GoogleSinginClass {
         loading.value=true;
       var userEmail=  user!.email;
       var userName=user.displayName;
+
         // controller.loginApi(userEmail!,userName!);
       var urls=BaseUrlsClass.loginUrls;
       print("url is location"+urls);
@@ -53,8 +54,6 @@ class GoogleSinginClass {
         {
 
           CommonUtilsClass.toastMessage(data.message.toString());
-
-
           //------------------------store data in local ---------------------
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('email', data.userEmail.toString());
@@ -62,6 +61,9 @@ class GoogleSinginClass {
           await prefs.setString('username', data.userNicename.toString());
           await prefs.setString('mobile_number', data.mobileNumber.toString());
           await prefs.setString('user_profile', data.profilePicture.toString());
+          await prefs.setString('user_firstName', data.first_name.toString());
+          await prefs.setString('user_lastName', data.last_name.toString());
+
           showDialog(context: context!, builder: (BuildContext context){
             return  CustomDialogBox(title: AppConstentData.Login,
               descriptions: AppConstentData.loginsucess,
@@ -80,13 +82,15 @@ class GoogleSinginClass {
           var urls=BaseUrlsClass.signUpUrls;
           print("url is location"+urls);
           var body=jsonEncode(<String, String>{
-            'username': "",
+            'username': userEmail.toString(),
             'password': userName.toString(),
             'email': userEmail.toString(),
             'mobile_number':"",
             'location': "",
             'latitude': "",
-            'longitude': ""
+            'longitude': "",
+            "first_name":userName.toString(),
+            "last_name": userName.toString()
           });
           print("body"+body.toString());
           final response = await http.post(
@@ -102,13 +106,25 @@ class GoogleSinginClass {
             LoginModelClass data =  LoginModelClass.fromJson(jsonDecode(response.body));
             if(data!=null)
             {
-                CommonUtilsClass.toastMessage(data.message.toString());
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.setString('email', data.userEmail.toString());
-                await prefs.setString('user_id', data.userId.toString());
-                await prefs.setString('username', data.userNicename.toString());
-                await prefs.setString('mobile_number', data.mobileNumber.toString());
-                await prefs.setString('user_profile', data.profilePicture.toString());
+               if(data.message=="Registration successful")
+                 {
+                   CommonUtilsClass.toastMessage(data.message.toString());
+                   final prefs = await SharedPreferences.getInstance();
+                   await prefs.setString('email', data.userEmail.toString());
+                   await prefs.setString('user_id', data.userId.toString());
+                   await prefs.setString('username', data.userNicename.toString());
+                   await prefs.setString('mobile_number', data.mobileNumber.toString());
+                   await prefs.setString('user_profile', data.profilePicture.toString());
+                   await prefs.setString('user_firstName', data.first_name.toString());
+                   await prefs.setString('user_lastName', data.last_name.toString());
+                   showDialog(context: context!, builder: (BuildContext context){
+                     return  CustomDialogBox(title: "Registration",
+                       descriptions: AppConstentData.loginsucess,
+                       img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
+                       , cancelBtn: AppConstentData.cancel,);
+                   }
+                   );
+                 }
 
             }
           }
@@ -129,9 +145,13 @@ class GoogleSinginClass {
             throw Exception('Failed to load album');
           }
         }
+        else
+          {
+            var msg=  CommonUtilsClass.removeHtmlTags(data['message']);
+            CommonUtilsClass.toastMessage(msg);
+          }
 
-        var msg=  CommonUtilsClass.removeHtmlTags(data['message']);
-        CommonUtilsClass.toastMessage(msg);
+
       }
       else if (response.statusCode == 500)
       {

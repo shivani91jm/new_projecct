@@ -59,8 +59,8 @@ class ForgetPasswordController extends GetxController {
         ContactUsModel data =  ContactUsModel.fromJson(jsonDecode(response.body));
         if(data!=null)
         {
-           CommonUtilsClass.toastMessage("Password reset link has been sent to your registered email.");
-           Navigator.pushNamed(context!, RouteNames.login_screen);
+          CommonUtilsClass.toastMessage(data.message.toString());
+          Navigator.pushNamed(context!, RouteNames.login_screen);
         }
 
       }

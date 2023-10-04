@@ -58,18 +58,21 @@ class SignUpController extends GetxController{
     final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return emailRegex.hasMatch(email);
   }
-  void singUpApi(String name,String email,String password,String mobile,String address) async{
+  void singUpApi(String first,String last,String email,String password,String mobile,String address) async{
     loading.value=true;
     var urls=BaseUrlsClass.signUpUrls;
     print("url is location"+urls);
     var body=jsonEncode(<String, String>{
-      'username': name,
+      'username': email,
       'password': password,
       'email': email,
       'mobile_number':mobile,
       'location': address,
       'latitude': latitude,
-      'longitude': longitude
+      'longitude': longitude,
+      "first_name":first,
+      "last_name": last.toString()
+
     });
     print("body"+body.toString());
     final response = await http.post(
@@ -92,6 +95,8 @@ class SignUpController extends GetxController{
         await prefs.setString('username', data.userNicename.toString());
         await prefs.setString('mobile_number', data.mobileNumber.toString());
         await prefs.setString('user_profile', data.profilePicture.toString());
+        await prefs.setString('user_firstName', data.first_name.toString());
+        await prefs.setString('user_lastName', data.last_name.toString());
          Navigator.pushReplacementNamed(context!,RouteNames.dashboard_screen);
       }
     }

@@ -100,6 +100,7 @@ class _HomePageState extends State<HomePage> {
   Widget datawiget(){
     return  Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
           actions: [
@@ -174,8 +175,8 @@ class _HomePageState extends State<HomePage> {
                    style: TextStyle(
                      fontSize: AppSizeClass.maxSize12,
                      fontWeight: FontWeight.bold,
-
-                     color: AppColors.greyColors),
+                       color: AppColors.greyColors
+                   ),
                    ),
                  ),
                ),

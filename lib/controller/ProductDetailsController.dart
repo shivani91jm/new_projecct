@@ -24,6 +24,7 @@ class ProductDetailsController extends GetxController{
     super.onReady();
   }
   void loadProduct() async{
+    isLoading.value=true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // shopUrl= prefs.getString('shopUrl')!;
     // shopConsumerKey=prefs.getString("shop_consumer_key")!;

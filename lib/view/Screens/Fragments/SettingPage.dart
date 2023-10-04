@@ -480,18 +480,92 @@ class _SettingPageState extends State<SettingPage> {
                               DialogUtils.showCustomDialog(context,
                                   title: AppConstentData.logout,
                                   okBtnText: AppConstentData.ok,
-                                  cancelBtnText: AppConstentData.cancel,
-                                  okBtnFunction: () async {
-                                    GoogleSignIn _googleSignIn = GoogleSignIn();
-                                    bool isSignedIn = await _googleSignIn.isSignedIn();
-                                    _googleSignIn.signOut();
-                                    Navigator.pop(context);
-
-                                  });
+                                  cancelBtnText: AppConstentData.cancel);
                             }
+
                             else
                             {
-                             dialogNoAccount();
+                              await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  elevation: 3,
+
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                                  title: Align(alignment:Alignment.center,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            child:  Image.asset(ImageUrls.logo_url),
+                                            height: 40,
+                                            width: 30,
+                                          ),
+                                          Text('Please Login or SingUp',
+                                            style: TextStyle(
+                                              fontSize: AppSizeClass.maxSize17,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "NotoSerif",
+                                              color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  content: Container(
+                                      height: 80,
+                                      decoration: BoxDecoration(),
+                                      child: Column(
+                                        children: [
+
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          DividerWidgets(),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text("Don't have an account... ",
+                                            style: TextStyle(
+                                              fontSize: AppSizeClass.maxSize17,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "NotoSerif",
+                                              color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                                            ),
+
+                                          ),
+                                        ],
+                                      )),
+                                  actions: <Widget>[
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () => Navigator.of(context).pop(false),
+                                          child: Text('No',
+                                            style: TextStyle(
+                                              fontSize: AppSizeClass.maxSize18,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "NotoSerif",
+                                              color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                            ),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pushReplacementNamed(context, RouteNames.login_screen);
+                                          },
+                                          child: Text('Yes',
+                                            style: TextStyle(
+                                              fontSize: AppSizeClass.maxSize18,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "NotoSerif",
+                                              color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
                             }
 
                         },
@@ -532,7 +606,6 @@ class _SettingPageState extends State<SettingPage> {
                                     alignment: Alignment.center,
                                     child: IconButton(
                                       onPressed: () async{
-
                                         SharedPreferences prefs = await SharedPreferences.getInstance();
                                         var  email = prefs.getString('email')?? "";
                                         if(email!="" && email!="null")
@@ -541,13 +614,9 @@ class _SettingPageState extends State<SettingPage> {
                                               title: AppConstentData.logout,
                                               okBtnText: AppConstentData.ok,
                                               cancelBtnText: AppConstentData.cancel,
-                                              okBtnFunction: () async {
-                                                GoogleSignIn _googleSignIn = GoogleSignIn();
-                                                bool isSignedIn = await _googleSignIn.isSignedIn();
-                                                _googleSignIn.signOut();
-                                                Navigator.pop(context);
 
-                                              });
+
+                                              );
                                         }
                                         else
                                         {

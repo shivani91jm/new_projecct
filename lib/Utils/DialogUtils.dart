@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/view/Widgets/DividerWidgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DialogUtils{
   static DialogUtils _instance = new DialogUtils.internal();
@@ -15,7 +18,7 @@ class DialogUtils{
         String okBtnText = "Ok",
         String cancelBtnText = "Cancel",
         String content="Are You sure Logout these application",
-        required  okBtnFunction}) {
+      }) {
     showDialog(
         context: context,
         builder: (_) {
@@ -59,7 +62,14 @@ class DialogUtils{
                              color: GradientHelper.getColorFromHex(AppColors.RED_COLOR)
 
                          ),),
-                       onPressed: okBtnFunction(),
+                       onPressed:() async{
+                         SharedPreferences prefs = await SharedPreferences.getInstance();
+                         GoogleSignIn _googleSignIn = GoogleSignIn();
+                         bool isSignedIn = await _googleSignIn.isSignedIn();
+                         _googleSignIn.signOut();
+                         Navigator.pushNamed(context,RouteNames.login_screen);
+                         await prefs.clear();
+                       },
                      ),
                      TextButton(
                          style: TextButton.styleFrom(

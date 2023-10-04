@@ -3,7 +3,7 @@ class AppConstentData
   static const String google_map_key="AIzaSyDBLCF-IWFb1aNXDWpDYl8IufUHBROgbdc";
   static const String enterEmail=" Email is required!!";
   static const String Email="Enter Email ";
-  static const String UserName="Enter UserName ";
+  static const String UserName="Enter  First Name ";
   static const String enterPassword="Enter Password is required!!";
   static const String enterConPassword="Enter Confirm Password is required!!";
   static const String enterMoble="Enter Mobile is required!!";

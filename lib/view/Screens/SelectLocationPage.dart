@@ -64,6 +64,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
             children: [
               Container(
                 child: TextField(
+                  showCursor: false,
                   controller: controller.selectLocationController,
                   onTap: () async {
                     showSearch(
@@ -82,7 +83,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                       ),
                     ),
                     hintText: "Search any location .....",
-                    border: InputBorder.none,
+                    border: OutlineInputBorder(),
 
                     contentPadding: EdgeInsets.only(left: 8.0, top: 16.0),
                   ),

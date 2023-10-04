@@ -109,7 +109,6 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
         Widget dataShow(){
          final cart =Provider.of<CartProvider>(context);
           return Container(
-
             child: Obx(() => ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount:controller.catByIdList.length,
@@ -174,7 +173,6 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
                                   children: [
                                     Container(
                                         padding: const EdgeInsets.fromLTRB(5.0,2.0,5.0,5.0),
-
                                         child: Text(""+data.name.toString(),style: TextStyle(
                                           color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                                           fontSize: AppSizeClass.maxSize14,
