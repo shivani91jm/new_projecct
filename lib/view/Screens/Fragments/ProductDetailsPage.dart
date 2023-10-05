@@ -10,11 +10,12 @@ import 'package:new_projecct/controller/CartProvider.dart';
 import 'package:new_projecct/controller/ProductDetailsController.dart';
 import 'package:new_projecct/database/db_helper.dart';
 import 'package:new_projecct/model/ProductModel/ProductModelClass.dart';
-
 import 'package:new_projecct/view/Widgets/CartProductIncrementandDecrement.dart';
-
 import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:provider/provider.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   var data;
@@ -24,7 +25,8 @@ class ProductDetailsPage extends StatefulWidget {
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
-  var product_img,product_id,product_name;
+  var product_img="",product_id,product_name="";
+  var product_desc="", product_quanity="";
   ProductDetailsController controller=Get.put(ProductDetailsController());
   DatabaseHelper? databaseHelper=DatabaseHelper();
   @override
@@ -34,6 +36,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     product_id=widget.data['product_id'];
     product_img=widget.data['product_image'];
     product_name=widget.data['product_name'];
+
+
     controller.loadProduct();
     controller.recentProduct();
   }
@@ -41,11 +45,95 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget build(BuildContext context) {
     LinearGradient gradient = GradientHelper.getGradientFromStringColor(AppColors.Red_drak_COLOR,AppColors.RED_COLOR);
     controller.productId.value=product_id.toString();
-    return Scaffold(
-      backgroundColor:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
 
-      body: Obx(() => controller.isLoading.value?  Center(child: CircularProgressIndicator(
-        color: AppColors.whiteColors,),) : HomeData())
+    return Scaffold(
+
+        bottomNavigationBar: Consumer<CartProvider>(
+            builder: (context, value,  child) {
+              final cart =Provider.of<CartProvider>(context);
+              print("value.totalPrice"+value.totalPrice.toString());
+              return Container(
+                height: 100,
+                child: Visibility(
+                  visible: (controller.isLoading.isTrue?false:true),
+                  child: Card(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding:  EdgeInsets.fromLTRB(0,20,0,0),
+                          child: CustomButton(
+                            onPressed: () async {
+                              databaseHelper!.insert(
+                                  CartModelClass(
+                                    // id: cat_in,
+                                      productId: product_id.toString(),
+                                      productName: product_name,
+                                      productDetails: controller.model.description,
+                                      initilPrice: double.parse(controller.model.price.toString()),
+                                      productPrice: double.parse(controller.model.price.toString()),
+                                      quantity: 1,
+                                      image: product_img
+                                  )
+                              ).then((value)  {
+                                print("add product added");
+                                cart.addTotalPrice(double.parse(controller.model.price.toString()));
+                                cart.addCounter();
+                                Get.snackbar(
+                                  "Add product added cart.",
+                                  "",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  borderRadius: 5,
+                                  margin: EdgeInsets.all(5),
+                                  colorText: Colors.white,
+                                  duration: Duration(seconds: 4),
+                                  isDismissible: true,
+
+                                  forwardAnimationCurve: Curves.easeOutBack,
+                                );
+                                Navigator.pushNamed(context, RouteNames.addtocart_screen);
+                              }).onError((error, stackTrace) {
+                                print("erorr"+error.toString());
+                                if (error is DatabaseException && error.isUniqueConstraintError()) {
+                                  //      // Handle the UNIQUE constraint error here
+                                  Get.snackbar(
+                                    "Product already exists in the cart.",
+                                    "",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                    borderRadius: 5,
+                                    margin: EdgeInsets.all(5),
+                                    colorText: Colors.white,
+                                    duration: Duration(seconds: 4),
+                                    isDismissible: true,
+
+                                    forwardAnimationCurve: Curves.easeOutBack,
+
+                                  );
+
+                                  print("Product already exists in the cart.");
+                                }
+
+
+
+                              });
+
+
+                            },
+                            title: AppConstentData.continues,
+                            colors:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                            isLoading: false.obs,),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
+
+        body: Obx(() => controller.isLoading.value?  Center(child: CircularProgressIndicator(
+        color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),) : HomeData())
     );
   }
      Widget HomeData() {
@@ -66,7 +154,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
      Widget recentProducts(){
-
+       final cart =Provider.of<CartProvider>(context);
          return ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount:controller.recentProduct.length,
@@ -74,7 +162,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         itemBuilder: (context,cat_in){
           var data=controller.recentProduct[cat_in];
           return  Container(
-            height: MediaQuery.of(context).size.height*0.5,
+
             child: GestureDetector(
               onTap: () async{},
               child: Container(
@@ -122,8 +210,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                           child: Container(
-                            width: 180,
-                            height: 180,
+                            width: 100,
+                            height: 100,
                             child: Image.network("https://palrancho.co/wp-content/uploads/2020/03/Papa-Cocida.png", fit: BoxFit.cover,),
                           ),
                         ),
@@ -131,16 +219,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       SizedBox(
                         height: 10,
                       ),
-
                       if(data.postTitle!="null")...
                       {
                         Container(
                           padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            width: 150,
-                            height: 60,
+                            width: 140,
+                            height: 70,
                             child: Text(""+data.postTitle.toString(),style: TextStyle(
                               color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                              fontFamily: "NotoSerif",
                               fontSize: AppSizeClass.maxSize13,
                               fontWeight: FontWeight.bold,
                                ),
@@ -150,123 +236,52 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       SizedBox(
                         height: 5,
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   children: [
-                      //     Align(
-                      //       alignment: Alignment.topLeft,
-                      //       child: Container(
-                      //           margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                      //           padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
-                      //           child: Text('' r"$"+data.price.toString(),style: TextStyle(
-                      //             color:GradientHelper.getColorFromHex(AppColors.RED_COLOR) ,
-                      //             fontFamily: "NotoSerif",
-                      //             fontSize: AppSizeClass.maxSize18,
-                      //             fontWeight: FontWeight.bold,
-                      //
-                      //           ),)
-                      //       ),
-                      //     ),
-                      //     Align(
-                      //       alignment: Alignment.topRight,
-                      //       child:   Container(
-                      //         margin: EdgeInsets.fromLTRB(50, 0, 10, 10),
-                      //         child: Padding(
-                      //           padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                      //           child: CircleAvatar(
-                      //             backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                      //             child: IconButton(
-                      //
-                      //               onPressed: () async
-                      //               {
-                      //                 // databaseHelper!.insert(
-                      //                 //     CartModelClass(
-                      //                 //         id: index,
-                      //                 //         productId: data.id.toString(),
-                      //                 //         productName: data.name,
-                      //                 //         productDetails: data.name,
-                      //                 //         initilPrice: double.parse(data.price.toString()),
-                      //                 //         productPrice: double.parse(data.price.toString()),
-                      //                 //         quantity: ValueNotifier(1),
-                      //                 //         image: imgae
-                      //                 //     )
-                      //                 // ).then((value)  {
-                      //                 //   print("add product added");
-                      //                 //   cart.addTotalPrice(double.parse(data.price.toString()));
-                      //                 //   cart.addCounter();
-                      //
-                      //                 // }).onError((error, stackTrace) {
-                      //                 //   print("erorr"+error.toString());
-                      //                 // });
-                      //
-                      //               },
-                      //               icon: Icon(Icons.shopping_cart,color: AppColors.whiteColors,
-                      //               ),
-                      //
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     )
-                      //   ],
-                      // )
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                              padding: const EdgeInsets.fromLTRB(5.0,2.0,5.0,5.0),
-                              child: Text('' r"$"+data.price.toString(),style: TextStyle(
-                                color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                                fontFamily: "NotoSerif",
-                                fontSize: AppSizeClass.maxSize14,
-                                fontWeight: FontWeight.bold,
-                              ),)
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                                margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
+                                child: Text('' r"$"+data.price.toString(),style: TextStyle(
+                                  color:GradientHelper.getColorFromHex(AppColors.RED_COLOR) ,
+
+                                  fontSize: AppSizeClass.maxSize18,
+                                  fontWeight: FontWeight.bold,
+
+                                ),)
+                            ),
                           ),
-                          Container(
-                              margin: EdgeInsets.fromLTRB(10,0,10,0),
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20), // Adjust the radius as needed
-                                    ),
-                                    primary: GradientHelper.getColorFromHex(AppColors.RED_COLOR), // Background color
-                                  ),
-                                  onPressed: () async{
-                                    databaseHelper!.insert(
-                                        CartModelClass(
-                                          // id: cat_in,
-                                            productId: product_id.toString(),
-                                            productName: product_name,
-                                            productDetails: "",
-                                            initilPrice: double.parse(data.price.toString()),
-                                            productPrice: double.parse(data.price.toString()),
-                                            quantity: 1,
-                                            image: product_img
-                                        )
-                                    ).then((value)  {
-                                      print("add product added");
-                                      cart.addTotalPrice(double.parse(data.price.toString()));
-                                      cart.addCounter();
-                                      Get.snackbar(
-                                        "Add product added cart.",
-                                        "",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                        borderRadius: 5,
-                                        margin: EdgeInsets.all(5),
-                                        colorText: Colors.white,
-                                        duration: Duration(seconds: 4),
-                                        isDismissible: true,
-                                        forwardAnimationCurve: Curves.easeOutBack,
-                                      );
-                                      Navigator.pushNamed(context, RouteNames.addtocart_screen);
-                                    }).onError((error, stackTrace) {
-                                      print("erorr"+error.toString());
-                                      if (error is DatabaseException && error.isUniqueConstraintError()) {
-                                        //      // Handle the UNIQUE constraint error here
+                          Align(
+                            alignment: Alignment.topRight,
+                            child:   Container(
+                              margin: EdgeInsets.fromLTRB(50, 0, 10, 10),
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                child: CircleAvatar(
+                                  backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                  child: IconButton(
+
+                                    onPressed: () async
+                                    {
+                                      databaseHelper!.insert(
+                                          CartModelClass(
+                                            // id: cat_in,
+                                              productId: product_id.toString(),
+                                              productName: product_name,
+                                              productDetails: "",
+                                              initilPrice: double.parse(data.price.toString()),
+                                              productPrice: double.parse(data.price.toString()),
+                                              quantity: 1,
+                                              image: product_img
+                                          )
+                                      ).then((value)  {
+                                        print("add product added");
+                                        cart.addTotalPrice(double.parse(data.price.toString()));
+                                        cart.addCounter();
                                         Get.snackbar(
-                                          "Product already exists in the cart.",
+                                          "Add product added cart.",
                                           "",
                                           snackPosition: SnackPosition.BOTTOM,
                                           backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
@@ -275,21 +290,44 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                           colorText: Colors.white,
                                           duration: Duration(seconds: 4),
                                           isDismissible: true,
-
                                           forwardAnimationCurve: Curves.easeOutBack,
-
                                         );
+                                        Navigator.pushNamed(context, RouteNames.addtocart_screen);
+                                      }).onError((error, stackTrace) {
+                                        print("erorr"+error.toString());
+                                        if (error is DatabaseException && error.isUniqueConstraintError()) {
+                                          //      // Handle the UNIQUE constraint error here
+                                          Get.snackbar(
+                                            "Product already exists in the cart.",
+                                            "",
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                            borderRadius: 5,
+                                            margin: EdgeInsets.all(5),
+                                            colorText: Colors.white,
+                                            duration: Duration(seconds: 4),
+                                            isDismissible: true,
 
-                                        print("Product already exists in the cart.");
-                                      }
+                                            forwardAnimationCurve: Curves.easeOutBack,
 
-                                    });
+                                          );
 
+                                          print("Product already exists in the cart.");
+                                        }
+                                      });
 
+                                    },
+                                      icon: Icon(Icons.shopping_cart,color: AppColors.whiteColors,
+                                    ),
 
-                                  }, child: Text("add to cart")))
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                         ],
-                      ),
+                      )
+
                     ],
                   ),
                 ),
@@ -387,7 +425,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               SizedBox(
                 height: 20,
               ),
-
               //-----------------product name---------
               if(controller.model!=null || controller.model!="null")...
               {
@@ -397,7 +434,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                    style: TextStyle(
                      color: GradientHelper.getColorFromHex(
                          AppColors.RED_COLOR),
-                     fontFamily: "NotoSerif",
+
                      fontSize: AppSizeClass.maxSize20,
                      fontWeight: FontWeight.bold,
                    ),
@@ -410,11 +447,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             child:   Text(""+CommonUtilsClass.removeHtmlTags(controller.model!.description.toString()),
               style: TextStyle(
                 color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                fontFamily: "NotoSerif",
                 fontSize: AppSizeClass.maxSize13,
                 fontWeight: FontWeight.bold,
               ),
-
             ),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -426,17 +461,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
                         child: Text('' r"$"+controller.model!.price.toString(),style: TextStyle(
                           color:GradientHelper.getColorFromHex(AppColors.RED_COLOR) ,
-                          fontFamily: "NotoSerif",
+
                           fontSize: AppSizeClass.maxSize18,
                           fontWeight: FontWeight.bold,
 
                         ),)
                     ),
                   ),
-
+                  //----------------------- add to cart -----------
                 ],
               ),
-
               SizedBox(
                 height: 20,
               ),
@@ -450,7 +484,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                    style: TextStyle(
                      fontSize: AppSizeClass.maxSize20,
                      fontWeight: FontWeight.bold,
-                     fontFamily: "NotoSerif",
+
                      color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                    ),
                  ),
@@ -461,7 +495,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                    style: TextStyle(
                      fontSize: AppSizeClass.maxSize13,
                      fontWeight: FontWeight.bold,
-                     fontFamily: "NotoSerif",
+
                      color:AppColors.green,
                    ),
                  ),
@@ -476,6 +510,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 width: MediaQuery.of(context).size.width,
                 child:  recentProducts(),
               )
+
             ],
           ),
         );

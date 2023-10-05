@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
@@ -68,7 +69,7 @@ class GoogleSinginClass {
             return  CustomDialogBox(title: AppConstentData.Login,
               descriptions: AppConstentData.loginsucess,
               img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
-              , cancelBtn: AppConstentData.cancel,);
+              , cancelBtn: AppConstentData.cancel, pagename: RouteNames.dashboard_screen,);
           }
           );
         }
@@ -121,7 +122,7 @@ class GoogleSinginClass {
                      return  CustomDialogBox(title: "Registration",
                        descriptions: AppConstentData.loginsucess,
                        img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
-                       , cancelBtn: AppConstentData.cancel,);
+                       , cancelBtn: AppConstentData.cancel, pagename: RouteNames.dashboard_screen,);
                    }
                    );
                  }

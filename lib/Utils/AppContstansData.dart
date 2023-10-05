@@ -1,6 +1,7 @@
 class AppConstentData
 {
   static const String google_map_key="AIzaSyDBLCF-IWFb1aNXDWpDYl8IufUHBROgbdc";
+  static const String flag_page="1";
   static const String enterEmail=" Email is required!!";
   static const String Email="Enter Email ";
   static const String UserName="Enter  First Name ";
@@ -46,4 +47,5 @@ class AppConstentData
   static const String updateProfile="Update Profile";
   static const String forgetdetails="Enter the email address associated  with \n your account";
   static const String checkinernet="Please check your internet connection \n and try again ..";
+
 }

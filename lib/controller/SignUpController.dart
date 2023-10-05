@@ -102,9 +102,18 @@ class SignUpController extends GetxController{
     }
     else if (response.statusCode == 500) {
       loading.value=false;
-      LoginModelClass data=  LoginModelClass.fromJson(jsonDecode(response.body));
+      var  data=  jsonDecode(response.body);
+      if(data['message']=="User already registered with this email")
+        {
+          CommonUtilsClass.toastMessage(data['message']);
+          Navigator.pushNamed(context!, RouteNames.login_screen);
+        }
+
+      else{
+        CommonUtilsClass.toastMessage("Server side Error");
+      }
       print(""+data.toString());
-      CommonUtilsClass.toastMessage("Server side Error");
+
     }
     else {
       loading.value=false;

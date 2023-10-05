@@ -9,8 +9,11 @@ import 'package:new_projecct/model/Login/LoginModelClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class UpdateUserProfileController extends GetxController
 {
-  TextEditingController nameController=TextEditingController();
-  TextEditingController emailController=TextEditingController();
+  TextEditingController firstController=TextEditingController();
+  TextEditingController lastController=TextEditingController();
+  TextEditingController mobileController=TextEditingController();
+
+
   var user_id="";
   var first_name="";
   var last_name="";

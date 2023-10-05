@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
@@ -60,7 +61,7 @@ class LoginController extends GetxController {
         CommonUtilsClass.toastMessage(data.message.toString());
 
         //------------------------store data in local ---------------------
-          final prefs = await SharedPreferences.getInstance();
+          SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('email', email);
           await prefs.setString('user_id', data.userId.toString());
           await prefs.setString('username', data.userNicename.toString());
@@ -73,17 +74,17 @@ class LoginController extends GetxController {
               return  CustomDialogBox(title: AppConstentData.Login,
                 descriptions: AppConstentData.loginsucess,
                 img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
-                , cancelBtn: AppConstentData.cancel,);
+                , cancelBtn: AppConstentData.cancel, pagename: RouteNames.dashboard_screen,);
             }
         );
       }
     }
     else if (response.statusCode==403) {
-      loading.value=false;
-      var data=  jsonDecode(response.body);
-      print(""+data.toString());
-      var msg=  CommonUtilsClass.removeHtmlTags(data['message']);
-      CommonUtilsClass.toastMessage(msg);
+          loading.value=false;
+          var data=  jsonDecode(response.body);
+          print(""+data.toString());
+          var msg=  CommonUtilsClass.removeHtmlTags(data['message']);
+          CommonUtilsClass.toastMessage(msg);
     }
     else if (response.statusCode == 500)
     {

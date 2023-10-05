@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
        initialBinding: ControllerBinding(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RoutePages.generateRoute,
-        initialRoute: RouteNames.dashboard_screen,
+        initialRoute: RouteNames.splash_screen,
       );
     }),
   );

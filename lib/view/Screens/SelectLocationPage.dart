@@ -271,7 +271,6 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
       debugPrint(e);
     });
   }
-
   void getValue() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _currentAddress= prefs.getString("currentLocation")!;

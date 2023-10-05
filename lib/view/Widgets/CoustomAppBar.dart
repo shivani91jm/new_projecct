@@ -30,10 +30,8 @@ class CustomAppBar extends StatelessWidget {
             color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
             image: new DecorationImage(
                 image: new ExactAssetImage(ImageUrls.contact_url,),
-              fit: BoxFit.cover
-            ),
-
-          ),
+                fit: BoxFit.cover
+            ),),
           child: Container(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +60,6 @@ class CustomAppBar extends StatelessWidget {
                   fontWeight: FontWeight.bold
                 ),),
               ),
-
             ],
           )
           ),

@@ -17,7 +17,6 @@ import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/DividerWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:shared_preferences/shared_preferences.dart';
 class AddToCartPage extends StatefulWidget {
   const AddToCartPage({super.key});
   @override
@@ -26,9 +25,13 @@ class AddToCartPage extends StatefulWidget {
 class _AddToCartPageState extends State<AddToCartPage> {
   var totalTax=0.0;
   var gradtotal;
+  var currentLocation="";
+  var totalItem="";
+
   @override
   void initState() {
     super.initState();
+
     totalTax=  totalTax* 0.07;
     context.read<CartProvider>().getData();
   }
@@ -38,7 +41,6 @@ class _AddToCartPageState extends State<AddToCartPage> {
     DatabaseHelper? dbHelper = DatabaseHelper();
     final cart = Provider.of<CartProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white10,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
@@ -72,6 +74,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
       ),
       bottomNavigationBar: Consumer<CartProvider>(
           builder: (context, value,  child) {
+            gradtotal=(double.parse(value.totalPrice.toString())*7.00/100+double.parse(value.totalPrice.toString())).toStringAsFixed(2);
             print("value.totalPrice"+value.totalPrice.toString());
             return Container(
             height: 220,
@@ -86,38 +89,32 @@ class _AddToCartPageState extends State<AddToCartPage> {
                     CartProductTotalPrice(title: "Tax (7%)", value: ((double.parse(value.totalPrice.toString())*7/100).toStringAsFixed(2))),
                     DividerWidgets(),
                     CartProductTotalPrice(title: "Total", value:   ((double.parse(value.totalPrice.toString())*7.00/100+double.parse(value.totalPrice.toString())).toStringAsFixed(2))),
+                    //
                     Padding(
                       padding:  EdgeInsets.fromLTRB(10,0,10,0),
                       child: CustomButton(
                         onPressed: () async {
-                          final prefs = await SharedPreferences.getInstance();
-                          var email=  await prefs.getString('email')?? "";
-                          print("data"+email.toString());
-                          if(email!="null" && email!="")
-                          {
-                            var product_id=cart.getData();
-                            print("data"+product_id.toString());
-                            Navigator.pushNamed(context, RouteNames.checkout_screen,arguments: {
-                              "page_id":"1",
-                            });
-
-                          }
-                          else {
-                            var product_id=cart.getData();
-                            print("data fgfhgfjhfgjghjhk"+product_id.toString());
-                            showAlert();
-                          }
-                        },
+                          Navigator.pushNamed(context,RouteNames.checkout_screen,arguments: {
+                              "page_flag":"1",
+                              "total_length":totalItem.toString(),
+                                "grand_price": gradtotal.toString(),
+                               "tax": (double.parse(value.totalPrice.toString())*7/100).toStringAsFixed(2).toString(),
+                             "subtotal":value.totalPrice.toStringAsFixed(2).toString(),
+                          });
+                          },
                         title: AppConstentData.continues,
                         colors:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                         isLoading: false.obs,),
-                    ),
+                   ),
+
                   ],
                 ),
               ),
             ),
           );
         }),
+
+
       body: Column(
          crossAxisAlignment: CrossAxisAlignment.start,
          children: [
@@ -127,7 +124,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
               if (snapshot.hasData) {
                 if(snapshot.data!.isEmpty)
                   {
-                    return   Column(
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -158,6 +155,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                         itemCount: snapshot.data!.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
+                          totalItem=snapshot.data!.length.toString();
                           return Card(
                             elevation: AppSizeClass.maxSize10,
                             shape: RoundedRectangleBorder(
@@ -205,8 +203,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                     SizedBox(
                                       width: 240,
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
 
                                           //----------------------product name container  -----------
@@ -225,12 +222,10 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                               ),
                                             ),
                                             margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-
                                           ),
                                           //---------------- product price------------------
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Column(
                                                 children: [
@@ -244,15 +239,10 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                                       text: TextSpan(
                                                           text: '' r"$",
                                                           style: TextStyle(
-                                                              color: GradientHelper
-                                                                  .getColorFromHex(
-                                                                  AppColors
-                                                                      .YellowDrak_COLOR),
-                                                              fontSize: AppSizeClass
-                                                                  .maxSize17),
+                                                              color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                                                              fontSize: AppSizeClass.maxSize17),
                                                           children: [
-                                                            TextSpan(
-                                                                text:
+                                                            TextSpan(text:
                                                                 '${snapshot
                                                                     .data![index]
                                                                     .initilPrice!}\n',
@@ -281,24 +271,15 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                                         text: TextSpan(
                                                             text: 'Price' r"$",
                                                             style: TextStyle(
-                                                                color: GradientHelper
-                                                                    .getColorFromHex(
-                                                                    AppColors
-                                                                        .YellowDrak_COLOR),
+                                                                color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                                                                 fontSize: AppSizeClass
                                                                     .maxSize12),
                                                             children: [
                                                               TextSpan(
-                                                                  text:
-                                                                  '${snapshot
-                                                                      .data![index]
-                                                                      .productPrice!}\n',
+                                                                  text: '${snapshot.data![index].productPrice!}\n',
                                                                   style: const TextStyle(
-                                                                    fontWeight: FontWeight
-                                                                        .bold,
-
-                                                                    fontSize: AppSizeClass
-                                                                        .maxSize12,
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: AppSizeClass.maxSize12,
 
                                                                   )),
                                                             ]),
@@ -423,9 +404,6 @@ class _AddToCartPageState extends State<AddToCartPage> {
 
                                                ),
                                              )
-
-
-
                                         ],
                                       ),
                                     ),
@@ -440,7 +418,6 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   );
                 }
               }
-
               return Center(child:  CircularProgressIndicator(
                 color: GradientHelper.getColorFromHex(AppColors.Red_drak_COLOR),
               ));
@@ -450,27 +427,6 @@ class _AddToCartPageState extends State<AddToCartPage> {
       ),
     );
   }
-  Future<void> showAlert() async {
-    showDialog(context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Login"),
-            content: const Text("Please Login ...."),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(onPressed: () {
-                    Navigator.pushNamed(context, RouteNames.login_screen);
-                  }, child: const Text("OK")),
-                  ElevatedButton(onPressed: () {
-                    Navigator.of(context).pop();
-                  }, child: const Text("Cancel"))
-                ],
-              )
-            ],
-          );
-        }
-    );
-  }
+
+
 }

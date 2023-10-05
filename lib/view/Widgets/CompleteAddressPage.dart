@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
@@ -27,7 +28,7 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
   TextEditingController nerarByController=TextEditingController();
 
   TextEditingController houseNoController=TextEditingController();
-
+RxBool loading=false.obs;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -43,12 +44,12 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
         ),
       ),
       body:  SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Container(
-              margin: EdgeInsets.all(10),
-              child:  Padding(
-                padding: const EdgeInsets.all(8.0),
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child:  Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -134,7 +135,7 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
                       nmber: TextInputType.text,
                       validator: (value){
                         if (value!.isEmpty) {
-                          return CommonUtilsClass.toastMessage("" + AppConstentData.flathouseno);
+                          return 'Enter Flat / house no';
                         }
                         else {
                           return null;
@@ -154,7 +155,7 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
                       nmber: TextInputType.text,
                       validator: (value){
                         if (value!.isEmpty) {
-                          return CommonUtilsClass.toastMessage("" + AppConstentData.areasectorlocatity);
+                          return 'Enter Area / sector /locality';
                         }
                         else {
                           return null;
@@ -166,44 +167,26 @@ class _CompleteAddressPageState extends State<CompleteAddressPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    TextInputFields(
-                      enable: true,
-                      controller: nerarByController,
-                      hintText: AppConstentData.nearby,
-                      labelText:  AppConstentData.nearby, isHint: false,
-                      nmber: TextInputType.text,
-                      validator: (value){
-                        return null;
-                      },
-                      bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                      textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                    ),
                     SizedBox(
                       height: 20,
                     ),
-                    CustomButton(onPressed: () async{
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      if(formKey.currentState!.validate())
-                      {
-                        var flatno=flatController.text;
-                        var area=areaController.text;
-                        var nearby=nerarByController.text;
-                        var houseno=houseNoController.text;
-                        prefs.setString('type',controller.typeAreaLikeHome.value);
-                        prefs.setString("flat", flatno);
-                        prefs.setString("area", area);
-                        prefs.setString("houseno", houseno);
-                        prefs.setString("nearby", nearby);
-                        CommonUtilsClass.toastMessage("Save Location");
-                        // Navigator.of(context).pop();
-                        //   Navigator.pushNamed(context, RouteNames.checkout_screen,arguments: {
-                        //     "page_id":"2"
-                        //   });
-                      }
-                    },
-                      title: AppConstentData.saveadd,
-                      colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: false.obs,),
-                    // Add more list items here
+                  Obx(() =>   CustomButton(onPressed: () async{
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    if(formKey.currentState!.validate())
+                    {
+                      var area=areaController.text;
+                      var houseno=houseNoController.text;
+                      await prefs.setString('address_1',area.toString());
+                      await prefs.setString('address_2', houseno.toString());
+                      CommonUtilsClass.toastMessage("Save Location");
+                      Navigator.pushNamed(context, RouteNames.checkout_screen, arguments: {
+                        "page_id":"2"
+                      });
+                    }
+                  },
+                    title: loading.value?"": AppConstentData.saveadd ,
+                    colors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), isLoading: loading,),
+                  ),         // Add more list items here
                     SizedBox(
                       height: 20,
                     ),

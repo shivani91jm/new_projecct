@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
@@ -12,6 +13,7 @@ import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/DeliveryLocationController.dart';
 import 'package:new_projecct/view/Widgets/SetDeliveryLocation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class DeliveryLocationPage extends StatefulWidget {
   var data;
   DeliveryLocationPage({this.data});
@@ -111,9 +113,7 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
   void init() {
     _defaultLatLong=LatLng(26.299265689617403 ,-80.27699558507642);
     _draggedLatLong=_defaultLatLong;
-    cameraPosition=CameraPosition(target: _defaultLatLong,
-      zoom: 17.5
-    );
+    cameraPosition=CameraPosition(target: _defaultLatLong, zoom: 17.5);
     _gotoCurrentPostion();
 
   }
@@ -153,11 +153,17 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
     List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude,position.longitude);
     Placemark place=placemarks[0];
    String address = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode},${place.country}';
-   print("address"+address.toString());
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('city', place.subAdministrativeArea.toString());
+    await prefs.setString('state',place.administrativeArea.toString());
+    await prefs.setString('postcode', place.postalCode.toString());
+    await prefs.setString('country',place.country.toString());
+    await prefs.setString('address_1', address.toString());
+    await prefs.setString('address_2', "");
+   print("address"+place.toString());
    setState(() {
       controller.addressController.value=address;
     });
-
   }
   Widget  customMarkers() {
     return Center(

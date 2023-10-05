@@ -50,7 +50,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
               ]
             ),
               Container(
-                margin: EdgeInsets.fromLTRB(15,70,15,10),
+                margin: EdgeInsets.fromLTRB(15,40,15,10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -77,7 +77,6 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                         ),
                       ),
                     ),
-
                     SizedBox(
                       height: 60,
                     ),
@@ -88,7 +87,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                         Text(AppConstentData.updateProfile,
                           style: TextStyle(
                               color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                              fontFamily: "NotoSerif",
+
                               fontSize: AppSizeClass.maxSize20,
                               fontWeight: FontWeight.bold,
 
@@ -99,14 +98,14 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                         ),
                         // //--------------------name controller --------------------
                         TextInputFields(
-                          controller: controller.nameController,
+                          controller: controller.firstController,
                           hintText: AppConstentData.UserName,
                           labelText:  AppConstentData.UserName, isHint: false,
                           nmber: TextInputType.text,
                           validator: (value){
                             if(value!.isEmpty)
                               {
-                                return 'Username is Empty';
+                                return 'First Name is Empty';
                               }
                             else
                               {
@@ -122,11 +121,13 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                         ),
                         //--------------email  controller ----------------
                         TextInputFields(
-                          controller: controller.emailController,
-                          hintText: AppConstentData.entermsg,
-                          labelText:  AppConstentData.entermsg, isHint: false,
+                          controller: controller.lastController,
+                          hintText: "Enter Last Name",
+                          labelText:  "Enter Last Name", isHint: false,
                           nmber: TextInputType.emailAddress,
-                          validator: controller.validatePassword,
+                          validator: (value){
+                            return null;
+                          },
                           bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                           textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), enable: false,
                         ),
@@ -136,9 +137,9 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                         ),
                         //--------------email  controller ----------------
                         TextInputFields(
-                          controller: controller.emailController,
-                          hintText: AppConstentData.entermsg,
-                          labelText:  AppConstentData.entermsg, isHint: false,
+                          controller: controller.mobileController,
+                          hintText: 'Enter Mobile Number',
+                          labelText:  'Enter Mobile Number', isHint: false,
                           nmber: TextInputType.phone,
                             validator: (value){
                                   return null;
@@ -194,7 +195,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
               alignment: Alignment.center,
               child: Text("text",style: TextStyle(
                   color: AppColors.whiteColors,
-                  fontFamily: "NotoSerif",
+
                   fontSize: AppSizeClass.maxSize30,
                   fontWeight: FontWeight.bold
               ),),
@@ -224,7 +225,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                     child: Container(
 
                       color: AppColors.whiteColors,
-                      child: Image.asset(ImageUrls.profile_url,) ,
+                      child: Image.asset(ImageUrls.user_url,) ,
                     ),
                   )) : Center(child: Image.file(galleryFile!))
 
@@ -242,6 +243,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
      username = prefs.getString('username')?? "";
      usermobile = prefs.getString('mobile_number')?? "";
      print("data value"+email.toString()+"username"+username+"mobile"+usermobile);
+
    });
 
   }

@@ -4,8 +4,7 @@ import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class DeliveryLocationController extends GetxController{
-
-   TextEditingController selectLocationController=TextEditingController();
+  TextEditingController selectLocationController=TextEditingController();
   var selectedValue = 'Myself'.obs;
   var latitude=''.obs;
   var longitude=''.obs;

@@ -10,6 +10,7 @@ import 'package:new_projecct/model/dynamicproduct/prouct_dynamic.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
+
   final PageController pageController = PageController();
   var currentIndex = 0.obs;
   RxString cat_id="121".obs;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 class RouteNames {
+
   static const String splash_screen = 'splash_screen';
   static const String login_screen = 'login_screen';
   static const String registration_screen = 'registration_screen';

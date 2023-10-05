@@ -11,8 +11,9 @@ import 'package:new_projecct/Utils/ImagesUrls.dart';
 class CustomDialogBox extends StatefulWidget {
   final String title, descriptions, okBtn,cancelBtn;
   final Image img;
+   String? pagename;
   
-  const CustomDialogBox({Key? key, required this.title, required this.descriptions, required this.okBtn,required this.cancelBtn, required this.img}) : super(key: key);
+   CustomDialogBox({Key? key, required this.title, required this.descriptions, required this.okBtn,required this.cancelBtn, required this.img,required this.pagename}) : super(key: key);
 
   @override
   _CustomDialogBoxState createState() => _CustomDialogBoxState();
@@ -70,7 +71,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                         ),
                         onPressed: () {
                           Navigator.pop(context,"");
-                          Navigator.pushReplacementNamed(context, RouteNames.dashboard_screen);
+                          Navigator.pushNamed(context,widget.pagename!);
 
                          },
                           child: Text(widget.okBtn,

@@ -62,6 +62,7 @@ class ProductDetailsController extends GetxController{
     final response = await http.get(Uri.parse(urls));
     print("response"+response.body.toString());
     if (response.statusCode == 200) {
+      recentProduct.clear();
       isLoading.value = false;
       List<dynamic> lists = json.decode(response.body);
       for(int i=0;i<lists.length;i++)
