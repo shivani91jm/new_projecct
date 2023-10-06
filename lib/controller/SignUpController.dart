@@ -58,7 +58,8 @@ class SignUpController extends GetxController{
     final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return emailRegex.hasMatch(email);
   }
-  void singUpApi(String first,String last,String email,String password,String mobile,String address) async{
+  void singUpApi(String first,String last,String email,String password,String mobile,String address) async
+  {
     loading.value=true;
     var urls=BaseUrlsClass.signUpUrls;
     print("url is location"+urls);
@@ -108,12 +109,10 @@ class SignUpController extends GetxController{
           CommonUtilsClass.toastMessage(data['message']);
           Navigator.pushNamed(context!, RouteNames.login_screen);
         }
-
-      else{
-        CommonUtilsClass.toastMessage("Server side Error");
+      else {
+          CommonUtilsClass.toastMessage("Server side Error");
       }
-      print(""+data.toString());
-
+          print(""+data.toString());
     }
     else {
       loading.value=false;

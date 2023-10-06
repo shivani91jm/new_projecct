@@ -6,7 +6,7 @@ import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/controller/AllOrdersControllers.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 class AllOrdersPage extends StatefulWidget {
   const AllOrdersPage({super.key});
   @override
@@ -20,9 +20,8 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
     // TODO: implement initState
     super.initState();
     controller.loadData();
+
   }
-
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -36,27 +35,39 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
           backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
           title: Text("Your Orders"),
         ),
-        body: Obx(() => controller.isLoading.value?
-        Center(child: CircularProgressIndicator(
-          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),) : OrderData())),
+        body: Container(
+          child: Obx(() => controller.isLoading.value?
+          Center(child: CircularProgressIndicator(
+            color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),) : OrderData()),
+        )),
         onRefresh: () async{
       controller.loadData();
     });
   }
-   Widget OrderData(){
-
-    return  Obx(() =>  ListView.builder(
+   Widget OrderData() {
+    return  Obx(() => controller.datanotfound.value?Center(child: Text("No data found... ",
+      style: TextStyle(
+          color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+          fontWeight: FontWeight.bold,
+          fontSize: AppSizeClass.maxSize20
+      ),
+    )):
+    Obx(() =>  ListView.builder(
         scrollDirection: Axis.vertical,
         itemCount:controller.datass.length,
         itemBuilder: (context,cat_in){
           var data=controller.datass[cat_in];
+          DateTime originalDate = DateTime.parse(data.dateCreated.toString());
+          String desiredFormat = "dd-MM-yyyy HH:mm:ss";
+          DateFormat formatter = DateFormat(desiredFormat);
+          String formattedDate = formatter.format(originalDate);
           return  Container(
             child: GestureDetector(
               onTap: () async{},
               child: Container(
                 padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
                 child: Card(
-                  elevation: 10,
+                  elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -65,171 +76,134 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                     margin: EdgeInsets.all(10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                           Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  height: 50,
-                                  width: 50,
-                                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                  padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white.withOpacity(0.6),
-                                  ),
-                                  child: CircleAvatar(
-                                    child: CachedNetworkImage(
-                                      imageUrl: data.lineItems!.last.image.toString(),
-                                      placeholder: (context, url) => CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                            Container(
+                              height: 60,
+                              width: 100,
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.white.withOpacity(0.6),
+                              ),
+                              child: CircleAvatar(
+                                child: CachedNetworkImage(
+                                  imageUrl: data.lineItems!.last.image!.src.toString(),
+                                  placeholder: (context, url) => CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) => Icon(Icons.error,color: AppColors.whiteColors,),
+                                ),
+                                backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width*0.6,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(""+formattedDate.toString(),
+                                    style: TextStyle(
+                                        color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: AppSizeClass.maxSize17
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-
-                                      Text(""+data.dateCreated.toString(),
+                                  Padding(
+                                    padding: const EdgeInsets.all(0),
+                                    child: Container(
+                                      child: Text(data.lineItems!.last.name.toString(),
                                         style: TextStyle(
-                                            color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                            color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                                             fontWeight: FontWeight.bold,
-                                            fontSize: AppSizeClass.maxSize15
-                                        ),),
-                                      Text(data.lineItems!.last.name.toString(),
+                                            fontSize: AppSizeClass.maxSize12
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("status:",
                                         style: TextStyle(
                                             color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                                             fontWeight: FontWeight.bold,
                                             fontSize: AppSizeClass.maxSize13
-                                        ),
-                                      ),
-                                      Row(
+                                        ),),
+                                      Text(""+data.status.toString(),
+                                        style: TextStyle(
+                                            color: AppColors.green,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: AppSizeClass.maxSize13
+                                        ),),
+                                    ],
+                                  ),
+                                  //----------------sub total -------
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Text("Sub Total:",
+                                          style: TextStyle(
+                                              color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: AppSizeClass.maxSize13
+                                          ),),
+                                        Text(' ' r"$"+data.lineItems!.last.subtotal.toString(),
+                                          style: TextStyle(
+                                              color: AppColors.green,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: AppSizeClass.maxSize13
+                                          ),),
+                                      ],
+                                    ),
+                                  ),
+                                  //-------------------tax-----------
+                                  if(data.lineItems!.last.totalTax.toString()!="0.00")...
+                                  {
+                                    Container(
+                                      child: Row(
                                         children: [
-                                          Text("status:",
+                                          Text("Tax:",
                                             style: TextStyle(
-                                                color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                                color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: AppSizeClass.maxSize13
                                             ),),
-                                          Text(""+data.status.toString(),
+                                          Text(' ' r"$"+data.lineItems!.last.totalTax.toString(),
                                             style: TextStyle(
                                                 color: AppColors.green,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: AppSizeClass.maxSize13
                                             ),),
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child:   Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text('' r"$"+data.total.toString(),
-                                    style: TextStyle(
-                                        color: AppColors.green,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: AppSizeClass.maxSize15
-                                    ),
-                                  ),
-                                  Align(
-                                    child: IconButton(onPressed: ()async {},
-                                      icon: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: AppColors.green,
-                                        size: AppSizeClass.maxSize17,
                                       ),
-
                                     ),
-                                  )
+                                  },
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Text("Total:",
+                                          style: TextStyle(
+                                              color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: AppSizeClass.maxSize12
+                                          ),),
+                                        Text(' ' r"$"+data.total.toString(),
+                                          style: TextStyle(
+                                              color: AppColors.green,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: AppSizeClass.maxSize13
+                                          ),),
+                                      ],
+                                    ),
+                                  ),
+
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
-                        //---------------------step progress bar ---------------------
-                        Container(
-                          padding: EdgeInsets.fromLTRB(20,0,0,0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    height:20,
-                                    width: 20,
-                                    decoration: const BoxDecoration(
-                                        color: AppColors.green,
-                                        borderRadius: BorderRadius.all(Radius.circular(30))
-                                    ),
-                                    child: Icon(Icons.add,
-                                      color: AppColors.whiteColors,
-                                      size: 12,
-                                    ),
-                                  ),
-                                  Expanded(child:  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0,2,0,0),
-                                    child: Text("5637 Coral Ridge Drive Coral Springs, FL 33076",
-                                      style: TextStyle(
-                                          color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: AppSizeClass.maxSize13
-                                      ),
-                                    ),
-
-                                  ))
-                                ],
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(3,0,0,0),
-                                height: 30,
-                                child: VerticalDivider(
-                                  color: Colors.black,
-                                  thickness: 1,
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    height:20,
-                                    width: 20,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.all(Radius.circular(30))
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Icon(Icons.remove,
-                                        color: AppColors.whiteColors,
-                                        size: 12,),
-                                    ),
-                                  ),
-                                  Expanded(child:  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0,2,0,0),
-                                    child: Text(data.shipping!.address1.toString(),
-                                      style: TextStyle(
-                                          color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: AppSizeClass.maxSize13
-                                      ),
-                                    ),
-
-                                  ))
-                                ],
-                              )
-                            ],
-                          ),
-                        )
                       ],
                     ),
                   ),
@@ -238,6 +212,8 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
             ),
           );
 
-        }));
+        })));
    }
+
+
 }

@@ -271,6 +271,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
     );
   }
   Widget location() {
+    final cart = Provider.of<CartProvider>(context!);
     return Container(
       height: 180,
       child: Card(
@@ -368,13 +369,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
                            ),
                            Container(
                              width: 200,
-                             child: CustomButton(
+                             child: Obx(() => CustomButton(
                                  onPressed: () async{
-                                   controller.checkoutOrder();
-                                   }, title:'' r"$"+grend_price+" Place Order",
+
+                                   controller.checkoutOrder(cart);
+                                 },
+                                 title: controller.loading.value?"":'' r"$"+grend_price+" Place Order",
                                  colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                                 isLoading: false.obs
-                             ),
+                                 isLoading: controller.loading
+                             )),
                            )
                          ],
                        )
@@ -401,13 +404,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           ),),
                         ],
                       ),
-                       CustomButton(
-                           onPressed: () async{
-                             controller.checkoutOrder();
-                           }, title:'' r"$"+grend_price+" Place Order",
-                           colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                           isLoading: false.obs
-                       )
+                        Obx(() =>  CustomButton(
+                            onPressed: () async{
+                              controller.checkoutOrder(cart);
+                            }, title:controller.loading.value?"":'' r"$"+grend_price+" Place Order",
+                            colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                            isLoading: controller.loading
+                        ))
                      ],
                    )
                 }
@@ -863,11 +866,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
             );
           }
         }
-
         return Center(child:  CircularProgressIndicator(
           color: GradientHelper.getColorFromHex(AppColors.Red_drak_COLOR),
         ));
       },
     );
-}
+  }
 }

@@ -56,6 +56,7 @@ dependencies:
   oauth2_client: any
   url_launcher: any
   connectivity_plus: any
+  intl: any
 
 
 

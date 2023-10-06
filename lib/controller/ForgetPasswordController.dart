@@ -109,16 +109,32 @@ class ForgetPasswordController extends GetxController {
 
         if(data!=null)
         {
-          CommonUtilsClass.toastMessage(data.message.toString());
-          Navigator.pushNamed(context!,RouteNames.location_screen);
+          if(data.message=="Password updated successfully.")
+            {
+              CommonUtilsClass.toastMessage(data.message.toString());
+              Navigator.pushNamed(context!,RouteNames.dashboard_screen);
+            }
+          else
+            {
+              CommonUtilsClass.toastMessage(data.message.toString());
+            }
+
+
         }
       }
-      else if (response.statusCode == 500) {
+      else if (response.statusCode == 500 ) {
         loading.value=false;
-        LoginModelClass data=  LoginModelClass.fromJson(jsonDecode(response.body));
+        ContactUsModel data=  ContactUsModel.fromJson(jsonDecode(response.body));
         print(""+data.toString());
         CommonUtilsClass.toastMessage("Server side Error");
       }
+      else if(response.statusCode == 404)
+        {
+          loading.value=false;
+          ContactUsModel data=  ContactUsModel.fromJson(jsonDecode(response.body));
+          CommonUtilsClass.toastMessage(data.message.toString());
+
+        }
       else {
         loading.value=false;
         throw Exception('Failed to load album');

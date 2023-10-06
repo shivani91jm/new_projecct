@@ -13,6 +13,7 @@ class AllOrdersController extends GetxController{
   RxBool isLoading=false.obs;
   RxList<AllOrdersModel> datass=<AllOrdersModel>[].obs;
   var  user_id="";
+  RxBool datanotfound=false.obs;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -26,6 +27,7 @@ class AllOrdersController extends GetxController{
     if(user_id!="" && user_id!="null")
       {
         var url="https://palrancho.co/order_data.php?user_id=$user_id";
+        print("urls"+url.toString());
         final response = await http.get(Uri.parse(url),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -35,14 +37,21 @@ class AllOrdersController extends GetxController{
               datass.clear();
 
               List<dynamic> data=json.decode(response.body);
+
               print("data"+data.toString());
               isLoading.value = false;
-              data.map((e) {
-                AllOrdersModel datas = AllOrdersModel.fromJson(e);
-                datass.add(datas);
-                print("futureCategoriewsdata" + datass.length.toString());
-
-              }).toList();
+              if(data.isEmpty)
+                {
+                  datanotfound.value=true;
+                }
+              else {
+                datanotfound.value=false;
+                data.map((e) {
+                  AllOrdersModel datas = AllOrdersModel.fromJson(e);
+                  datass.add(datas);
+                  print("futureCategoriewsdata" + datass.length.toString());
+                }).toList();
+              }
             }
             else if(response.statusCode==500 || response.statusCode==403)
             {

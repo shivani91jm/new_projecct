@@ -70,7 +70,7 @@ class LoginController extends GetxController {
         await prefs.setString('user_firstName', data.first_name.toString());
         await prefs.setString('user_lastName', data.last_name.toString());
 
-          showDialog(context: context!, builder: (BuildContext context){
+          showDialog(context: context!, builder: (BuildContext context) {
               return  CustomDialogBox(title: AppConstentData.Login,
                 descriptions: AppConstentData.loginsucess,
                 img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
@@ -85,15 +85,15 @@ class LoginController extends GetxController {
           print(""+data.toString());
           var msg=  CommonUtilsClass.removeHtmlTags(data['message']);
           CommonUtilsClass.toastMessage(msg);
-    }
+      }
     else if (response.statusCode == 500)
     {
-      loading.value=false;
-      CommonUtilsClass.toastMessage("Server side Error");
+        loading.value=false;
+        CommonUtilsClass.toastMessage("Server side Error");
     }
     else {
-      loading.value=false;
-      throw Exception('Failed to load album');
+        loading.value=false;
+        throw Exception('Failed to load album');
     }
   }
 

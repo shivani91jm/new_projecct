@@ -57,7 +57,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             nmber: TextInputType.visiblePassword,
                             validator: (value){
                               if(value!.isEmpty) {
-                                return 'Enter Confirm  Password';
+                                return 'Enter   Password';
                               }
                               else if(value.toString().length<3)
                               {

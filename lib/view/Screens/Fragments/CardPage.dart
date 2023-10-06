@@ -205,7 +205,6 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-
                                           //----------------------product name container  -----------
                                           Container(
                                             child: Text("" +
@@ -291,34 +290,21 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                               Container(
                                                 child: CartProductIncreAndDecre(
                                                   addQuantity: () {
-                                                    int quantity = snapshot
-                                                        .data![index].quantity;
-                                                    double? price = snapshot
-                                                        .data![index]
-                                                        .initilPrice;
+                                                    int quantity = snapshot.data![index].quantity;
+                                                    double? price = snapshot.data![index].initilPrice;
                                                     quantity++;
                                                     double? newprice = price! *
                                                         (quantity.toDouble());
                                                     dbHelper.updateQuantity(
                                                         CartModelClass(
                                                           // id:snapshot.data![index].id,
-                                                            productId: snapshot
-                                                                .data![index]
-                                                                .productId,
-                                                            productName: snapshot
-                                                                .data![index]
-                                                                .productName,
-                                                            productDetails: snapshot
-                                                                .data![index]
-                                                                .productDetails,
-                                                            initilPrice: snapshot
-                                                                .data![index]
-                                                                .initilPrice,
+                                                            productId: snapshot.data![index].productId,
+                                                            productName: snapshot.data![index].productName,
+                                                            productDetails: snapshot.data![index].productDetails,
+                                                            initilPrice: snapshot.data![index].initilPrice,
                                                             productPrice: newprice,
                                                             quantity: quantity,
-                                                            image: snapshot
-                                                                .data![index]
-                                                                .image)).
+                                                            image: snapshot.data![index].image)).
                                                     then((value) {
                                                       newprice = 0.0;
                                                       quantity = 0;
@@ -343,30 +329,18 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                                       dbHelper.updateQuantity(
                                                           CartModelClass(
                                                             // id:snapshot.data![index].id,
-                                                              productId: snapshot
-                                                                  .data![index]
-                                                                  .productId,
-                                                              productName: snapshot
-                                                                  .data![index]
-                                                                  .productName,
-                                                              productDetails: snapshot
-                                                                  .data![index]
-                                                                  .productDetails,
-                                                              initilPrice: snapshot
-                                                                  .data![index]
-                                                                  .initilPrice,
+                                                              productId: snapshot.data![index].productId,
+                                                              productName: snapshot.data![index].productName,
+                                                              productDetails: snapshot.data![index].productDetails,
+                                                              initilPrice: snapshot.data![index].initilPrice,
                                                               productPrice: newprice,
                                                               quantity: quantity,
-                                                              image: snapshot
-                                                                  .data![index]
-                                                                  .image)).
+                                                              image: snapshot.data![index].image)).
                                                       then((value) {
                                                         newprice = 0.0;
                                                         quantity = 0;
                                                         cart.removeTotalPrice(
-                                                            snapshot
-                                                                .data![index]
-                                                                .initilPrice!);
+                                                            snapshot.data![index].initilPrice!);
                                                       }).onError((error,
                                                           stackTrace) {
                                                         print(error.toString());
@@ -377,8 +351,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                                   color: GradientHelper
                                                       .getColorFromHex(
                                                       AppColors.RED_COLOR),
-                                                  text: snapshot.data![index]
-                                                      .quantity!.toString(),
+                                                  text: snapshot.data![index].quantity!.toString(),
                                                 ),
                                                 padding: EdgeInsets.fromLTRB(
                                                     5, 5, 5, 5),
@@ -386,8 +359,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
 
                                             ],
                                           ),
-
-                                             GestureDetector(
+                                          GestureDetector(
                                                onTap:(){
                                                  dbHelper!.deleteCartItem(int.parse(snapshot.data![index].productId.toString()));
                                                  cart.removeCounter();
@@ -427,6 +399,11 @@ class _AddToCartPageState extends State<AddToCartPage> {
       ),
     );
   }
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
 
+  }
 
 }

@@ -80,8 +80,8 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
                       //--------------email ----------------
                       TextInputFields(
                         controller: emailController,
-                        hintText: AppConstentData.entermsg,
-                        labelText:  AppConstentData.entermsg, isHint: false,
+                        hintText: 'Enter email',
+                        labelText:  'Enter email', isHint: false,
                         nmber: TextInputType.emailAddress,
                         validator: (value){
                           if (value!.isEmpty) {

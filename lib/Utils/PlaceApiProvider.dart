@@ -29,7 +29,8 @@ class PlaceApiProvider {
         return [];
       }
       throw Exception(result['error_message']);
-    } else {
+    }
+    else {
       throw Exception('Failed to fetch suggestion');
     }
   }

@@ -6,10 +6,13 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
+import 'package:new_projecct/controller/CartProvider.dart';
 
 import 'package:new_projecct/database/db_helper.dart';
 import 'package:new_projecct/model/ContactUs/ContactUsModel.dart';
+import 'package:new_projecct/model/ProductModel/ProductModelClass.dart';
 import 'package:new_projecct/view/Widgets/CustomDialogBox.dart';
+import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,14 +22,19 @@ class CheckOutController extends GetxController {
   RxBool loading = false.obs;
   List<int> product_ids=[];
   List<int> product_quentity=[];
+   DatabaseHelper? dbHelper = DatabaseHelper();
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    context!.read<CartProvider>().getData();
     getValue();
   }
-  void checkoutOrder() async {
+  void checkoutOrder(CartProvider cart) async {
+
+    loading.value=true;
+
     print("fdgdsfhgsdhfshfj");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var address="";
@@ -60,14 +68,14 @@ class CheckOutController extends GetxController {
         print("user_id"+user_id+"firstname"+firstname+"last name"+last_name);
         final List<String> queryParams = [];
 
-        for(int i=0;i<product_ids.length;i++)
-       {
+         for(int i=0;i<product_ids.length;i++)
+         {
            queryParams.add('product_data[$i][product_id]=${product_ids[i]}');
-       }
-      for( int i=0;i<product_quentity.length;i++)
-      {
-           queryParams.add('product_data[$i][quantity]=${product_quentity[i]}');
-      }
+         }
+         for( int i=0;i<product_quentity.length;i++)
+         {
+            queryParams.add('product_data[$i][quantity]=${product_quentity[i]}');
+         }
      print("dfgfdg"+queryParams.toString());
     final baseUrl = 'https://palrancho.co/create_order.php';
     final Uri uri = Uri.parse('$baseUrl?'
@@ -96,31 +104,46 @@ class CheckOutController extends GetxController {
       if (response.statusCode == 200)
       {
         ContactUsModel data =  ContactUsModel.fromJson(jsonDecode(response.body));
-        if(data!=null)
-        {
-          print("sucess"+data.message.toString());
-            CommonUtilsClass.toastMessage(""+data.message.toString());
-          showDialog(context: context!, builder: (BuildContext context){
-            return  CustomDialogBox(title: "Success",
-              descriptions: "Place Order Successfully",
-              img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
-              , cancelBtn: AppConstentData.cancel, pagename: RouteNames.dashboard_screen,);
+          if(data!=null)
+          {
+            print("sucess"+data.message.toString());
+            loading.value=false;
+              CommonUtilsClass.toastMessage(""+data.message.toString());
+            showDialog(context: context!, builder: (BuildContext context){
+              return  CustomDialogBox(title: "Success",
+                descriptions: "Place Order Successfully",
+                img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
+                , cancelBtn: AppConstentData.cancel, pagename: RouteNames.allOrders_screen,);
+
+              }
+            );
+
+            List<CartModelClass> postsFuture =await cart.getData();
+            for(int i=0;i<postsFuture.length;i++)
+              {
+                dbHelper!.deleteCartItem(int.parse(postsFuture[i].productId.toString()));
+                cart.removeCounter();
+                cart.removeTotalPrice(double.parse(postsFuture[i].productPrice.toString()));
+              }
+
+
+
           }
-          );
-        }
       }
       else if(response.statusCode==500 || response.statusCode==403)
       {
+        loading.value=false;
          CommonUtilsClass.toastMessage("Server Side Error");
       }
      else {
+        loading.value=false;
         throw Exception('Failed to load album');
      }
   }
   void getValue() async{
     print("fdgdsfhgsdhfshfj");
-    DatabaseHelper? dbHelper = DatabaseHelper();
-     var cart = await dbHelper.getCartList();
+
+     var cart = await dbHelper!.getCartList();
      for(int i=0;i<cart.length;i++)
        {
          var product_id=cart[i].productId;
@@ -129,7 +152,12 @@ class CheckOutController extends GetxController {
          product_quentity.add(quantity);
 
        }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
 
-      }
+  }
  }
 

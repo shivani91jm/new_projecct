@@ -31,10 +31,7 @@ class DialogUtils{
                     fontSize: AppSizeClass.maxSize20,
                     fontFamily: "NotoSerif",
                     color: GradientHelper.getColorFromHex(AppColors.RED_COLOR)
-
-
-
-                ),),
+                  ),),
                 SizedBox(height: 15,),
                 DividerWidgets(),
               ],
@@ -78,7 +75,7 @@ class DialogUtils{
                            style: TextStyle(
                                fontWeight: FontWeight.bold,
                                fontSize: AppSizeClass.maxSize17,
-                               fontFamily: "NotoSerif",
+
                                color: AppColors.green
                            ),),
                          onPressed: () => Navigator.pop(context))

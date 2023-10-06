@@ -36,8 +36,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     product_id=widget.data['product_id'];
     product_img=widget.data['product_image'];
     product_name=widget.data['product_name'];
-
-
     controller.loadProduct();
     controller.recentProduct();
   }
@@ -107,20 +105,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                     colorText: Colors.white,
                                     duration: Duration(seconds: 4),
                                     isDismissible: true,
-
                                     forwardAnimationCurve: Curves.easeOutBack,
-
                                   );
-
                                   print("Product already exists in the cart.");
                                 }
-
-
-
                               });
 
-
-                            },
+                              },
                             title: AppConstentData.continues,
                             colors:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
                             isLoading: false.obs,),
@@ -268,8 +259,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                       databaseHelper!.insert(
                                           CartModelClass(
                                             // id: cat_in,
-                                              productId: product_id.toString(),
-                                              productName: product_name,
+                                              productId: data.iD.toString(),
+                                              productName: data.postTitle.toString(),
                                               productDetails: "",
                                               initilPrice: double.parse(data.price.toString()),
                                               productPrice: double.parse(data.price.toString()),
@@ -311,6 +302,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                             forwardAnimationCurve: Curves.easeOutBack,
 
                                           );
+                                          Navigator.pushNamed(context, RouteNames.addtocart_screen);
 
                                           print("Product already exists in the cart.");
                                         }
