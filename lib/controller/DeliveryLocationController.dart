@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
@@ -14,16 +15,13 @@ class DeliveryLocationController extends GetxController{
   void updateSelectedValue(String value) {
     selectedValue.value = value;
   }
-  //-------------------save address----------------------
-  void saveLocation() async {
 
-
-  }
 //-----------------select current location --------------------------------
-   selectLocation(String currentlocation) async{
-    final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('currentLocation',currentlocation);
-
+   selectLocation(String place) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('address_1', place.toString());
+      prefs.setString('address_2', "");
+      var msg=  prefs.getString("address_1")??"";
     }
   String? validateFlatOrHouseNo(String? value) {
     if (value!.isEmpty) {

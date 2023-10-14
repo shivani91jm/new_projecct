@@ -1,4 +1,4 @@
-package com.techindia.palrancho
+package com.palrancho.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -33,29 +33,29 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
         child: SingleChildScrollView(
           child: Container(
             height: 50,
-            child: CustomButton(onPressed: () async {
+            child: CustomButton(
+              onPressed: () async {
               if(controller.selectedLocationId!.value.storeUrl.toString()!="" && controller.selectedLocationId!.value.storeUrl.toString()!="null")
-              {
-                Navigator.pushNamed(context!,RouteNames.login_screen);
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                var shopUrl=   prefs.getString('shopUrl')?? "";
-
-              }
-              else
                 {
-                  Get.snackbar(
-                    "Please Select any shop location",
-                    "",
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                    borderRadius: 5,
-                    margin: EdgeInsets.all(5),
-                    colorText: Colors.white,
-                    duration: Duration(seconds: 2),
-                    isDismissible: true,
-                    forwardAnimationCurve: Curves.easeOutBack,
-                  );
+                  Navigator.pushNamed(context!,RouteNames.dashboard_screen);
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  var shopUrl=   prefs.getString('shopUrl')?? "";
                 }
+                 else
+                  {
+                    Get.snackbar(
+                        "Please Select any shop location",
+                        "",
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                        borderRadius: 5,
+                        margin: EdgeInsets.all(5),
+                        colorText: Colors.white,
+                        duration: Duration(seconds: 2),
+                        isDismissible: true,
+                        forwardAnimationCurve: Curves.easeOutBack,
+                      );
+                  }
 
               // print("shop url"+shopUrl.toString()+"shop consumer key"+shopConsumerKey.toString()+"shop consumer secrete"+ShopConsumerScreate.toString());
             }, title: AppConstentData.continues,
@@ -121,7 +121,6 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
                 child: Text(controller.locationList[index].storeName.toString(),
                   style: TextStyle(
                     color:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                    fontFamily: "NotoSerif",
                     fontWeight: FontWeight.bold,
                     fontSize: AppSizeClass.maxSize15,
                   ),),
@@ -143,8 +142,9 @@ class _ShopLocationPageState extends State<ShopLocationPage> {
                       prefs.setString("shop_name", shop_name);
                     print("choose location"+shopUrl +"shop id"+shop_name+"key"+consumer_key+"secrete"+consumer_secrete);
                 },
-              contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
-            ),),
+                contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
+              ),
+            ),
           ),
         );
       },

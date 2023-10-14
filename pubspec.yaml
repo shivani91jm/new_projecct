@@ -35,7 +35,6 @@ dependencies:
   get: any
   path_provider: any
   sqflite: any
-  carousel_slider: any
   provider: any
   google_sign_in: any
   firebase_auth: any
@@ -43,20 +42,21 @@ dependencies:
   shared_preferences: any
   badges: any
   permission_handler: any
-  geolocator: any
-  geocoding: any
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
   google_maps_flutter: any
-  uuid: any
   device_preview: any
-  webview_flutter: any
-  shimmer: any
-  another_carousel_pro: any
+  webview_flutter: ^4.4.1
+  lecle_flutter_carousel_pro: ^0.0.3
   cached_network_image: any
-  image_picker:  any
-  oauth2_client: any
+  image_picker: ^1.0.4
   url_launcher: any
   connectivity_plus: any
   intl: any
+  flip_card: any
+  patterns_canvas: any
+
+
 
 
 

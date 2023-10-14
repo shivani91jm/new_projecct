@@ -472,8 +472,7 @@ class _SettingPageState extends State<SettingPage> {
 
                     GestureDetector(
                       onTap: ()async{
-
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
                             var  email = prefs.getString('email')?? "";
                             if(email!="" && email!="null")
                             {

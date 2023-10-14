@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
+import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
@@ -31,15 +32,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
   CheckOutController controller =Get.put(CheckOutController());
   SingingCharacter? _character = SingingCharacter.Cash;
   DatabaseHelper? dbHelper = DatabaseHelper();
-  var useraddress="";
+  var useraddress="",email="";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    total_item= widget.data['total_length'];
-    grend_price=widget.data['grand_price'];
-    tax=widget.data['tax'];
-    subtotal=widget.data['subtotal'];
+      total_item= widget.data['total_length']??"";
+      grend_price=widget.data['grand_price']??"";
+      tax=widget.data['tax']??"";
+      subtotal=widget.data['subtotal']??"";
     context.read<CartProvider>().getData();
     getLocationValue();
   }
@@ -296,7 +297,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                      ),
                      Expanded(
                        child: Container(
-                         child: Text(currentLocation,style: TextStyle(
+                         child: Text(useraddress,style: TextStyle(
                              color:AppColors.green,
                              fontWeight: FontWeight.bold,
                              fontSize: AppSizeClass.maxSize15
@@ -333,7 +334,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
               ),
               if(page_flag=="1")...
                 {
-                   if(useraddress=="null" && useraddress=="")...
+                   if(useraddress=="")...
                      {
                         CustomButton(
                            onPressed: () async {
@@ -343,7 +344,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                            },
                            title:'Select Address at next step',
                            colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                           isLoading: false.obs)
+                           isLoading: false.obs
+                        )
                      }
                    else...
                      {
@@ -372,7 +374,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
                              child: Obx(() => CustomButton(
                                  onPressed: () async{
 
-                                   controller.checkoutOrder(cart);
+                                  if(email!="null" && email!="")
+                                    {
+                                      controller.checkoutOrder(cart);
+
+                                    }
+                                  else
+                                    {
+                                      showAlertLogin();
+                                    }
+
                                  },
                                  title: controller.loading.value?"":'' r"$"+grend_price+" Place Order",
                                  colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
@@ -406,7 +417,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       ),
                         Obx(() =>  CustomButton(
                             onPressed: () async{
-                              controller.checkoutOrder(cart);
+
+                              if(email!="null" && email!="")
+                              {
+                                CommonUtilsClass.toastMessage(email);
+                                controller.checkoutOrder(cart);
+                              }
+                              else
+                              {
+                                  showAlertLogin();
+                              }
+
+
                             }, title:controller.loading.value?"":'' r"$"+grend_price+" Place Order",
                             colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                             isLoading: controller.loading
@@ -424,10 +446,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
   //  currentLocation=  prefs.getString('currentLocation')??"";
     setState(() {
-      currentLocation=prefs.getString('address_1')??"";
+      useraddress=prefs.getString('address_1')??"";
+      email =  prefs.getString('email')??"";
+    //  print("currentdata"+currentLocation.toString());
+
       shoplocation=prefs.getString("shop_name")??"";
     });
-
   }
   void PaymentDialogBox(){
      showDialog(

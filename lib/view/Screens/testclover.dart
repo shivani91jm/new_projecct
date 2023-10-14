@@ -1,115 +1,340 @@
-import 'dart:convert';
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:new_projecct/Utils/CommnUtils.dart';
-import 'package:new_projecct/controller/AllOrdersControllers.dart';
 import 'package:new_projecct/controller/CheckOutController.dart';
+import 'package:new_projecct/view/Widgets/CardAlertDialog.dart';
+import 'package:new_projecct/view/Widgets/CardDateInputFormatter.dart';
+import 'package:new_projecct/view/Widgets/CardInputFormatter.dart';
+import 'package:new_projecct/view/Widgets/MyPainter.dart';
+import 'package:new_projecct/view/Widgets/master_card.dart';
+import 'package:flip_card/flip_card.dart';
 
-class TextClover extends StatefulWidget {
-  const TextClover({super.key});
+class CreaditCard extends StatefulWidget {
+  const CreaditCard({Key? key}) : super(key: key);
 
   @override
-  State<TextClover> createState() => _TextCloverState();
+  State<CreaditCard> createState() => _CreaditCardState();
 }
 
-class _TextCloverState extends State<TextClover> {
-  CheckOutController controller=Get.put(CheckOutController());
+class _CreaditCardState extends State<CreaditCard> {
+  CheckOutController controller =Get.put(CheckOutController());
+  final TextEditingController cardNumberController = TextEditingController();
+  final TextEditingController cardHolderNameController = TextEditingController();
+  final TextEditingController cardExpiryDateController = TextEditingController();
+  final TextEditingController cardCvvController = TextEditingController();
+  final FlipCardController flipCardController = FlipCardController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Center(
-        child: ElevatedButton(
-        onPressed: () {
-      // Call the function to make a payment
-      makePayment();
-    },
-    child: Text("hhgj"),
-    ),)
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 30),
+              FlipCard(
+                  fill: Fill.fillFront,
+                  direction: FlipDirection.HORIZONTAL,
+                  controller: flipCardController,
+                  onFlip: () {
+                    print('Flip');
+                  },
+                  flipOnTouch: false,
+                  onFlipDone: (isFront) {
+                    print('isFront: $isFront');
+                  },
+                  front: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: buildCreditCard(
+                      color: Color(0xffa42903),
+                      cardExpiration: cardExpiryDateController.text.isEmpty ? "08/2022" : cardExpiryDateController.text,
+                      cardHolder: cardHolderNameController.text.isEmpty ? "Card Holder"
+                          : cardHolderNameController.text.toUpperCase(),
+                      cardNumber: cardNumberController.text.isEmpty ? "XXXX XXXX XXXX XXXX" : cardNumberController.text,
+                    ),
+                  ),
+                  back: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Card(
+                      elevation: 4.0,
+                      color: Color(0xffa42903),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Container(
+                        height: 230,
+                        padding: const EdgeInsets.only(
+                            left: 16.0, right: 16.0, bottom: 22.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(height: 0),
+                            const Text(
+                              'https://www.paypal.com',
+                              style: TextStyle(
+                                color: Colors.white54,
+                                fontSize: 11,
+                              ),
+                            ),
+                            Container(
+                              height: 45,
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            CustomPaint(
+                              painter: MyPainter(),
+                              child: SizedBox(
+                                height: 35,
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      cardCvvController.text.isEmpty
+                                          ? "322"
+                                          : cardCvvController.text,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 21,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
+                              style: TextStyle(
+                                color: Colors.white54,
+                                fontSize: 11,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )),
+              const SizedBox(height: 40),
+              Container(
+                height: 55,
+                width: MediaQuery.of(context).size.width / 1.12,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: TextFormField(
+                  controller: cardNumberController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    hintText: 'Card Number',
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.credit_card,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(16),
+                    CardInputFormatter(),
+                  ],
+                  onChanged: (value) {
+                    var text = value.replaceAll(RegExp(r'\s+\b|\b\s'), ' ');
+                    setState(() {
+                      cardNumberController.value = cardNumberController.value
+                          .copyWith(
+                          text: text,
+                          selection:
+                          TextSelection.collapsed(offset: text.length),
+                          composing: TextRange.empty);
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                height: 55,
+                width: MediaQuery.of(context).size.width / 1.12,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: TextFormField(
+                  controller: cardHolderNameController,
+                  keyboardType: TextInputType.name,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    hintText: 'Full Name',
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.person,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      cardHolderNameController.value =
+                          cardHolderNameController.value.copyWith(
+                              text: value,
+                              selection:
+                              TextSelection.collapsed(offset: value.length),
+                              composing: TextRange.empty);
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 55,
+                    width: MediaQuery.of(context).size.width / 2.4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: TextFormField(
+                      controller: cardExpiryDateController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        hintText: 'MM/YY',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.calendar_today,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(4),
+                        CardDateInputFormatter(),
+                      ],
+                      onChanged: (value) {
+                        var text = value.replaceAll(RegExp(r'\s+\b|\b\s'), ' ');
+                        setState(() {
+                          cardExpiryDateController.value =
+                              cardExpiryDateController.value.copyWith(
+                                  text: text,
+                                  selection: TextSelection.collapsed(
+                                      offset: text.length),
+                                  composing: TextRange.empty);
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Container(
+                    height: 55,
+                    width: MediaQuery.of(context).size.width / 2.4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: TextFormField(
+                      controller: cardCvvController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        hintText: 'CVV',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(3),
+                      ],
+                      onTap: () {
+                        setState(() {
+                          Future.delayed(const Duration(milliseconds: 300), () {
+                            flipCardController.toggleCard();
+                          });
+                        });
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          int length = value.length;
+                          if (length == 4 || length == 9 || length == 14) {
+                            cardNumberController.text = '$value ';
+                            cardNumberController.selection =
+                                TextSelection.fromPosition(
+                                    TextPosition(offset: value.length + 1));
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20 * 3),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.deepPurpleAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  minimumSize:
+                  Size(MediaQuery.of(context).size.width / 1.12, 55),
+                ),
+                onPressed: () {
+                  // Future.delayed(const Duration(milliseconds: 300), () {
+                  //   showDialog(
+                  //       context: context,
+                  //       builder: (context) => const CardAlertDialog());
+                  //   cardCvvController.clear();
+                  //   cardExpiryDateController.clear();
+                  //   cardHolderNameController.clear();
+                  //   cardNumberController.clear();
+                  //   flipCardController.toggleCard();
+                  // });
+                  controller.processPayment();
+                },
+                child: Text(
+                  'Add Card'.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
-  Future<void> makePayment() async {
-    final String cloverApiKey = 'ad02ee1d-b00d-34db-0c06-d2b48e79e1de';
-    final String paymentEndpoint = 'https://palrancho.co/v3/payments';
-
-    final Map<String, dynamic> paymentData = {
-      'amount': 1000,
-      'currency': 'USD',
-      // Add other payment details as needed
-    };
-
-    final headers = {
-      'Authorization': 'Bearer $cloverApiKey',
-      'Content-Type': 'application/json; charset=UTF-8',
-    };
-
-    try {
-      final response = await http.post(
-        Uri.parse(paymentEndpoint),
-        headers: headers,
-        body: jsonEncode(paymentData),
-      );
-
-      if (response.statusCode == 200) {
-        // Payment was successful, handle the response as needed
-        final jsonResponse = jsonDecode(response.body);
-        print('Payment successful: $jsonResponse');
-      } else {
-        // Payment failed, handle the error
-        print('Payment failed. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
-      }
-    } catch (e) {
-      // Handle any exceptions that occur during the HTTP request
-      print('Error: $e');
-    }
-  }
-
-  Future<void> fetchOrderDetails(String orderId) async {
-    final String url = 'https://apisandbox.dev.clover.com/v3/merchants/PPSP55WHHYYV1/orders/1';
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'Authorization': 'Bearer <YOUR_ACCESS_TOKEN>',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body);
-      // Process the data
-    } else {
-      throw Exception('Failed to load order details');
-    }
-  }
-  Future<void> createCloverOrder(String accessToken) async {
-    final url = Uri.parse('https://api.clover.com/v3/merchants/PPSP55WHHYYV1/orders'); // Replace {merchant_id} with your merchant's ID.
-
-    // Define the order details as a JSON payload
-    final orderData = {
-      "total": 1000, // Replace with the total amount of the order.
-      "state": "open", // Order state (e.g., "open")
-      // Add other order details here as needed.
-    };
-
-    // Make the HTTP POST request
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer 2a88f2a3-1715-417e-c85d-1b8b38954d38',
-      },
-      body: json.encode(orderData),
-    );
-
-    if (response.statusCode == 201) {
-      // Order created successfully
-      print('Order created successfully');
-    } else {
-      // Handle the error
-      print('Failed to create order. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-    }
-  }
-
-
 }

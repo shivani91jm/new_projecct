@@ -42,7 +42,7 @@ class RoutePages {
     case RouteNames.complete_address_screen:
     return MaterialPageRoute(builder: (_) => SelectLocationPage());
       case RouteNames.address_form_screen:
-        return MaterialPageRoute(builder: (_) => CompleteAddressPage());
+        return MaterialPageRoute(builder: (_) => CompleteAddressPage(data: settings.arguments as Map,));
     case RouteNames.aboutus_screen:
     return MaterialPageRoute(builder: (_) => AboutUsPage());
     case RouteNames.contactus_screen:
@@ -59,7 +59,6 @@ class RoutePages {
     return MaterialPageRoute(builder: (_) => CheckOutPage(data:settings.arguments as Map));
     case RouteNames.categories_by_screen:
     return MaterialPageRoute(builder: (_) => AllCategoriesPage(data:settings.arguments as Map));
-
     default:
     return MaterialPageRoute(builder: (context) {
       return Scaffold(

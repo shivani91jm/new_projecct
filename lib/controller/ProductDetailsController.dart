@@ -26,12 +26,12 @@ class ProductDetailsController extends GetxController{
   void loadProduct() async{
     isLoading.value=true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // shopUrl= prefs.getString('shopUrl')!;
-    // shopConsumerKey=prefs.getString("shop_consumer_key")!;
-    // ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")!;
+     shopUrl= prefs.getString('shopUrl')!;
+     shopConsumerKey=prefs.getString("shop_consumer_key")!;
+     ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")!;
     // prefs.getString("shop_name");
-    var urls= "https://palrancho.co/wp-json/wc/v3/products/"+productId.value+"?consumer_key=ck_0def1385963b008287e6d7aa1bff5a63f9a89880&consumer_secret=cs_bc192e77a03225f3bceef8d913c47692b0716869";
-  //  var urls= shopUrl+"/wp-json/wc/v3/products/"+productId.value+"?consumer_key="+shopConsumerKey+"&consumer_secret="+ShopConsumerScreate;
+   // var urls= "https://palrancho.co/wp-json/wc/v3/products/"+productId.value+"?consumer_key=ck_0def1385963b008287e6d7aa1bff5a63f9a89880&consumer_secret=cs_bc192e77a03225f3bceef8d913c47692b0716869";
+    var urls= shopUrl+"/wp-json/wc/v3/products/"+productId.value+"?consumer_key="+shopConsumerKey+"&consumer_secret="+ShopConsumerScreate;
     print("url is location"+urls);
     final response = await http.get(Uri.parse(urls));
     if (response.statusCode == 200) {
@@ -52,12 +52,12 @@ class ProductDetailsController extends GetxController{
   }
   void RecentProduct() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // shopUrl= prefs.getString('shopUrl')!;
-    // shopConsumerKey=prefs.getString("shop_consumer_key")!;
-    // ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")!;
-    // prefs.getString("shop_name");
-   // var urls= shopUrl+"/wp-json/custom/v1/related-products/"+productId.value;
-    var urls= "https://palrancho.co/wp-json/custom/v1/related-products/"+productId.value;
+     shopUrl= prefs.getString('shopUrl')??"";
+     shopConsumerKey=prefs.getString("shop_consumer_key")??"";
+     ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")??"";
+     prefs.getString("shop_name");
+    var urls= shopUrl+"/wp-json/custom/v1/related-products/"+productId.value;
+  //  var urls= "https://palrancho.co/wp-json/custom/v1/related-products/"+productId.value;
     print("recent url is location"+urls);
     final response = await http.get(Uri.parse(urls));
     print("response"+response.body.toString());
@@ -71,7 +71,7 @@ class ProductDetailsController extends GetxController{
           RecentProductsDetails productsDetails= RecentProductsDetails.fromJson(lists[i]);
           recentProduct.add(productsDetails);
         }
-      print("data"+recentProduct!.length.toString());
+       print("data"+recentProduct!.length.toString());
     }
     else if (response.statusCode == 500) {
       isLoading.value=false;

@@ -56,33 +56,34 @@ class SetDeliveryLocation extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              if(page_flag=="1")...
+             GestureDetector(
+               onTap: () async{
+                 Navigator.pushNamed(context, RouteNames.address_form_screen);
+               },
+               child:  Container(
+                 width: MediaQuery.of(context).size.width*0.8,
+                 child:   Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Text("Select or Enter Manual Location",
+                     style: TextStyle(
+                         color: AppColors.blackColors,
+                         fontSize: AppSizeClass.maxSize16,
+                         fontWeight: FontWeight.bold,
+                         fontFamily: "NotoSerif"
+                     ),),
+                 ),
+               ),
+             ),
+              CustomButton(
+                onPressed: () async
                 {
-                  CustomButton(
-                    onPressed: ()
-                    {
-                       Navigator.pop(context,"");
-                       controller.selectLocation(currentLocaion);
-                    },
+                 // Navigator.pop(context,"");
+               //   controller.selectLocation(currentLocaion);
+                },
 
-                    title: AppConstentData.confirmLocation,
-                    colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false.obs,
-                  )
-                }
-                else...
-                  {
-                    CustomButton(
-                      onPressed: () async
-                      {
-
-                        Navigator.pushNamed(context, RouteNames.address_form_screen);
-                      },
-
-                      title: AppConstentData.entercompleteadd,
-                      colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false.obs,
-                    )
-                  }
-
+                title: AppConstentData.confirmLocation,
+                colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false.obs,
+              )
             ],
           ),
         ),

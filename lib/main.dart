@@ -16,10 +16,12 @@ void main() async {
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-        runApp(DevicePreview(
-          enabled: !kReleaseMode,
-          builder: (context) => MyApp(), // Wrap your app
-        ));
+        // runApp(
+        //     DevicePreview(
+        //   enabled: !kReleaseMode,
+        //   builder: (context) => MyApp(), // Wrap your app
+        // ));
+      runApp( MyApp(),);
       });
 }
 class MyApp extends StatelessWidget {

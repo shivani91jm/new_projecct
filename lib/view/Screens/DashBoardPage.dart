@@ -58,8 +58,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             borderRadius:BorderRadius.all(Radius.circular(40)),
 
             ),
-            child: Obx(
-            ()=> BottomNavigationBar(
+            child: Obx(()=> BottomNavigationBar(
             backgroundColor:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
             type: BottomNavigationBarType.fixed,
             items: List.generate(3, (index) {
@@ -75,12 +74,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
             onTap: (value){
             _indexNumber.value=value;
             },
-    showSelectedLabels: true,
-    showUnselectedLabels: true,
-    selectedItemColor: AppColors.whiteColors,
-    unselectedItemColor: AppColors.whiteColors,
-    )
-    ),
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            selectedItemColor: AppColors.whiteColors,
+            unselectedItemColor: AppColors.whiteColors,
+      )
+     ),
     ),
     body: Obx(() => _controller.connectionType.value == 1 ? datawiget() : _controller.connectionType.value == 2 ?  datawiget() : NoInternetClass(page: RouteNames.dashboard_screen,))) ,);
   }

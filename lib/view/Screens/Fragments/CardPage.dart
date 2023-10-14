@@ -6,6 +6,7 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
+
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/CartProvider.dart';
@@ -17,6 +18,7 @@ import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/DividerWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:shared_preferences/shared_preferences.dart';
 class AddToCartPage extends StatefulWidget {
   const AddToCartPage({super.key});
   @override
@@ -27,14 +29,14 @@ class _AddToCartPageState extends State<AddToCartPage> {
   var gradtotal;
   var currentLocation="";
   var totalItem="";
-
+  var useraddress="";
   @override
   void initState() {
     super.initState();
-
     totalTax=  totalTax* 0.07;
     context.read<CartProvider>().getData();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -89,18 +91,25 @@ class _AddToCartPageState extends State<AddToCartPage> {
                     CartProductTotalPrice(title: "Tax (7%)", value: ((double.parse(value.totalPrice.toString())*7/100).toStringAsFixed(2))),
                     DividerWidgets(),
                     CartProductTotalPrice(title: "Total", value:   ((double.parse(value.totalPrice.toString())*7.00/100+double.parse(value.totalPrice.toString())).toStringAsFixed(2))),
-                    //
                     Padding(
                       padding:  EdgeInsets.fromLTRB(10,0,10,0),
                       child: CustomButton(
                         onPressed: () async {
-                          Navigator.pushNamed(context,RouteNames.checkout_screen,arguments: {
-                              "page_flag":"1",
-                              "total_length":totalItem.toString(),
-                                "grand_price": gradtotal.toString(),
-                               "tax": (double.parse(value.totalPrice.toString())*7/100).toStringAsFixed(2).toString(),
-                             "subtotal":value.totalPrice.toStringAsFixed(2).toString(),
-                          });
+                          {
+                            Navigator.pushNamed(
+                                context, RouteNames.checkout_screen,
+                                arguments: {
+                                  "page_flag": "1",
+                                  "total_length": totalItem.toString(),
+                                  "grand_price": gradtotal.toString(),
+                                  "tax": (double.parse(
+                                      value.totalPrice.toString()) * 7 / 100)
+                                      .toStringAsFixed(2)
+                                      .toString(),
+                                  "subtotal": value.totalPrice.toStringAsFixed(
+                                      2).toString(),
+                                });
+                          }
                           },
                         title: AppConstentData.continues,
                         colors:GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),
@@ -403,7 +412,14 @@ class _AddToCartPageState extends State<AddToCartPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-
+    // context!.read<CartProvider>().dispose();
   }
+  void getLocationValue()  async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    setState(() {
+      useraddress=prefs.getString('address_1')??"";
+
+    });
+  }
 }

@@ -6,7 +6,6 @@ import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
-import 'package:new_projecct/Utils/PlaceApiProvider.dart';
 import 'package:new_projecct/Utils/Suggestion.dart';
 import 'package:new_projecct/controller/DeliveryLocationController.dart';
 import 'package:new_projecct/view/Widgets/AddressSearch.dart';
@@ -24,6 +23,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
   var latitude='';
   var longitude='';
   late  Future<List<Suggestion>> futureAlbum;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -101,9 +101,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                         ),
                         GestureDetector(
                           onTap: () async{
-                            Navigator.pushNamed(context,RouteNames.delivery_screen,arguments: {
-                              "page_flag":"1"
-                            });
+                            _getCurrentPosition();
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,8 +130,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                                          color: GradientHelper.getColorFromHex(AppColors.Red_drak_COLOR),
                                          fontSize: AppSizeClass.maxSize12,
                                          fontWeight: FontWeight.bold,
-
-                                     ),),
+                                        ),),
 
                                    ],
                                  ),
@@ -167,7 +164,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                         GestureDetector(
                           onTap: () async{
                             Navigator.pushNamed(context,RouteNames.delivery_screen,arguments: {
-                              "page_flag":"2"
+                              "page_flag":"1"
                             });
                             },
                           child: Row(
@@ -197,7 +194,9 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                               ),
                               IconButton(
                                   onPressed: () async{
-
+                                    Navigator.pushNamed(context,RouteNames.delivery_screen,arguments: {
+                                      "page_flag":"1"
+                                    });
                                   },
                                   icon: Icon(Icons.arrow_forward_ios,
                                     size: AppSizeClass.maxSize20,
@@ -249,30 +248,37 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
       _getAddressFromLatLng(_currentPosition!);
 
     }).catchError((e) {
-      debugPrint(e);
+      debugPrint(e.toString());
     });
   }
   Future<void> _getAddressFromLatLng(Position position) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      controller.latitude.value=_currentPosition!.latitude.toString();
-      controller.longitude.value=_currentPosition!.longitude.toString();
-      Placemark place = placemarks[0];
-      print("address"+place.toString());
-      setState(() {
-        _currentAddress= '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
-        controller.selectLocation(_currentAddress!);
-        prefs.setString("currentLocation", _currentAddress);
-        controller.addressController.value=_currentAddress!;
+   setState(() {
+      placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
+         .then((List<Placemark> placemarks) {
+       controller.latitude.value=_currentPosition!.latitude.toString();
+       controller.longitude.value=_currentPosition!.longitude.toString();
+       Placemark place = placemarks[0];
+       print("address"+place.toString());
+       _currentAddress= '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
+       prefs.setString('city', place.subAdministrativeArea.toString());
+       prefs.setString('state',place.administrativeArea.toString());
+       prefs.setString('postcode', place.postalCode.toString());
+       prefs.setString('country',place.country.toString());
+       prefs.setString('address_1', _currentAddress.toString());
+       prefs.setString('address_2', "");
+       controller.selectLocation(_currentAddress);
+       prefs.setString("address_1", _currentAddress);
+       controller.addressController.value=_currentAddress!;
 
-      });
-    }).catchError((e) {
-      debugPrint(e);
-    });
+     }).catchError((e) {
+       debugPrint(e);
+     });
+   });
   }
   void getValue() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _currentAddress= prefs.getString("currentLocation")!;
+    _currentAddress= prefs.getString("address_1")!;
   }
+
 }

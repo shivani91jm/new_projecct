@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_projecct/Utils/CommnUtils.dart';
+import 'package:new_projecct/Utils/Urls/BaseUrlsClass.dart';
 import 'package:new_projecct/model/AllCategories/Categories.dart';
 import 'package:new_projecct/model/CategoriesByIdModel/CategoriesModelByIdClass.dart';
 import 'package:new_projecct/model/dynamicproduct/prouct_dynamic.dart';
@@ -60,8 +61,11 @@ class HomeController extends GetxController {
  }
 
   void allCategories() async{
-
-    var urls="https://palrancho.co/wp-json/wc/v3/products/categories?consumer_key=ck_0def1385963b008287e6d7aa1bff5a63f9a89880&consumer_secret=cs_bc192e77a03225f3bceef8d913c47692b0716869";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    shopUrl= prefs.getString('shopUrl')??"";
+    shopConsumerKey=prefs.getString("shop_consumer_key")??"";
+    ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")??"";
+    var urls=shopUrl+"/wp-json/wc/v3/products/categories?consumer_key=$shopConsumerKey&consumer_secret=$ShopConsumerScreate";
     print("url is location"+urls);
     final response = await http.get(Uri.parse(urls),
         headers: <String, String>{
@@ -94,14 +98,14 @@ class HomeController extends GetxController {
 
   void loadCatProductIDWise() async{
    SharedPreferences prefs = await SharedPreferences.getInstance();
-  shopUrl= prefs.getString('shopUrl')??"";
-  shopConsumerKey=prefs.getString("shop_consumer_key")??"";
-  ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")??"";
+   shopUrl= prefs.getString('shopUrl')??"";
+   shopConsumerKey=prefs.getString("shop_consumer_key")??"";
+   ShopConsumerScreate=  prefs.getString("shop_consumer_secrete")??"";
   prefs.getString("shop_name");
   print("shop url"+shopUrl.toString()+"shop consumer key"+shopConsumerKey.toString()+"shop consumer secrete"+ShopConsumerScreate.toString());
    isLoading.value=true;
-    var urls="https://palrancho.co/wp-json/custom-woocommerce/v1/categories-products";
-     print("url is location"+urls);
+   var urls=shopUrl+BaseUrlsClass.catProdUrls;
+   print("url is location"+urls);
     final response = await http.get(Uri.parse(urls));
     if (response.statusCode == 200) {
       isLoading.value = false;

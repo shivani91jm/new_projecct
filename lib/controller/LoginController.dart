@@ -39,7 +39,9 @@ class LoginController extends GetxController {
   }
   loginApi(String email, String password) async{
     loading.value=true;
-    var urls=BaseUrlsClass.loginUrls;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   var shopUrl= prefs.getString('shopUrl')??"";
+   var urls=shopUrl+BaseUrlsClass.loginUrls;
     print("url is location"+urls);
     var body=jsonEncode(<String, String>{
       'username': email,

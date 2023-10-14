@@ -12,24 +12,33 @@ import 'package:new_projecct/view/Widgets/TextInputFeildClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CompleteAddressPage extends StatefulWidget {
-
-  CompleteAddressPage({Key? key});
+  var data;
+  CompleteAddressPage({Key? key,required this.data});
 
   @override
   State<CompleteAddressPage> createState() => _CompleteAddressPageState();
 }
 
 class _CompleteAddressPageState extends State<CompleteAddressPage> {
+
   DeliveryLocationController controller=Get.put(DeliveryLocationController());
+  var flag_apge="";
+  String page_name="";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   flag_apge= widget.data['flag_page'];
+   page_name=widget.data['page_name'];
+  }
+
   TextEditingController flatController=TextEditingController();
-
   TextEditingController areaController=TextEditingController();
-
   TextEditingController nerarByController=TextEditingController();
-
   TextEditingController houseNoController=TextEditingController();
-RxBool loading=false.obs;
+  RxBool loading=false.obs;
   final formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -174,14 +183,19 @@ RxBool loading=false.obs;
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     if(formKey.currentState!.validate())
                     {
-                      var area=areaController.text;
-                      var houseno=houseNoController.text;
-                      await prefs.setString('address_1',area.toString());
-                      await prefs.setString('address_2', houseno.toString());
-                      CommonUtilsClass.toastMessage("Save Location");
-                      Navigator.pushNamed(context, RouteNames.checkout_screen, arguments: {
-                        "page_id":"2"
-                      });
+                        var area=areaController.text;
+                        var houseno=houseNoController.text;
+                        await prefs.setString('address_1',area.toString());
+                        await prefs.setString('address_2', houseno.toString());
+                        CommonUtilsClass.toastMessage("Save Location");
+
+                        if(flag_apge=="2") {
+                          Navigator.pushReplacementNamed(context, RouteNames.addtocart_screen);
+                        }
+                        else
+                        {
+                          Navigator.pop(context,"");
+                        }
                     }
                   },
                     title: loading.value?"": AppConstentData.saveadd ,

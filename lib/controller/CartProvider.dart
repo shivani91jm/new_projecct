@@ -68,6 +68,11 @@ class CartProvider with ChangeNotifier {
     getPreferenceItem();
     return _quantity;
   }
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
 
+  }
 
 }

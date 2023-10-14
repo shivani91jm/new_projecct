@@ -20,7 +20,6 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
     // TODO: implement initState
     super.initState();
     controller.loadData();
-
   }
   @override
   Widget build(BuildContext context) {
@@ -41,8 +40,8 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
             color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),),) : OrderData()),
         )),
         onRefresh: () async{
-      controller.loadData();
-    });
+         controller.loadData();
+      });
   }
    Widget OrderData() {
     return  Obx(() => controller.datanotfound.value?Center(child: Text("No data found... ",

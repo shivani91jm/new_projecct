@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
+import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/Utils/Urls/BaseUrlsClass.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_projecct/model/Login/LoginModelClass.dart';
+import 'package:new_projecct/view/Widgets/CustomDialogBox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class SignUpController extends GetxController{
-
   BuildContext? context=Get.context!;
   RxBool loading=false.obs;
   var latitude='';
@@ -61,7 +62,11 @@ class SignUpController extends GetxController{
   void singUpApi(String first,String last,String email,String password,String mobile,String address) async
   {
     loading.value=true;
-    var urls=BaseUrlsClass.signUpUrls;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var shopUrl= prefs.getString('shopUrl')??"";
+    var urls=shopUrl+BaseUrlsClass.signUpUrls;
+
     print("url is location"+urls);
     var body=jsonEncode(<String, String>{
       'username': email,
@@ -98,7 +103,14 @@ class SignUpController extends GetxController{
         await prefs.setString('user_profile', data.profilePicture.toString());
         await prefs.setString('user_firstName', data.first_name.toString());
         await prefs.setString('user_lastName', data.last_name.toString());
-         Navigator.pushReplacementNamed(context!,RouteNames.dashboard_screen);
+        showDialog(context: context!, builder: (BuildContext context){
+          return  CustomDialogBox(title: "Registration successful",
+            descriptions: "Registration successful",
+            img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
+            , cancelBtn: AppConstentData.cancel, pagename: RouteNames.dashboard_screen,);
+
+        }
+        );
       }
     }
     else if (response.statusCode == 500) {

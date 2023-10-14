@@ -1,5 +1,3 @@
- // import 'package:another_carousel_pro/another_carousel_pro.dart';
-import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
+import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
@@ -21,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:sqflite/sqflite.dart';
+import 'package:lecle_flutter_carousel_pro/lecle_flutter_carousel_pro.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
@@ -33,13 +33,19 @@ class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController();
   final CheckInternetController _controller = Get.find<CheckInternetController>();
   int _currentPage = 0;
-
+  static const flag="1";
   @override
   void initState() {
-    _gotoCurrentPostion();
+    if(AppConstentData.flag_page=="1")
+    {
+      _gotoCurrentPostion();
+    }
+
+    getValue();
     super.initState();
     _pageController.addListener(() {
       setState(() {
+        getValue();
         _currentPage = _pageController.page!.round();
       });
     });
@@ -77,11 +83,9 @@ class _HomePageState extends State<HomePage> {
     Placemark place=placemarks[0];
     String address = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode},${place.country}';
     print("address"+address.toString());
-    setState(() {
-      prefs.setString("currentLocation", address);
-      getCurrentLocation= prefs.getString("currentLocation")!;
 
-    });
+      prefs.setString("address_1", address);
+      getCurrentLocation= prefs.getString("address_1")!;
   }
   @override
   Widget build(BuildContext context) {
@@ -205,7 +209,7 @@ class _HomePageState extends State<HomePage> {
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
-          AnotherCarousel(
+          Carousel(
             images: [
               NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/32-1.jpg'),
               NetworkImage('https://palrancho.co/wp-content/uploads/2014/08/56.jpg'),
@@ -217,6 +221,7 @@ class _HomePageState extends State<HomePage> {
             indicatorBgPadding: 5.0,
             dotBgColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR).withOpacity(0.5),
           ),
+
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -571,6 +576,12 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     ));
+  }
+  void getValue() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      getCurrentLocation= prefs.getString("address_1")??"";
+    });
   }
 
 }

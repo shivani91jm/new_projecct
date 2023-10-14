@@ -28,30 +28,30 @@ class LocationController extends GetxController {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        var urls=BaseUrlsClass.locationUrls;
-        print("url is location"+urls);
-        final response = await http.get(Uri.parse(urls));
-        if (response.statusCode == 200)
-        {
-          loading.value=false;
-          LocationModelClass data =  LocationModelClass.fromJson(jsonDecode(response.body));
-          if(data!=null)
+          var urls=BaseUrlsClass.locationUrls;
+          print("url is location"+urls);
+          final response = await http.get(Uri.parse(urls));
+          if (response.statusCode == 200)
           {
-            locationList.value=data.locations!;
+              loading.value=false;
+              LocationModelClass data =  LocationModelClass.fromJson(jsonDecode(response.body));
+              if(data!=null)
+              {
+                locationList.value=data.locations!;
+              }
+              print("location lenth "+locationList.length.toString());
           }
-          print("location lenth "+locationList.length.toString());
-        }
-        else if (response.statusCode == 500) {
-          loading.value=false;
-          LocationModelClass data=  LocationModelClass.fromJson(jsonDecode(response.body));
-          print(""+data.toString());
-          CommonUtilsClass.toastMessage("Server side Error");
-        }
-        else {
-          loading.value=false;
-          CommonUtilsClass.toastMessage("Server side Error");
-          throw Exception('Failed to load album');
-        }
+          else if (response.statusCode == 500) {
+            loading.value=false;
+            LocationModelClass data=  LocationModelClass.fromJson(jsonDecode(response.body));
+            print(""+data.toString());
+            CommonUtilsClass.toastMessage("Server side Error");
+          }
+          else {
+            loading.value=false;
+            CommonUtilsClass.toastMessage("Server side Error");
+            throw Exception('Failed to load album');
+          }
       }
 
     } on SocketException catch(_) {

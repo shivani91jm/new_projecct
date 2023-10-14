@@ -65,8 +65,15 @@ class DialogUtils{
                          bool isSignedIn = await _googleSignIn.isSignedIn();
                          _googleSignIn.signOut();
                          Navigator.pushNamed(context,RouteNames.login_screen);
-                         await prefs.clear();
-                       },
+                          prefs.remove('email');
+                          prefs.remove('user_id');
+                          prefs.remove('username');
+                          prefs.remove('mobile_number');
+                          prefs.remove('user_profile');
+                          prefs.remove('user_firstName');
+                          prefs.remove('user_lastName');
+
+                          },
                      ),
                      TextButton(
                          style: TextButton.styleFrom(

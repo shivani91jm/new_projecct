@@ -5,14 +5,18 @@ import 'package:http/http.dart' as http;
 import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
+import 'package:new_projecct/Utils/Urls/BaseUrlsClass.dart';
 import 'package:new_projecct/model/ContactUs/ContactUsModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ContactUsController extends GetxController {
   RxBool  loading=false.obs;
   BuildContext? context=Get.context;
   void submitContactDetails(String name,String email,String subject) async{
     loading.value=true;
-    var urls="https://palrancho.co/wp-json/custom-contact-form/v1/submit?";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var shopUrl= prefs.getString('shopUrl')??"";
+    var urls=shopUrl+BaseUrlsClass.contactusUrls;
     print("url is location"+urls);
     var body=jsonEncode(<String, String>{
       'name': name,

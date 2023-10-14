@@ -8,6 +8,7 @@ import 'package:new_projecct/Utils/Urls/BaseUrlsClass.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_projecct/model/ContactUs/ContactUsModel.dart';
 import 'package:new_projecct/model/Login/LoginModelClass.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ForgetPasswordController extends GetxController {
   TextEditingController editingController=TextEditingController();
@@ -88,7 +89,9 @@ class ForgetPasswordController extends GetxController {
   //------------------------update password ---------------------
     void changePassword(String email,String passwwwwwwword) async{
       loading.value=true;
-      var urls="https://palrancho.co/wp-json/custom/v1/update-password?";
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var shopUrl= prefs.getString('shopUrl')??"";
+      var urls=shopUrl+BaseUrlsClass.changePasswordUrls;
       print("url is location"+urls);
       var body=jsonEncode(<String, String>{
         'email': email,

@@ -32,9 +32,7 @@ class CheckOutController extends GetxController {
     getValue();
   }
   void checkoutOrder(CartProvider cart) async {
-
     loading.value=true;
-
     print("fdgdsfhgsdhfshfj");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var address="";
@@ -77,7 +75,9 @@ class CheckOutController extends GetxController {
             queryParams.add('product_data[$i][quantity]=${product_quentity[i]}');
          }
      print("dfgfdg"+queryParams.toString());
-    final baseUrl = 'https://palrancho.co/create_order.php';
+    var shopUrl= prefs.getString('shopUrl')??"";
+    final baseUrl=shopUrl+"/create_order.php";
+
     final Uri uri = Uri.parse('$baseUrl?'
         'first_name=$firstname'
         '&last_name=$last_name'
@@ -101,44 +101,44 @@ class CheckOutController extends GetxController {
           'Content-Type': 'application/json; charset=UTF-8',
         });
       print("response"+response.body.toString());
-      if (response.statusCode == 200)
-      {
-        ContactUsModel data =  ContactUsModel.fromJson(jsonDecode(response.body));
-          if(data!=null)
-          {
-            print("sucess"+data.message.toString());
-            loading.value=false;
-              CommonUtilsClass.toastMessage(""+data.message.toString());
-            showDialog(context: context!, builder: (BuildContext context){
-              return  CustomDialogBox(title: "Success",
-                descriptions: "Place Order Successfully",
-                img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
-                , cancelBtn: AppConstentData.cancel, pagename: RouteNames.allOrders_screen,);
+            if (response.statusCode == 200)
+            {
+              ContactUsModel data =  ContactUsModel.fromJson(jsonDecode(response.body));
+                if(data!=null)
+                {
+                  print("sucess"+data.message.toString());
+                  loading.value=false;
+                    CommonUtilsClass.toastMessage(""+data.message.toString());
+                   showDialog(context: context!, builder: (BuildContext context){
+                    return  CustomDialogBox(title: "Success",
+                      descriptions: "Place Order Successfully",
+                      img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
+                      , cancelBtn: AppConstentData.cancel, pagename: RouteNames.allOrders_screen,);
 
-              }
-            );
+                    }
+                  );
 
-            List<CartModelClass> postsFuture =await cart.getData();
-            for(int i=0;i<postsFuture.length;i++)
-              {
-                dbHelper!.deleteCartItem(int.parse(postsFuture[i].productId.toString()));
-                cart.removeCounter();
-                cart.removeTotalPrice(double.parse(postsFuture[i].productPrice.toString()));
-              }
+                  List<CartModelClass> postsFuture =await cart.getData();
+                  for(int i=0;i<postsFuture.length;i++)
+                    {
+                      dbHelper!.deleteCartItem(int.parse(postsFuture[i].productId.toString()));
+                      cart.removeCounter();
+                      cart.removeTotalPrice(double.parse(postsFuture[i].productPrice.toString()));
+                    }
 
 
 
-          }
-      }
-      else if(response.statusCode==500 || response.statusCode==403)
-      {
-        loading.value=false;
-         CommonUtilsClass.toastMessage("Server Side Error");
-      }
-     else {
-        loading.value=false;
-        throw Exception('Failed to load album');
-     }
+                }
+            }
+            else if(response.statusCode==500 || response.statusCode==403)
+            {
+              loading.value=false;
+               CommonUtilsClass.toastMessage("Server Side Error");
+            }
+           else {
+              loading.value=false;
+              throw Exception('Failed to load album');
+           }
   }
   void getValue() async{
     print("fdgdsfhgsdhfshfj");
@@ -157,7 +157,44 @@ class CheckOutController extends GetxController {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    // context!.read<CartProvider>().dispose();
+  }
+
+
+  void processPayment() async {
+    String endpoint = 'https://apisandbox.dev.clover.com/v3/merchants/PPSP55WHHYYV1/orders'; // Replace with your endpoint
+
+    Map<String, String> headers = {
+      'Authorization': 'Bearer 2f9b0b6d-6180-4fa7-2936-673e5b8facad',
+      'Content-Type': 'application/json',
+    };
+    final orderData = {
+      "total": 5000, // Replace with the total amount of the order.
+      "state": "open",
+      'currency': 'USD',
+
+    };
+    String jsonData = json.encode(orderData);
+    var response = await http.post(Uri.parse(endpoint), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer 2a88f2a3-1715-417e-c85d-1b8b38954d38',
+    }, body: jsonData);
+    print("data"+response.body.toString());
+    if (response.statusCode == 200) {
+      print("data"+response.body.toString());
+      //var response=jsonDecode(response.body);
+    } else {
+      print("data"+response.body.toString());
+    }
+
+
+
 
   }
- }
+  
+}
+
+
+
+
 

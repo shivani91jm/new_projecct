@@ -12,15 +12,15 @@ import 'package:new_projecct/Utils/Urls/BaseUrlsClass.dart';
 import 'package:new_projecct/model/Login/LoginModelClass.dart';
 import 'package:new_projecct/view/Widgets/CustomDialogBox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class GoogleSinginClass {
   static Future<void> signup(BuildContext context) async {
     RxBool loading=false.obs;
     final FirebaseAuth auth = FirebaseAuth.instance;
-   // final GoogleSignIn googleSignIn = GoogleSignIn();
+  //  final GoogleSignIn googleSignIn = GoogleSignIn();
 
     final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
-    final GoogleSignInAccount? googleSignInAccount = await googleSignIn
-        .signIn();
+    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
       if (googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
       final AuthCredential authCredential = GoogleAuthProvider.credential(
@@ -32,9 +32,9 @@ class GoogleSinginClass {
         loading.value=true;
       var userEmail=  user!.email;
       var userName=user.displayName;
-
-        // controller.loginApi(userEmail!,userName!);
-      var urls=BaseUrlsClass.loginUrls;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+        var shopUrl= prefs.getString('shopUrl')??"";
+      var urls=shopUrl+BaseUrlsClass.loginUrls;
       print("url is location"+urls);
       var body=jsonEncode(<String, String>{
         'username': userEmail.toString(),
@@ -56,7 +56,7 @@ class GoogleSinginClass {
 
           CommonUtilsClass.toastMessage(data.message.toString());
           //------------------------store data in local ---------------------
-          final prefs = await SharedPreferences.getInstance();
+          SharedPreferences  prefs = await SharedPreferences.getInstance();
           await prefs.setString('email', data.userEmail.toString());
           await prefs.setString('user_id', data.userId.toString());
           await prefs.setString('username', data.userNicename.toString());
@@ -80,7 +80,10 @@ class GoogleSinginClass {
         print(""+data.toString());
         if(data['message'].toString()=="Unknown email address. Check again or try your username.")
         {
-          var urls=BaseUrlsClass.signUpUrls;
+
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          var shopUrl= prefs.getString('shopUrl')??"";
+          var urls=shopUrl+BaseUrlsClass.signUpUrls;
           print("url is location"+urls);
           var body=jsonEncode(<String, String>{
             'username': userEmail.toString(),
@@ -110,7 +113,7 @@ class GoogleSinginClass {
                if(data.message=="Registration successful")
                  {
                    CommonUtilsClass.toastMessage(data.message.toString());
-                   final prefs = await SharedPreferences.getInstance();
+                   SharedPreferences prefs = await SharedPreferences.getInstance();
                    await prefs.setString('email', data.userEmail.toString());
                    await prefs.setString('user_id', data.userId.toString());
                    await prefs.setString('username', data.userNicename.toString());
@@ -120,7 +123,7 @@ class GoogleSinginClass {
                    await prefs.setString('user_lastName', data.last_name.toString());
                    showDialog(context: context!, builder: (BuildContext context){
                      return  CustomDialogBox(title: "Registration",
-                       descriptions: AppConstentData.loginsucess,
+                       descriptions: 'Registration successful',
                        img: Image.asset(ImageUrls.check_url), okBtn: AppConstentData.ok
                        , cancelBtn: AppConstentData.cancel, pagename: RouteNames.dashboard_screen,);
                    }

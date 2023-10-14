@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
+import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/UpdateUserProfileController.dart';
@@ -20,10 +22,13 @@ class UserProfileDetails extends StatefulWidget {
 }
 class _UserProfileDetailsState extends State<UserProfileDetails> {
   UpdateUserProfileController controller = Get.put(UpdateUserProfileController());
-    final double coverHeight=230;
-    final double circleHeight=140;
+    final double coverHeight=240;
+    final double circleHeight=100;
     var email="",username="",usermobile="";
+    var first_name="", last_name="";
   File? galleryFile;
+  String file_path="";
+  String user_id="";
     @override
   void initState() {
     // TODO: implement initState
@@ -58,7 +63,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                       alignment: Alignment.center,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(8.0,2.0,8.0,0.0),
-                        child: Text(""+username,
+                        child: Text(""+first_name,
                           style: TextStyle(
                           color: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
                           fontWeight: FontWeight.bold,
@@ -129,7 +134,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                             return null;
                           },
                           bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                          textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), enable: false,
+                          textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), enable: true,
                         ),
                         //-----------------mobile number ---------------------
                         SizedBox(
@@ -145,14 +150,43 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                                   return null;
                                },
                           bordercolors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
-                          textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), enable: false,
+                          textcolors: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR), enable: true,
                         ),
                         SizedBox(
                           height: 30,
                         ),
-                       Obx(() =>  CustomButton(
+                         Obx(() =>  CustomButton(
                            onPressed: () async{
 
+                             SharedPreferences prefs = await SharedPreferences.getInstance();
+                             email=   prefs.getString('email')?? "";
+                             if(email!="" && email!="null") {
+                               String firstname=controller.firstController.text;
+                               String lastname=controller.lastController.text;
+                               String mobile=controller.mobileController.text;
+                               if(file_path!="" && file_path!="null") {
+                                 controller.userUpdate(firstname, lastname, mobile, file_path,user_id);
+                               }
+                               else
+                                 {
+                                     CommonUtilsClass.toastMessage("Please Select Image");
+                                 }
+                             }
+                             else
+                             {
+                               Get.snackbar(
+                                 "Please Login or Signup",
+                                 "",
+                                 snackPosition: SnackPosition.BOTTOM,
+                                 backgroundColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
+                                 borderRadius: 5,
+                                 margin: EdgeInsets.all(5),
+                                 colorText: Colors.white,
+                                 duration: Duration(seconds: 4),
+                                 isDismissible: true,
+                                 forwardAnimationCurve: Curves.easeOutBack,
+                               );
+                             }
                            },
                            title: controller.loading.value?"update profile":AppConstentData.updateProfile,
                            colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR),
@@ -161,7 +195,6 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                       ],
                     ),
                   )
-
                   ],
                 ),
               )
@@ -209,7 +242,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
   Widget datacgfgh() {
     return GestureDetector(
       onTap: (){
-        //_showPicker(context: context);
+        _showPicker(context: context);
       },
       child: CircleAvatar(
         backgroundColor: AppColors.whiteColors,
@@ -221,11 +254,16 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
               child: Column(
                 children: [
 
-                  galleryFile == null ?  Center(child: CircleAvatar(
-                    child: Container(
+                  galleryFile == null ?  Center(child: Container(
+                    width: 150.0,
+                    height: 80.0,
+                    decoration: BoxDecoration(
 
-                      color: AppColors.whiteColors,
-                      child: Image.asset(ImageUrls.user_url,) ,
+                      image: DecorationImage(
+                        image: AssetImage(ImageUrls.profile_url,), // Replace with your image path
+                        fit: BoxFit.cover,
+                      ),
+
                     ),
                   )) : Center(child: Image.file(galleryFile!))
 
@@ -242,53 +280,80 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
      email=   prefs.getString('email')?? "";
      username = prefs.getString('username')?? "";
      usermobile = prefs.getString('mobile_number')?? "";
+     first_name = prefs.getString("user_firstName")??"";
+     last_name = prefs.getString("user_lastName")??"";
+     user_id = prefs.getString("user_id")??"";
      print("data value"+email.toString()+"username"+username+"mobile"+usermobile);
+     controller.firstController.text=first_name.toString();
+     controller.lastController.text=last_name.toString();
+     if(usermobile.toString()!="null") {
+       controller.mobileController.text = usermobile.toString();
+     }
+     else
+       {
+         controller.mobileController.text ="";
+       }
+     if(first_name.toString()!="null") {
+       controller.firstController.text = first_name.toString();
+     }
+     else
+       {
+         controller.firstController.text ="";
+       }
+     if(last_name.toString()!="null") {
+       controller.lastController.text = last_name.toString();
+     }
+     else
+       {
+         controller.lastController.text ="";
+       }
 
    });
 
   }
-  // Future getImage(ImageSource img,) async {
-  //   final pickedFile = await ImagePicker().pickImage(source: img);
-  //   XFile? xfilePick = pickedFile;
-  //   setState(
-  //         () {
-  //       if (xfilePick != null) {
-  //         galleryFile = File(pickedFile!.path);
-  //       } else {
-  //         ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
-  //             const SnackBar(content: Text('Nothing is selected')));
-  //       }
-  //     },
-  //   );
-  // }
-  // void _showPicker({required BuildContext context,}) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return SafeArea(
-  //         child: Wrap(
-  //           children: <Widget>[
-  //             ListTile(
-  //               leading: const Icon(Icons.photo_library),
-  //               title: const Text('Photo Library'),
-  //               onTap: () async {
-  //                 getImage(ImageSource.gallery);
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //             ListTile(
-  //               leading: const Icon(Icons.photo_camera),
-  //               title: const Text('Camera'),
-  //               onTap: () {
-  //                 getImage(ImageSource.camera);
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+  Future getImage(ImageSource img,) async {
+    final pickedFile = await ImagePicker().pickImage(source: img);
+    XFile? xfilePick = pickedFile;
+    setState(
+          () {
+        if (xfilePick != null) {
+          galleryFile = File(pickedFile!.path);
+          file_path=pickedFile!.path;
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
+              const SnackBar(content: Text('Nothing is selected')));
+        }
+      },
+    );
+  }
+  void _showPicker({required BuildContext context,}) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Photo Library'),
+                onTap: () async {
+                  getImage(ImageSource.gallery);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Camera'),
+                onTap: () {
+                  getImage(ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
 }

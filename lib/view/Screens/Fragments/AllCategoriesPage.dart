@@ -70,7 +70,7 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
     cat_id=widget.data['cat_id'];
     controller.dataCategoriesById(cat_id);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // You can set it back to the default color
+      statusBarColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR), // You can set it back to the default color
     ));
   }
   @override
@@ -244,7 +244,6 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
                                                         colorText: Colors.white,
                                                         duration: Duration(seconds: 4),
                                                         isDismissible: true,
-
                                                         forwardAnimationCurve: Curves.easeOutBack,
 
                                                       );

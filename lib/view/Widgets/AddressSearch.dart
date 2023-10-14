@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
+import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/PlaceApiProvider.dart';
@@ -73,12 +76,54 @@ class AddressSearch extends SearchDelegate<Suggestion>{
             ),
           ),
           onTap: () async {
-            close(context, snapshot.data![index]);
-            final prefs = await SharedPreferences.getInstance();
+
+            // if(AppConstentData.flag_page=="!")
+            //   {
+            //     Navigator.pushNamed(context, RouteNames.dashboard_screen);
+            //   }
+            AppConstentData.flag_page=="2";
+            SharedPreferences prefs = await SharedPreferences.getInstance();
             await prefs.setString('address',snapshot.data![index].description.toString());
             print("data"+snapshot.data![index].description.toString());
             DeliveryLocationController controller= Get.put(DeliveryLocationController());
+
             controller.selectLocationController.text=snapshot.data![index].description.toString();
+
+            try {
+              List<Location> locations = await locationFromAddress(snapshot.data![index].description.toString());
+              if (locations.isNotEmpty) {
+                Location location = locations[0];
+                double latitude = location.latitude;
+                double longitude = location.longitude;
+                print('Latitude: $latitude, Longitude: $longitude');
+                await placemarkFromCoordinates(latitude, longitude)
+                    .then((List<Placemark> placemarks) {
+                  Placemark place = placemarks[0];
+                  print("address"+place.toString());
+                  var _currentAddress= '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
+
+                  controller.selectLocation(_currentAddress);
+                  prefs.setString('city', place.subAdministrativeArea.toString());
+                  prefs.setString('state',place.administrativeArea.toString());
+                  prefs.setString('postcode', place.postalCode.toString());
+                  prefs.setString('country',place.country.toString());
+                  prefs.setString('address_1', _currentAddress.toString());
+                  prefs.setString('address_2', "");
+                  controller.addressController.value=_currentAddress!;
+                //  close(context, snapshot.data![index]);
+                  Navigator.pushNamed(context, RouteNames.dashboard_screen);
+                }).catchError((e) {
+                  debugPrint(e);
+                });
+              } else {
+                print('No matching locations found.');
+              }
+            } catch (e) {
+              print('Error: $e');
+            }
+
+
+
           },
         ),
         itemCount: snapshot.data!.length,

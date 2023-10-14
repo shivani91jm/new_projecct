@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -19,6 +20,9 @@ class _AboutUsPageState extends State<AboutUsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: GradientHelper.getColorFromHex(AppColors.RED_COLOR), // You can set it back to the default color
+    ));
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:new_projecct/Utils/AppColors.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
+import 'package:new_projecct/Utils/Urls/BaseUrlsClass.dart';
 import 'package:new_projecct/model/AllOrder/OrderModelClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,9 +25,10 @@ class AllOrdersController extends GetxController{
     isLoading.value = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
    user_id = prefs.getString('user_id')?? "";
+   var shopUrl= prefs.getString('shopUrl')??"";
     if(user_id!="" && user_id!="null")
       {
-        var url="https://palrancho.co/order_data.php?user_id=$user_id";
+        var url=shopUrl+BaseUrlsClass.allorderByUserUrls+user_id;
         print("urls"+url.toString());
         final response = await http.get(Uri.parse(url),
           headers: <String, String>{

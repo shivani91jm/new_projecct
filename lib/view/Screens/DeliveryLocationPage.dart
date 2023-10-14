@@ -6,12 +6,15 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:new_projecct/Routes/RoutesNames.dart';
 import 'package:new_projecct/Utils/AppColors.dart';
+import 'package:new_projecct/Utils/AppContstansData.dart';
 import 'package:new_projecct/Utils/AppSize.dart';
 import 'package:new_projecct/Utils/CommnUtils.dart';
 import 'package:new_projecct/Utils/GradientHelper.dart';
 import 'package:new_projecct/Utils/ImagesUrls.dart';
 import 'package:new_projecct/controller/DeliveryLocationController.dart';
+import 'package:new_projecct/view/Widgets/CustomButton.dart';
 import 'package:new_projecct/view/Widgets/SetDeliveryLocation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class DeliveryLocationPage extends StatefulWidget {
@@ -41,7 +44,7 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    controller.dispose();
+
 
   }
   @override
@@ -55,19 +58,13 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
               color:AppColors.whiteColors,
               fontSize: AppSizeClass.maxSize20,
               fontWeight: FontWeight.bold,
-              fontFamily: "NotoSerif"
+
           ),),
         ),
         bottomNavigationBar:Obx(() =>  Container(
-            height: 200,
-            child: SetDeliveryLocation(
-              controller: controller,
-              contexts: context,
-              currentLocaion: controller.addressController.toString(),
-              page_flag: page_type
-              ,)
-             )
-        ),
+            height: 220,
+            child: locationBottomButtom()
+             )),
         body: _buildBody(),
         floatingActionButton: FloatingActionButton(
           backgroundColor:  GradientHelper.getColorFromHex(AppColors.RED_COLOR),
@@ -99,7 +96,6 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
       initialCameraPosition: cameraPosition!,
       myLocationEnabled: true,
       zoomGesturesEnabled: true,
-
     );
   }
   Widget _buildBody(){
@@ -139,8 +135,7 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
         CommonUtilsClass.toastMessage("user denied  permission forever");
       }
     return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-
- }
+  }
   Future _gotoSepPostion(LatLng postion) async{
     GoogleMapController mapController=  await  _googleMapController.future;
     mapController.animateCamera(CameraUpdate.newCameraPosition(
@@ -154,14 +149,14 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
     Placemark place=placemarks[0];
    String address = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode},${place.country}';
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('city', place.subAdministrativeArea.toString());
-    await prefs.setString('state',place.administrativeArea.toString());
-    await prefs.setString('postcode', place.postalCode.toString());
-    await prefs.setString('country',place.country.toString());
-    await prefs.setString('address_1', address.toString());
-    await prefs.setString('address_2', "");
-   print("address"+place.toString());
+    print("address"+place.toString());
    setState(() {
+      prefs.setString('city', place.subAdministrativeArea.toString());
+      prefs.setString('state',place.administrativeArea.toString());
+      prefs.setString('postcode', place.postalCode.toString());
+      prefs.setString('country',place.country.toString());
+      prefs.setString('address_1', address.toString());
+      prefs.setString('address_2', "");
       controller.addressController.value=address;
     });
   }
@@ -170,5 +165,105 @@ class _DeliveryLocationPageState extends State<DeliveryLocationPage> {
       child: Image.asset(ImageUrls.marker_url, width: 40,),
     );
  }
+  Widget locationBottomButtom(){
+    return Container(
+      height: MediaQuery.of(context).size.height*2,
+      width: MediaQuery.of(context).size.width,
+      child: Card(
+        elevation: AppSizeClass.maxSize5,
+        child: Padding(
+          padding:  EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(Icons.location_on,
+                      size: AppSizeClass.maxSize30,
+                      color: GradientHelper.getColorFromHex(AppColors.YellowDrak_COLOR),),
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.8,
+                      child:   Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(controller.addressController.value,
+                          style: TextStyle(
+                              color: AppColors.blackColors,
+                              fontSize: AppSizeClass.maxSize16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "NotoSerif"
+                          ),),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () async{
+                  if(page_type=="2") {
+                    Navigator.pushNamed(
+                        context, RouteNames.address_form_screen, arguments: {
+                      "flag_page": page_type,
+                      "page_name":""
+                    });
+                  }
+                  else
+                    {
+                      Navigator.pushNamed(
+                          context, RouteNames.address_form_screen, arguments: {
+                        "flag_page": page_type,
+                        "page_name": ""
+                      });
+                    }
+                },
+                child:  Container(
+                  width: MediaQuery.of(context).size.width*0.8,
+                  child:   Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Select or Enter Manual Location",
+                      style: TextStyle(
+                          color: AppColors.blackColors,
+                          fontSize: AppSizeClass.maxSize16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "NotoSerif"
+                      ),),
+                  ),
+                ),
+              ),
+              CustomButton(
+                onPressed: () async
+                {
+                  //  Navigator.pop(context,"");
+                  if (page_type=="2") {
+                    setState(() {
+                      controller.selectLocation(
+                          controller.addressController.value);
+                    });
+                    Navigator.pushReplacementNamed(context, RouteNames.addtocart_screen);
 
+                  }
+                  else
+                    {
+                      Navigator.pop(context,"");
+                    }
+
+                },
+
+                title: AppConstentData.confirmLocation,
+                colors: GradientHelper.getColorFromHex(AppColors.RED_COLOR), isLoading: false.obs,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
